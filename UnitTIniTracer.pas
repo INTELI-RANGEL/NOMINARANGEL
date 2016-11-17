@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Classes, Forms, SysUtils, Dialogs, IniFiles, Registry, Controls,
-  StrUtils, Messages, UnitTCifrador, frm_CifraIni,Graphics;
+  StrUtils, Messages, UnitTCifrador, frm_CifraIni, Graphics;
 
 type
 

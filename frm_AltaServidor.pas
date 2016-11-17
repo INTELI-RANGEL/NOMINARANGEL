@@ -4,36 +4,21 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, AdvPanel, StdCtrls, AdvGroupBox, sEdit, AdvGlowButton,
-  ImgList, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
-  cxContainer, cxEdit, dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinBlueprint,
-  dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
-  dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle, dxSkinFoggy,
-  dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary, dxSkinLilian,
-  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis,
-  dxSkinMetropolisDark, dxSkinMoneyTwins, dxSkinOffice2007Black,
-  dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink,
-  dxSkinOffice2007Silver, dxSkinOffice2010Black, dxSkinOffice2010Blue,
-  dxSkinOffice2010Silver, dxSkinOffice2013DarkGray, dxSkinOffice2013LightGray,
-  dxSkinOffice2013White, dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic,
-  dxSkinSharp, dxSkinSharpPlus, dxSkinSilver, dxSkinSpringTime, dxSkinStardust,
-  dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinsDefaultPainters,
-  dxSkinValentine, dxSkinVS2010, dxSkinWhiteprint, dxSkinXmas2008Blue,
-  cxGroupBox, cxTextEdit, Menus, cxButtons;
+  Dialogs, ExtCtrls, AdvPanel, StdCtrls, AdvGroupBox,  AdvGlowButton,
+  ImgList;
 
 type
   TfrmAltaServidor = class(TForm)
-    Label10: TLabel;
-    ImageList1: TImageList;
-    cxGroupBox1: TcxGroupBox;
-    Label5: TLabel;
+    AdvPanel1: TAdvPanel;
+    AdvGroupBox1: TAdvGroupBox;
     Label1: TLabel;
-    edtNombre: TcxTextEdit;
-    edtServidor: TcxTextEdit;
-    edtPuerto: TcxTextEdit;
-    btnAdelante: TcxButton;
-    cxImageList1: TcxImageList;
-    cxButton1: TcxButton;
+    Label5: TLabel;
+    Label10: TLabel;
+    edtPuerto: TEdit;
+    btnAceptar: TAdvGlowButton;
+    btnCancelar: TAdvGlowButton;
+    ImageList1: TImageList;
+    AdvPanelStyler1: TAdvPanelStyler;
     procedure btnAceptarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -59,7 +44,7 @@ Var
   Result: Boolean;
 begin
 
-  Servidor := edtservidor.Text;
+ { Servidor := edtservidor.Text;
   Descripcion := edtnombre.Text;
 
   // Verificar la información capturada
@@ -75,7 +60,7 @@ begin
     ShowMessage('Debe especificar una descripción o nombre sencillo para el servidor al cual se desea comunicar.');
     Edtnombre.SetFocus;
     Exit;
-  End;
+  End;     }
 
   Try
     hPuerto := StrToInt(Edtpuerto.Text);
@@ -121,7 +106,7 @@ begin
   If Not Result Then
   Begin
     ShowMessage('No ha sido posible establecer conexión con el servidor especificado.' + #10 + #10 + 'Revise los datos capturados para especificar el servidor o revise su conexión a la red si su base de datos se encuentra en un servidor remoto.');
-    edtservidor.SetFocus;
+  {  edtservidor.SetFocus; }
     Servidor := '';
     Descripcion := '';
     hPuerto := -1;

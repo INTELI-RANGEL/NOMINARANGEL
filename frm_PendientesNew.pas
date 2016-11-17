@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs,  RxGrdCpt, ComCtrls, StdCtrls, Buttons, frm_connection, global, DB,
-  ADODB, frxClass, frxDBSet, RxMemDS, Mask,  masUtilerias, Utilerias,
+  ADODB, frxClass, frxDBSet, RxMemDS, Mask,  {masUtilerias,} {Utilerias,}
   ZAbstractRODataset, ZDataset, rxToolEdit, rxCurrEdit, UnitExcepciones,
   UFunctionsGHH ;
 
@@ -171,19 +171,19 @@ begin
       tsTiempoEfectivo.Text := '00:00' ;
       tsTiempoInactivo.Text := '00:00' ;
       iReportes := 0 ;
-      While NOT QryTiempos.Eof Do
+     { While NOT QryTiempos.Eof Do
       Begin
           tsTiempoInactivo.Text := sfnSumaHoras (tsTiempoInactivo.Text , QryTiempos.FieldValues['sTiempoMuertoReal'] ) ;
           iReportes := iReportes + 1 ;
           QryTiempos.Next ;
-      End ;
+      End ;}
 
-      iJornada := ifnJornadaDia (global_contrato, tdIdFecha.Date, frmPendientesNew) ;
+     // iJornada := ifnJornadaDia (global_contrato, tdIdFecha.Date, frmPendientesNew) ;
       If iJornada < 10 Then
            tsTiempoEfectivo.Text := '0' + Trim(IntToStr(iJornada)) + ':00'
       Else
            tsTiempoEfectivo.Text := Trim(IntToStr(iJornada)) + ':00' ;
-      tsTiempoEfectivo.Text := sfnRestaHoras (tsTiempoEfectivo.Text , tsTiempoInactivo.Text) ;
+      //tsTiempoEfectivo.Text := sfnRestaHoras (tsTiempoEfectivo.Text , tsTiempoInactivo.Text) ;
       sReportes.Caption := 'Numero de Reportes Autorizados : ' + IntToStr(iReportes) ;
   except
       on e : exception do begin
@@ -207,7 +207,7 @@ begin
     QryReportesDiarios.Params.ParamByName('Fecha').Value := tdIdFecha.Date ;
     QryReportesDiarios.Open ;
     //<ROJAS>
-    rptReportesDiarios.ShowReport
+    rptReportesDiarios.ShowReport(True)
     //
 end;
 

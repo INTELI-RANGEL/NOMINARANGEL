@@ -1,0 +1,262 @@
+unit UTFrmConcentradoNominas;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
+  dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinBlueprint, dxSkinCaramel,
+  dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide, dxSkinDevExpressDarkStyle,
+  dxSkinDevExpressStyle, dxSkinFoggy, dxSkinGlassOceans, dxSkinHighContrast,
+  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky,
+  dxSkinMcSkin, dxSkinMetropolis, dxSkinMetropolisDark, dxSkinMoneyTwins,
+  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green,
+  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black,
+  dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinOffice2013DarkGray,
+  dxSkinOffice2013LightGray, dxSkinOffice2013White, dxSkinPumpkin, dxSkinSeven,
+  dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus, dxSkinSilver,
+  dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008, dxSkinTheAsphaltWorld,
+  dxSkinsDefaultPainters, dxSkinValentine, dxSkinVS2010, dxSkinWhiteprint,
+  dxSkinXmas2008Blue, DB, DBClient, cxContainer, cxEdit, cxCheckListBox,
+  cxDBCheckListBox, StdCtrls, CheckLst, ClientModuleUnit1, UInteliDialog,
+  URegistro, ExtCtrls, AdvGlowButton, ComCtrls, dxCore, cxDateUtils,
+  JvExControls, JvLabel, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
+  frxClass, frxDBSet;
+
+type
+  TFrmConcentradoNominas = class(TForm)
+    cdTiposNomina: TClientDataSet;
+    dsTipoNomina: TDataSource;
+    cdConcentrado: TClientDataSet;
+    dsConcentrado: TDataSource;
+    Panel1: TPanel;
+    clbTiposNomina: TCheckListBox;
+    clbConceptos: TCheckListBox;
+    Panel2: TPanel;
+    btnCancelar: TAdvGlowButton;
+    btnOk: TAdvGlowButton;
+    Panel3: TPanel;
+    Desde: TcxDateEdit;
+    Hasta: TcxDateEdit;
+    JvLabel1: TJvLabel;
+    JvLabel2: TJvLabel;
+    FDSConcentrado: TfrxDBDataset;
+    RepConcentrado: TfrxReport;
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnOkClick(Sender: TObject);
+    procedure RepConcentradoGetValue(const VarName: string; var Value: Variant);
+  private
+    Cuantas: Word;
+    Titulos: TStringList;
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmConcentradoNominas: TFrmConcentradoNominas;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmConcentradoNominas.btnOkClick(Sender: TObject);
+var
+  Sel: Boolean;
+  i: Integer;
+  TipoNomina: String;
+  OldCursor: TCursor;
+begin
+  try
+    Titulos := TStringList.Create;
+    try
+      Titulos.Clear;
+      OldCursor := Screen.Cursor;
+      try
+        Screen.Cursor := crHourGlass;
+
+        // Verificar si se seleccionaron ambas columnas
+        Sel := False;
+        i := 0;
+        Cuantas := 0;
+        while (i < clbTiposNomina.Count) and (Not Sel) do
+        begin
+          Sel := clbTiposNomina.Checked[i];
+
+          Inc(i);
+        end;
+        if Not Sel then
+          raise InteligentException.CreateByCode(24, ['Debe seleccionar al menos un Tipo de Nómina']);
+
+        i := 0;
+        Sel := False;
+        for i := 0 to clbConceptos.Count -1 do
+        begin
+          if clbConceptos.Checked[i] then
+          begin
+            Titulos.Add(clbConceptos.Items[i]);
+            Inc(Cuantas);
+          end;
+
+          if Not Sel then
+            Sel := clbConceptos.Checked[i];
+        end;
+        if Not Sel then
+          raise InteligentException.CreateByCode(24, ['Debe seleccionar al menos un Concepto para totalizar']);
+
+        // Obtener el parametro del tipo de nomina
+        TipoNomina := '';
+        for i := 0 to clbTiposNomina.Items.Count -1 do
+          if clbTiposNomina.Checked[i] then
+            TipoNomina := TipoNomina + IntToStr(Integer(clbTiposNomina.Items.Objects[i])) + ',';
+
+        // Generar el reporte
+        if Not CargarDatosFiltrados(cdConcentrado, 'IdOrganizacion,IdTipoNomina,Desde,Hasta,Agrupar', [Globales.Elemento('IdOrganizacion').AsInteger, TipoNomina, ClientModule1.DatetoStrSql(Desde.Date), ClientModule1.DatetoStrSql(Hasta.Date), 'Si']) then
+          raise InteligentException.CreateByCode(16, ['Concentrado de Nóminas']);
+
+        if cdConcentrado.Active then
+          cdConcentrado.Refresh
+        else
+          cdConcentrado.Open;
+
+        if cdConcentrado.RecordCount = 0 then
+          raise InteligentException.CreateByCode(24, ['No existen datos de Nóminas que procesar con el periodo indicado, verifique esto e intente de nuevo.']);
+      finally
+        Screen.Cursor := OldCursor;
+      end;
+
+      ClientModule1.ImprimeReporte('ConcentradoNominas.fr3', RepConcentrado);
+    finally
+      Titulos.Clear;
+      Titulos.Destroy;
+    end;
+  except
+    on e:InteligentException do
+      InteliDialog.ShowModal(e.Title, e.Message, e.MsgType, [mbOk], 0);
+
+    on e:Exception do
+      InteliDialog.ShowModal(IDTituloError, IDLabelError + e.Message, mtError, [mbOk], 0);
+  end;
+end;
+
+procedure TFrmConcentradoNominas.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+var
+  Lista: String;
+  i: Integer;
+begin
+  EliminarConjunto([cdTiposNomina, cdConcentrado]);
+
+  // Registrar el estado actual de la selección de tipos de nómina
+  Lista := '';
+  for i := 0 to clbTiposNomina.Items.Count -1 do
+    if clbTiposNomina.Checked[i] then
+      Lista := Lista + 'T'
+    else
+      Lista := Lista + 'F';
+
+  SetRegistry('\Ventanas\', Self.Name + '\clbTiposNomina', 'Lista', Lista);
+
+  // Registrar elestado actual de la seleccion de los conceptos
+  Lista := '';
+  for i := 0 to clbConceptos.Items.Count -1 do
+    if clbConceptos.Checked[i] then
+      Lista := Lista + 'T'
+    else
+      Lista := Lista + 'F';
+
+  SetRegistry('\Ventanas\', Self.Name + '\clbConceptos', 'Lista', Lista);
+
+  Action := caFree;
+end;
+
+procedure TFrmConcentradoNominas.FormShow(Sender: TObject);
+var
+  Lista, ListaC: String;
+  i: Integer;
+  OldCursor: TCursor;
+begin
+  try
+    OldCursor := Screen.Cursor;
+    Screen.Cursor := crHourGlass;
+    try
+      if Not CrearConjunto(cdTiposNomina, 'nom_tiponomina', ccCatalog) then
+        raise InteligentException.CreateByCode(5, ['Tipos de Nomina']);
+
+      if Not CrearConjunto(cdConcentrado, 'nom_listaraya', ccSelect) then
+        raise InteligentException.CreateByCode(5, ['Concentrado de Nóminas']);
+
+      cdTiposNomina.Open;
+
+      // Localizar los datos seleccionados de tipos de nómina
+      Try
+        Lista := VarRegistry('\Ventanas\', Self.Name + '\clbTiposNomina', 'Lista');
+        if Length(Lista) < cdTiposNomina.RecordCount then
+          Lista := Lista + StringOfChar('F', cdTiposNomina.RecordCount - Length(Lista));
+      Except
+        Lista := StringOfChar('F', cdTiposNomina.RecordCount);
+      End;
+
+      // Cargar los tipos de nómina
+      clbTiposNomina.Items.Clear;
+      while not cdTiposNomina.Eof do
+      begin
+        clbTiposNomina.Items.AddObject(cdTiposNomina.FieldByName('Titulo').AsString, TObject(cdTiposNomina.FieldByName('IdTipoNomina').AsInteger));
+        clbTiposNomina.Checked[cdTiposNomina.RecNo -1] := Lista[cdTiposNomina.RecNo] <> 'F';
+
+        cdTiposNomina.Next;
+      end;
+
+      // Localizar los datos seleccionados de conceptos de nómina
+      Try
+        ListaC := VarRegistry('\Ventanas\', Self.Name + '\clbConceptos', 'Lista');
+        if Length(ListaC) < clbConceptos.Items.Count then
+          ListaC := ListaC + StringOfChar('F', clbConceptos.Items.Count - Length(ListaC));
+      Except
+        ListaC := StringOfChar('F', clbConceptos.Items.Count);
+      End;
+
+      // Seleccionar los conceptos correspondientes
+      for i := 0 to clbConceptos.Items.Count -1 do
+        clbConceptos.Checked[i] := ListaC[i +1] <> 'F';
+
+      Desde.Date := Now - 30;
+      Hasta.Date := Now;
+    finally
+      Screen.Cursor := OldCursor;
+    end;
+  except
+    on e:InteligentException do
+    begin
+      InteliDialog.ShowModal(e.Title, e.Message, e.MsgType, [mbOk], 0);
+      PostMessage(Self.Handle, WM_CLOSE, 0, 0);
+    end;
+
+    on e:Exception do
+    begin
+      InteliDialog.ShowModal(IDTituloError, IDLabelError + e.Message, mtError, [mbOk], 0);
+      PostMessage(Self.Handle, WM_CLOSE, 0, 0);
+    end;
+  end;
+end;
+
+procedure TFrmConcentradoNominas.RepConcentradoGetValue(const VarName: string;
+  var Value: Variant);
+var
+  Numero: Word;
+begin
+  if VarName = 'Cuantas' then
+    Value := Cuantas;
+
+  if Copy(VarName, 1, 6) = 'Titulo' then
+  begin
+    try
+      Numero := StrToInt(Copy(VarName, 7, 2));
+      Value := Titulos[Numero - 1];
+    except
+      ;
+    end;
+  end;
+end;
+
+end.

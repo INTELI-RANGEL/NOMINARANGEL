@@ -2,10 +2,11 @@ unit UDbGrid;
 
 interface
 
-uses   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvBackgrounds, Grids, DBGrids, JvExDBGrids, JvDBGrid, JvDBUltimGrid,
-  Menus, JvMenus, DB, ZAbstractRODataset, ZAbstractDataset, ZDataset, ZConnection ,
-   Clipbrd,USelCol,UnitExcepciones;
+  Menus, JvMenus, DB, ZAbstractRODataset, ZAbstractDataset, ZDataset,
+  ZConnection, Clipbrd, USelCol, UnitExcepciones;
 
 
    type TicDbGrid=class

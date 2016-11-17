@@ -5,26 +5,11 @@ uses
   Windows, DateUtils, StrUtils, Dialogs, SysUtils, Math, Controls, adoDB, RxMemDS, DB, ShellAPI,
   frm_connection, frxClass, frxDBSet, Classes, global, variants, Graphics, ZDataset,
   DBCtrls, Forms, StdCtrls, RXDBCtrl, IdAttachmentFile, IdSSLOpenSSL, ZDbcIntfs, ComCtrls,
-  JPEG, cxtextEdit, cxDBEdit, cxMaskEdit, ExtCtrls;
-
-const
-  C1=52845; //??????????
-  C2=22719; //??????????
+  JPEG;
 
 var
   RngTipoAjuste: Integer = 0;
 
-function sProrrateaMovimientos(dParamFecha: tDate; iParamDiario: Integer; iParamFactorTotal: string; iParamRedondeo: Integer): string;
-function sFnSumaMovtos(dParamFecha: tDate; iParamDiario: Integer; tOrigen: TComponent; iParamRedondeo: Integer): string;
-function sFnAjustaMovtos(dParamFecha: tDate; iParamDiario: Integer; iParamFactorTotal: string; tOrigen: TComponent; iParamRedondeo: Integer): string;
-function sMultiplicaMovimientos(dParamFecha: tDate; iParamDiario: Integer; iParamFactorTotal: string; iParamRedondeo: Integer): string;
-
-function sProrrateaBarco(dParamFecha: TDate; sParamBarco: string; tOrigen: TComponent; iParamRedondeo: Integer): string;
-function sFnSumaBarco(dParamFecha: tDate; sParamBarco: string; tOrigen: TComponent; iParamRedondeo: Integer): string;
-function sFnAjustaBarco(dParamFecha: tDate; sParamBarco: string; iParamFactorTotal: string; tOrigen: TComponent; iParamRedondeo: Integer): string;
-
-procedure procReporteDiarioCotemarProg(sParamContrato, sParamOrden, sParamReporte, sParamTurno, sParamConvenio: string; dParamFecha: tDate; sParamDestino: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; tDblClick: tfrxClickObjectEvent; lParamMostrarAnt: boolean = false; FormatosExp: string = ''; PermisosExp: string = '');
-procedure procReporteDiarioCotemarOpt(sParamContrato, sParamOrden, sParamReporte, sParamTurno, sParamConvenio: string; dParamFecha: tDate; sParamDestino: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; lParamMostrarAnt: boolean = false; FormatosExp: string = ''; PermisosExp: string = '');
 procedure procReporteDiarioPersonal_EQ_H(sParamContrato, sParamOrden, sParamReporte, sParamTurno, sParamConvenio: string; dParamFecha: tDate; sParamDestino: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; FormatosExp: string = ''; PermisosExp: string = '');
 procedure procReporteVisitadeObra(sParamContrato, sParamOrden, sParamReporte, sParamTurno, sParamConvenio: string; dParamFecha: tDate; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent);
 
@@ -43,7 +28,6 @@ function sTiempoMuerto(sMuerto: string; iTotalPersonal, iTotalFrente, iJornada: 
 procedure procFichaTecnica(sParamContrato, sParamConvenio, sParamActividad: string; tOrigen: TComponent; FormatosExp: string = ''; PermisosExp: string = '');
 procedure procAnalisisFinanciero(sParamContrato, sParamOrden, sParamConvenio: string; dParamFechaInicio, dParamFechaFinal: tDate; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; FormatosExp: string = ''; PermisosExp: string = '');
 
-procedure procCaratulaGeneradorMod(iParamNivel :integer; sParamContrato, sParamEstimacion, sParamOrden, sParamGenerador, sParamConvenio: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; lParamMultiple: Boolean; FormatosExp: string = ''; PermisosExp: string = '');
 procedure procReporteDiarioPerf(sParamContrato, sParamOrden, sParamReporte, sParamTurno, sParamConvenio: string; dParamFecha: tDate; sParamDestino: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent);
 procedure procReporteDiarioConsolidado(sParamContrato, sParamPlataforma, sParamConvenio: string; dParamFecha: tDate; sParamDestino: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; RecordMove: tNotifyEvent; FormatosExp: string = ''; PermisosExp: string = '');
 procedure definirPeriodoProgramado(sParamContrato, sParamConvenio: string; dParamFecha: tDate);
@@ -57,13 +41,11 @@ procedure procCaratulaGeneradorGob(sParamContrato, sParamEstimacion, sParamOrden
 
 procedure procCaratulaPersonalEquipo(sParamContrato, sParamOrden, sParamConvenio, sTipo: string; dParamFechaI, dParamFechaT: tDate; tOrigen: TComponent; tProcedure: tfrxGetValueEvent);
 
-procedure procCaratulaGenerador(iParamNivel :integer; sParamContrato, sParamEstimacion, sParamOrden, sParamGenerador, sParamConvenio: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; lParamMultiple: Boolean; FormatosExp: string = ''; PermisosExp: string = '');
-
 procedure procHojasegGeneradores(sParamContrato, sParamEstimacion, sParamGenerador: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; lParamMultiple: Boolean);
 procedure procAlbumGeneradorGob(sParamContrato, sParamOrden, sParamGenerador, sParamConvenio: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; lParamMultiple: Boolean);
 procedure procConsolidadoOt(sParamContrato, sParamOrden: string; dParamFecha: tDateTime; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; lParamMultiple: Boolean; FormatosExp: string = ''; PermisosExp: string = '');
 procedure procCaratulaGenerador_1(sParamContrato, sParamEstimacion, sParamOrden, sParamGenerador, sParamConvenio: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; lParamMultiple: Boolean; FormatosExp: string = ''; PermisosExp: string = ''); 
-//procedure procCaratulaGenerador(iParamNivel :integer; sParamContrato, sParamEstimacion, sParamOrden, sParamGenerador, sParamConvenio: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; lParamMultiple: Boolean; FormatosExp: string = ''; PermisosExp: string = '');
+procedure procCaratulaGenerador(iParamNivel :integer; sParamContrato, sParamEstimacion, sParamOrden, sParamGenerador, sParamConvenio: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; lParamMultiple: Boolean; FormatosExp: string = ''; PermisosExp: string = '');
 procedure procCaratulaGeneradorPerf(sParamContrato, sParamEstimacion, sParamOrden, sParamGenerador, sParamConvenio: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; lParamMultiple: Boolean);
 procedure procListadeVerificacion(sParamContrato, sParamEstimacion, sParamOrden, sParamGenerador, sParamConvenio: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; lParamMultiple: Boolean; FormatosExp: string = ''; PermisosExp: string = '');
 procedure procNumeroGenerador(sParamContrato, sParamEstimacion, sParamOrden, sParamGenerador, sParamConvenio, sParamReporte: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; lParamMultiple: Boolean; FormatosExp: string = ''; PermisosExp: string = '');
@@ -94,10 +76,9 @@ function ifnNivel(wbs: string): Integer;
 function sfnDescompone(sActividad: string; iNiveles: Integer): string;
 function esColor(iColor: Integer): tColor;
 function espaces(paramNivel: Integer): string;
-function lVerificaGenerador(sParamContrato, sParamConvenio, sParamOrden, sParamWbs, sParamActividad, sWbsActividad: string; dParamFecha: tDate; iParamConsecutivo: Word; dParamCantidad: Double; tOrigen: TComponent): Byte;
+function lVerificaGenerador(sParamContrato, sParamConvenio, sParamOrden, sParamWbs, sParamActividad: string; dParamFecha: tDate; iParamConsecutivo: Word; dParamCantidad: Double; tOrigen: TComponent): Byte;
 function xIntToLletres(Numero: LongInt): string;
 function xxIntToLletres(Valor: LongInt): string;
-function LetrasNumeros(Valor: Real; Prefijo: String; Sufijo: String; NumDec: Integer): String;
 function EsRomano(Roman: string): Boolean;
 function RomanToDec(Roman: string): LongInt;
 function esNumerico(sParamTexto: string): Boolean;
@@ -108,13 +89,9 @@ function lfnVerificarHorasEmbarcacion(sParamContrato, sParamFecha, sParamHora, s
 
 //Para Diavaz
 procedure ProcCierraDiaNCammpo_Bitacora(sParamContrato, sParamOrden, sParamConvenio: string; dParamFecha: tDate; tOrigen: TComponent);
-procedure procReporteAvanzado(sParamContrato, sParamOrden, sParamConvenio, sParamTurno: string; dParamFecha: tDate; tOrigen: TComponent; tProcedure: tfrxGetValueEvent);
 
-procedure prorrateoOrdenes(sParamContrato, sParamFecha: string; sParamDiario: Integer);
-procedure procReporteBarco(sParamContrato, sParamOrden, sParamTurno: string; dParamFecha: tDate; tOrigen: TComponent; tProcedure: tfrxGetValueEvent; FormatosExp: string = ''; PermisosExp: string = '');
 procedure procReporteTripulacion(sParamContrato, sParamTurno: string; dParamFecha: tDate; tOrigen: TComponent; tProcedure: tfrxGetValueEvent; FormatosExp: string = ''; PermisosExp: string = ''; sParamTipo :string = '');
 procedure procReporteTripulacion_lista(sParamContrato, sParamTurno: string; dParamFecha: tDate; tOrigen: TComponent; tProcedure: tfrxGetValueEvent; FormatosExp: string = ''; PermisosExp: string = ''; sParamTipo :string = '');
-procedure procAjustaBarco(dParamFecha: tDate; sParamEmbarcacion: string; sParamDecimales: Integer; tOrigen: TComponent);
 
 {Procesos de Regeneracion de partidas...}
 procedure RegeneraPartida(dParamTipoActividad, dParamNumeroOrden, dParamWbs, dParamNumeroActividad, sParamConvenio: string; dParamCantidad: Real);
@@ -136,13 +113,9 @@ function DesEncripta(Cadena: string): string;
   procedure rptEgresoxFolio (ParamFecha : tDate; ParamFolio : Integer) ;
   procedure procReporteGasto ;
   procedure rptEgresos (ParamFechaInicio, ParamFechaFinal : tDate) ;
-  procedure rptEgresos2 (ParamFechaInicio, ParamFechaFinal : string) ;
   procedure rptEgresosxProveedor (ParamFechaInicio, ParamFechaFinal : tDate) ;
   procedure rptEgresosxTipoMovimiento (ParamFechaInicio, ParamFechaFinal : tDate) ;
   procedure procCostoOperativo (sParamOrden: string);
-
-//Crear formulario.
-procedure Crear_Form(panel:TPanel;Formlario:Tform; Titulo:String;arriba,Derecha,Ancho,Largo:Integer; Botones:TBorderIcons);
 
 //Para Nominas: APatrick.
 {$REGION 'NOMINAS'}
@@ -161,18 +134,10 @@ procedure rDiarioFirmasReq(sParamContrato, sParamOrden, sParamTurno, sParamDepto
 {Generadores Ruli..}
 procedure procGeneradorConversiones(sParamContrato, sParamEstimacion, sParamOrden, sParamGenerador, sParamConvenio: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; lReporte: string; lParamMultiple: Boolean; FormatosExp: string = ''; PermisosExp: string = '');
 
-//Para limpiar los textbox de un formulario (Aun por implementar)
-//clearEdit(self);
-procedure clearEdit(formulario: TForm);
-
-
-//function MSG_YN(msg:string):boolean;
-//procedure MSG_ER(msg:string);
-//procedure MSG_OK(msg:string);overload;
-//procedure MSG_OK(msg, caption:string);overload;
-//procedure MSG_W(msg:string);
-
-
+{$REGION 'Declara Funciones de Contabilidad'}
+  //Genera la Cadena de Numero de Cuenta Contable
+   function estructura_sNumeroOrden(var iId : String) : string;
+{$ENDREGION}
 
 type
   TEventHandlers = class // create a dummy class
@@ -237,7 +202,7 @@ var
     dsTiemposMuertos,
     dsTiempoMuertoPersonal,
     dsPersonalxPartida,
-    dsMaterialxPartida,
+    dsMaterialxPartida, 
     dsCentroCosto,
     dsmBitacora1,
     dsmBitacoraActividades,
@@ -305,6 +270,46 @@ procedure TEventHandlers.ButtonClick(Sender: TObject);
 begin
   global_opcion_window := 'Si';
 end;
+
+{$REGION 'CONTABILIDAD FUNCIONES'}
+function estructura_sNumeroOrden(var iId : String) : string;
+var
+    NumeroCuenta, padre, sql : string;
+begin
+  NumeroCuenta := '';
+  sql := 'SELECT sNumeroCuenta, iPadre FROM con_catalogodecuentas WHERE iId = '+iId+' ORDER BY sNumeroCuenta;';
+  Connection.QryBusca.Active := False;
+  Connection.QryBusca.SQL.Clear;
+  Connection.QryBusca.SQL.Add(sql);
+  Connection.QryBusca.Open;
+  Connection.QryBusca.First;
+  if Connection.QryBusca.RecordCount > 0 then begin
+    iId := Connection.QryBusca.FieldByName('iPadre').AsString;
+    padre := Connection.QryBusca.FieldByName('sNumeroCuenta').AsString;
+    while not Connection.QryBusca.Eof do begin
+      sql := 'SELECT sNumeroCuenta, iPadre FROM con_catalogodecuentas WHERE iId = '+iId+' ORDER BY sNumeroCuenta;';
+      Connection.QryBusca2.Active := False;
+      Connection.QryBusca2.SQL.Clear;
+      Connection.QryBusca2.SQL.Add(sql);
+      Connection.QryBusca2.Open;
+      Connection.QryBusca2.First;
+      NumeroCuenta := padre + NumeroCuenta;
+      if Connection.QryBusca2.RecordCount > 0 then begin
+        iId := Connection.QryBusca2.FieldByName('iPadre').AsString;
+        padre := Connection.QryBusca2.FieldByName('sNumeroCuenta').AsString;
+      end
+      else begin
+        Connection.QryBusca.Next;
+      end;
+    end;
+  end
+  else begin
+    NumeroCuenta := iId;
+  end;
+
+  Result := NumeroCuenta;
+end;
+{$ENDREGION}
 
 //Funciones Nómina:
 {$REGION 'NOMINA_FUNCIONES'}
@@ -430,30 +435,11 @@ begin
 
   QryConfiguracion.Active := False;
   QryConfiguracion.SQL.Clear;
-  (*QryConfiguracion.SQL.Add('select o.iEjercicio, o.sNumeroOrden, o.sDescripcionCorta, o.sOficioAutorizacion, o.mDescripcion, ' +
+  QryConfiguracion.SQL.Add('select o.iEjercicio, o.sNumeroOrden, o.sDescripcionCorta, o.sOficioAutorizacion, o.mDescripcion, ' +
                            'o.sIdArea, p.sRazonSocial, co.sNombreComunidad, o.sTipoOrden, o.dFechaInicio, o.dFechaFinal, o.dMontoAsignado, ' +
                            'c.sNombreCorto, c.sRFC, c.sDireccion1, c.sDireccion2, c.sDireccion3, c.sSlogan, c.bImagen, c.sTelefono, ' +
                            'c.sEmail, c.sWeb From configuracion c, ordenesdetrabajo o INNER JOIN comunidades co ON (o.sIdComunidad = co.sIdComunidad) ' +
-                           'inner join proveedores p on (o.sIdProveedor = p.sIdProveedor) Where o.sNumeroOrden = :Orden') ;   *)
-  QryConfiguracion.SQL.Add('select ' +
-                            'o.sNumeroOrden, ' +
-                            'o.sDescripcionCorta, ' +
-                            'o.sOficioAutorizacion, ' +
-                            'o.mDescripcion, ' +
-                            'o.sTipoOrden, ' +
-                            'o.dFechaInicioT, ' +
-                            'c.sNombreCorto, ' +
-                            'c.sRFC, ' +
-                            'c.sDireccion1, ' +
-                            'c.sDireccion2, ' +
-                           ' c.sDireccion3, ' +
-                            'c.sSlogan, ' +
-                            'c.bImagen, ' +
-                            'c.sTelefono, ' +
-                            'c.sEmail, ' +
-                            'c.sWeb ' +
-                            'From configuracion c, ordenesdetrabajo o ' +
-                            'Where o.sNumeroOrden = :Orden') ;
+                           'inner join proveedores p on (o.sIdProveedor = p.sIdProveedor) Where o.sNumeroOrden = :Orden') ;
   QryConfiguracion.Params.ParamByName('Orden').DataType := ftString;
   QryConfiguracion.Params.ParamByName('Orden').Value := sParamOrden;
   QryConfiguracion.Open;
@@ -472,7 +458,7 @@ begin
   QryReporteFotografico.Params.ParamByName('orden').Value := sParamOrden;
   QryReporteFotografico.Open;
 
-  (*QryBitacoradePersonal.Active := False;
+  QryBitacoradePersonal.Active := False;
   QryBitacoradePersonal.SQL.Clear;
   QryBitacoradePersonal.SQL.Add('Select bp.*, rd.sPeriododePago, rd.iNumeroLista, rd.iSemana, rd.mConcepto From bitacoradepersonal bp ' +
                                 'INNER JOIN listaderaya rd on (bp.dIdFecha = rd.dIdFecha and bp.sNumeroOrden = rd.sNumeroOrden) ' +
@@ -488,16 +474,16 @@ begin
                                   'Where bm.sNumeroOrden = :Orden Order By bm.dIdFecha, bm.iIdMaterial') ;
   QryBitacoradeMateriales.Params.ParamByName('orden').DataType := ftString;
   QryBitacoradeMateriales.Params.ParamByName('orden').Value := sParamOrden;
-  QryBitacoradeMateriales.Open ; *)
+  QryBitacoradeMateriales.Open ;
 
   QryCheques.Active := False;
   QryCheques.SQL.Clear;
-  QryCheques.SQL.Add('Select * From con_tesoreriaegresos Where sNumeroOrden = :Orden Order By dIdFecha, iIdFolio') ;
+  QryCheques.SQL.Add('Select * From contesoreriaegresos Where sNumeroOrden = :Orden Order By dIdFecha, iIdFolio') ;
   QryCheques.Params.ParamByName('orden').DataType := ftString;
   QryCheques.Params.ParamByName('orden').Value := sParamOrden;
   QryCheques.Open ;
 
-  rDiario.LoadFromFile(global_files + global_miReporte + '_frCostoOperativo.fr3');
+  rDiario.LoadFromFile(global_files + 'frCostoOperativo.fr3');
 
 //  rDiario.PreviewOptions.Buttons := [pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator] ;
 
@@ -509,9 +495,9 @@ begin
 
   QryReporteFotografico.Destroy ;
 
-  //QryBitacoradePersonal.Destroy ;
+  QryBitacoradePersonal.Destroy ;
 
-  //QryBitacoradeMateriales.Destroy ;
+  QryBitacoradeMateriales.Destroy ;
 
   QryConfiguracion.Destroy ;
 
@@ -520,8 +506,8 @@ begin
   dsReporteDiario.Destroy ;
   dsConfiguracion.Destroy ;
   dsReporteFotografico.Destroy ;
-  //dsBitacoradePersonal.Destroy ;
-  //dsBitacoradeMateriales.Destroy ;
+  dsBitacoradePersonal.Destroy ;
+  dsBitacoradeMateriales.Destroy ;
   dsCheques.Destroy ;
 end;
 
@@ -574,14 +560,13 @@ begin
     zTmpQuery.Active := False ;
     zTmpQuery.SQL.Clear ;
     zTmpQuery.SQL.Add('Select te.*, tp.*, ce.mDescripcion as sDescripionArticulo from con_tesoreriaegresos te ' +
-                     'inner join con_tesoreriapegresos tp on (te.dIdFecha = tp.dIdFecha and te.iIdFolio = tp.iIdFolio and tp.idorganizacion =:organizacion) ' +
+                     'inner join con_tesoreriapegresos tp on (te.dIdFecha = tp.dIdFecha and te.iIdFolio = tp.iIdFolio) ' +
                      'inner join con_catalogodeegresos ce on (tp.sIdEgreso = ce.sIdEgreso) ' +
                      'where te.dIdFecha >= :FechaI and te.dIdFecha <= :FechaF Order By tp.sIdEgreso, tp.sIdProveedor, te.dIdFecha, te.iIdFolio') ;
     zTmpQuery.Params.ParamByName('FechaI').DataType := ftDate ;
     zTmpQuery.Params.ParamByName('FechaI').Value := ParamFechaInicio ;
     zTmpQuery.Params.ParamByName('FechaF').DataType := ftDate ;
     zTmpQuery.Params.ParamByName('FechaF').Value := ParamFechaFinal ;
-    zTmpQuery.Params.ParamByName('Organizacion').Value := connection.contrato.FieldByName('idorganizacion').AsInteger;
     zTmpQuery.Open ;
 
     rptReporte := TfrxReport.Create(Nil) ;
@@ -595,20 +580,13 @@ begin
     rptReporte.DataSets.Clear;
     rptReporte.DataSets.Add(frPrinter);
 
-
+    rptReporte.LoadFromFile(global_files+ 'frEgresosxTipo.fr3') ;
     rptReporte.ScriptText.Clear  ;
     rptReporte.ScriptText.Add('Var') ;
     rptReporte.ScriptText.Add('sTitleFecha : String ;') ;
     rptReporte.ScriptText.Add('Begin') ;
     rptReporte.ScriptText.Add('   sTitleFecha :=  ' + chr(39) + sTitleFecha + chr(39)) ;
     rptReporte.ScriptText.Add('End.') ;
-    rptReporte.LoadFromFile(global_files+ global_miReporte +'_cadfrEgresosxTipo.fr3') ;
-
-      if not FileExists(global_files + global_miReporte + '_cadfrEgresosxTipo.fr3') then
-
-      showmessage('El archivo de reporte '+global_Mireporte+'_cadfrEgresosxTipo.fr3 no existe, notifique al administrador del sistema');
-
-
 
     rptReporte.ShowReport() ;
 
@@ -637,14 +615,13 @@ begin
     zTmpQuery.Active := False ;
     zTmpQuery.SQL.Clear ;
     zTmpQuery.SQL.Add('Select te.*, tp.*, ce.mDescripcion as sDescripionArticulo from con_tesoreriaegresos te ' +
-                     'inner join con_tesoreriapegresos tp on (te.dIdFecha = tp.dIdFecha and te.iIdFolio = tp.iIdFolio and tp.idorganizacion =:organizacion) ' +
+                     'inner join con_tesoreriapegresos tp on (te.dIdFecha = tp.dIdFecha and te.iIdFolio = tp.iIdFolio) ' +
                      'inner join con_catalogodeegresos ce on (tp.sIdEgreso = ce.sIdEgreso) ' +
                      'where te.dIdFecha >= :FechaI and te.dIdFecha <= :FechaF Order By te.sRazonSocial, te.sIdNumeroCuenta, te.dIdFecha, te.iIdFolio') ;
     zTmpQuery.Params.ParamByName('FechaI').DataType := ftDate ;
     zTmpQuery.Params.ParamByName('FechaI').Value := ParamFechaInicio ;
     zTmpQuery.Params.ParamByName('FechaF').DataType := ftDate ;
     zTmpQuery.Params.ParamByName('FechaF').Value := ParamFechaFinal ;
-    zTmpQuery.Params.ParamByName('Organizacion').Value := connection.contrato.FieldByName('idorganizacion').AsInteger;
     zTmpQuery.Open ;
 
     rptReporte := TfrxReport.Create(Nil) ;
@@ -658,21 +635,13 @@ begin
     rptReporte.DataSets.Clear;
     rptReporte.DataSets.Add(frPrinter);
 
-
+    rptReporte.LoadFromFile(global_files+ 'frEgresosxProveedor.fr3') ;
     rptReporte.ScriptText.Clear  ;
     rptReporte.ScriptText.Add('Var') ;
     rptReporte.ScriptText.Add('sTitleFecha : String ;') ;
     rptReporte.ScriptText.Add('Begin') ;
     rptReporte.ScriptText.Add('   sTitleFecha :=  ' + chr(39) + sTitleFecha + chr(39)) ;
     rptReporte.ScriptText.Add('End.') ;
-    rptReporte.LoadFromFile(global_files+ global_miReporte + '_CADfrEgresosxProveedor.fr3') ;
-
-
-     if not FileExists(global_files + global_miReporte + '_CADfrEgresosxProveedor.fr3') then
-
-     showmessage('El archivo de reporte '+global_Mireporte+'CAD_frEgresosxProveedor.fr3 no existe, notifique al administrador del sistema');
-
-
 
     rptReporte.ShowReport() ;
 
@@ -701,14 +670,13 @@ begin
     zTmpQuery.Active := False ;
     zTmpQuery.SQL.Clear ;
     zTmpQuery.SQL.Add('Select te.*, tp.*, ce.mDescripcion as sDescripionArticulo from con_tesoreriaegresos te ' +
-                     'inner join con_tesoreriapegresos tp on (te.dIdFecha = tp.dIdFecha and te.iIdFolio = tp.iIdFolio and tp.idorganizacion=:organizacion) ' +
+                     'inner join con_tesoreriapegresos tp on (te.dIdFecha = tp.dIdFecha and te.iIdFolio = tp.iIdFolio) ' +
                      'inner join con_catalogodeegresos ce on (tp.sIdEgreso = ce.sIdEgreso) ' +
                      'where te.dIdFecha >= :FechaI and te.dIdFecha <= :FechaF Order By te.sIdNumeroCuenta, te.dIdFecha, te.iIdFolio') ;
-    zTmpQuery.Params.ParamByName('FechaI').DataType    := ftDate ;
-    zTmpQuery.Params.ParamByName('FechaI').Value       := ParamFechaInicio ;
-    zTmpQuery.Params.ParamByName('FechaF').DataType    := ftDate ;
-    zTmpQuery.Params.ParamByName('FechaF').Value       := ParamFechaFinal ;
-    zTmpQuery.Params.ParamByName('Organizacion').Value := connection.contrato.FieldByName('idorganizacion').AsInteger;
+    zTmpQuery.Params.ParamByName('FechaI').DataType := ftDate ;
+    zTmpQuery.Params.ParamByName('FechaI').Value := ParamFechaInicio ;
+    zTmpQuery.Params.ParamByName('FechaF').DataType := ftDate ;
+    zTmpQuery.Params.ParamByName('FechaF').Value := ParamFechaFinal ;
     zTmpQuery.Open ;
 
     rptReporte := TfrxReport.Create(Nil) ;
@@ -722,7 +690,7 @@ begin
     rptReporte.DataSets.Clear;
     rptReporte.DataSets.Add(frPrinter);
 
-    rptReporte.LoadFromFile(global_files+ global_miReporte + '_frEgresos.fr3') ;
+    rptReporte.LoadFromFile(global_files+ 'frEgresos.fr3') ;
     rptReporte.ScriptText.Clear  ;
     rptReporte.ScriptText.Add('Var') ;
     rptReporte.ScriptText.Add('sTitleFecha : String ;') ;
@@ -737,66 +705,6 @@ begin
     zTmpQuery.Destroy ;
 end;
 
-procedure rptEgresos2(ParamFechaInicio, ParamFechaFinal : string) ;
-var
-    zTmpQuery  : TZReadOnlyQuery;
-    rptReporte : TfrxReport;
-    frPrinter  : tfrxDBDataSet ;
-begin
-  connection.configuracion.refresh ;
-    sTitleFecha := 'Impresion de Ingresos del ' + ParamFechaInicio + ' al ' + ParamFechaFinal + '.'  ;
-    zTmpQuery := tZReadOnlyQuery.Create(Nil) ;
-    zTmpQuery.Connection := connection.ZConnection ;
-
-    frPrinter := tfrxDBDataSet.Create(Nil) ;
-    frPrinter.UserName := 'frTmpQuery' ;
-    frPrinter.Name := 'frTmpQuery' ;
-
-    zTmpQuery.Active := False ;
-    zTmpQuery.SQL.Clear ;
-    zTmpQuery.SQL.Add('Select te.*, tp.*, ce.mDescripcion as sDescripionArticulo from con_tesoreriaegresos te ' +
-                     'inner join con_tesoreriapegresos tp on (te.dIdFecha = tp.dIdFecha and te.iIdFolio = tp.iIdFolio and tp.idorganizacion=:organizacion) ' +
-                     'inner join con_catalogodeegresos ce on (tp.sIdEgreso = ce.sIdEgreso) ' +
-                     'where te.dIdFecha >= :FechaI and te.dIdFecha <= :FechaF Order By te.sIdNumeroCuenta, te.dIdFecha, te.iIdFolio') ;
-    zTmpQuery.Params.ParamByName('FechaI').DataType    := ftDate ;
-    zTmpQuery.Params.ParamByName('FechaI').Value       := ParamFechaInicio ;
-    zTmpQuery.Params.ParamByName('FechaF').DataType    := ftDate ;
-    zTmpQuery.Params.ParamByName('FechaF').Value       := ParamFechaFinal ;
-    zTmpQuery.Params.ParamByName('Organizacion').Value := connection.contrato.FieldByName('idorganizacion').AsInteger;
-    zTmpQuery.Open ;
-
-    rptReporte := TfrxReport.Create(Nil) ;
-
-    frPrinter.DataSet := zTmpQuery ;
-    rptReporte.PreviewOptions.MDIChild := False;
-    rptReporte.PreviewOptions.Modal := True;
-    rptReporte.PreviewOptions.Maximized := True ;
-    rptReporte.PreviewOptions.ShowCaptions := False;
-    rptReporte.Previewoptions.ZoomMode := zmPageWidth;
-    rptReporte.DataSets.Clear;
-    rptReporte.DataSets.Add(frPrinter);
-
-
-    rptReporte.ScriptText.Clear  ;
-    rptReporte.ScriptText.Add('Var') ;
-    rptReporte.ScriptText.Add('sTitleFecha : String ;') ;
-    rptReporte.ScriptText.Add('Begin') ;
-    rptReporte.ScriptText.Add('   sTitleFecha :=  ' + chr(39) + sTitleFecha + chr(39)) ;
-    rptReporte.ScriptText.Add('End.') ;
-    rptReporte.LoadFromFile(global_files+ global_miReporte + '_CADfrEgresos.fr3') ;
-
-      if not FileExists(global_files + global_miReporte + '_CADfrEgresos.fr3') then
-  begin
-   showmessage('El archivo de reporte '+global_Mireporte+'_CADfrEgresos.fr3 no existe, notifique al administrador del sistema');
- 
-  end;
-
-    rptReporte.ShowReport() ;
-
-    rptReporte.Destroy ;
-    frPrinter.Destroy ;
-    zTmpQuery.Destroy ;
-end;
 
 procedure procReporteGasto ;
 var
@@ -830,53 +738,39 @@ begin
   zGrafica.SQL.Add(sParamQuery) ;
   if sParamTipo = 'Simple' then
   begin
-      zGrafica.Params.ParamByName('fechaI').DataType    := ftDate ;
-      zGrafica.Params.ParamByName('fechaI').Value       := dParamFechaI ;
-      zGrafica.Params.ParamByName('fechaF').DataType    := ftDate ;
-      zGrafica.Params.ParamByName('fechaF').Value       := dParamFechaF ;
-      zGrafica.Params.ParamByName('organizacion').Value := iParamOrganizacion ;
-      rDiario.LoadFromFile(global_files + global_miReporte + '_frDetalle1.fr3');
+      zGrafica.Params.ParamByName('fechaI').DataType := ftDate ;
+      zGrafica.Params.ParamByName('fechaI').Value    := dParamFechaI ;
+      zGrafica.Params.ParamByName('fechaF').DataType := ftDate ;
+      zGrafica.Params.ParamByName('fechaF').Value    := dParamFechaF ;
+      rDiario.LoadFromFile(global_files + 'frDetalle1.fr3');
   end
   else
       if sParamTipo = 'Periodo1' then
       begin
-          zGrafica.Params.ParamByName('fechaI').DataType    := ftDate ;
-          zGrafica.Params.ParamByName('fechaI').Value       := dParamFechaI ;
-          zGrafica.Params.ParamByName('fechaF').DataType    := ftDate ;
-          zGrafica.Params.ParamByName('fechaF').Value       := dParamFechaF ;
-          zGrafica.Params.ParamByName('organizacion').Value := iParamOrganizacion ;
-          rDiario.LoadFromFile(global_files + global_miReporte + '_frDetalle2.fr3');
+          zGrafica.Params.ParamByName('fechaI').DataType := ftDate ;
+          zGrafica.Params.ParamByName('fechaI').Value    := dParamFechaI ;
+          zGrafica.Params.ParamByName('fechaF').DataType := ftDate ;
+          zGrafica.Params.ParamByName('fechaF').Value    := dParamFechaF ;
+          rDiario.LoadFromFile(global_files + 'frDetalle2.fr3');
        end
        else
           if sParamTipo = 'Periodo2' then
           begin
-              zGrafica.Params.ParamByName('fechaI').DataType    := ftDate ;
-              zGrafica.Params.ParamByName('fechaI').Value       := dParamFechaI ;
-              zGrafica.Params.ParamByName('fechaF').DataType    := ftDate ;
-              zGrafica.Params.ParamByName('fechaF').Value       := dParamFechaF ;
-              zGrafica.Params.ParamByName('Egreso').DataType    := ftString ;
-              zGrafica.Params.ParamByName('Egreso').Value       := sParamEgreso ;
-              zGrafica.Params.ParamByName('organizacion').Value := iParamOrganizacion ;
-              rDiario.LoadFromFile(global_files + global_miReporte + '_frDetalle2.fr3');
-          end
-            else
-            if sParamTipo = 'Periodo22' then
-            begin
-                zGrafica.Params.ParamByName('fechaI').DataType    := ftDate ;
-                zGrafica.Params.ParamByName('fechaI').Value       := dParamFechaI ;
-                zGrafica.Params.ParamByName('fechaF').DataType    := ftDate ;
-                zGrafica.Params.ParamByName('fechaF').Value       := dParamFechaF ;
-                zGrafica.Params.ParamByName('organizacion').Value := iParamOrganizacion ;
-                rDiario.LoadFromFile(global_files + global_miReporte + '_frDetalle2.fr3');
-            end;
+              zGrafica.Params.ParamByName('fechaI').DataType := ftDate ;
+              zGrafica.Params.ParamByName('fechaI').Value    := dParamFechaI ;
+              zGrafica.Params.ParamByName('fechaF').DataType := ftDate ;
+              zGrafica.Params.ParamByName('fechaF').Value    := dParamFechaF ;
+//              zGrafica.Params.ParamByName('Egreso').DataType := ftString ;
+//              zGrafica.Params.ParamByName('Egreso').Value    := sParamEgreso ;
+              rDiario.LoadFromFile(global_files + 'frDetalle2.fr3');
+          end;
           if sParamTipo = 'Periodo4' then
           begin
-            zGrafica.Params.ParamByName('fechaI').DataType    := ftDate ;
-            zGrafica.Params.ParamByName('fechaI').Value       := dParamFechaI ;
-            zGrafica.Params.ParamByName('fechaF').DataType    := ftDate ;
-            zGrafica.Params.ParamByName('fechaF').Value       := dParamFechaF ;
-            zGrafica.Params.ParamByName('organizacion').Value := iParamOrganizacion ;
-            rDiario.LoadFromFile(global_files + global_miReporte + '_frDetalle4.fr3');
+            zGrafica.Params.ParamByName('fechaI').DataType := ftDate ;
+            zGrafica.Params.ParamByName('fechaI').Value    := dParamFechaI ;
+            zGrafica.Params.ParamByName('fechaF').DataType := ftDate ;
+            zGrafica.Params.ParamByName('fechaF').Value    := dParamFechaF ;
+            rDiario.LoadFromFile(global_files + 'frDetalle4.fr3');
           end ;
   zGrafica.Open;
 
@@ -911,16 +805,16 @@ begin
     zTmpQuery.Active := False ;
     zTmpQuery.SQL.Clear ;
     zTmpQuery.SQL.Add('select te.dIdFecha, te.iIdFolio, te.sIdNumeroCuenta, cb.sNombreCuenta, te.sReferencia, ' +
-                      'te.sIdProveedor, te.sRazonSocial, te.sRFC, te.sDomicilio, te.sCiudad, te.sEstado, te.sCP, te.dImporteTotal, te.dIva, ' +
+                      'te.sIdProveedor, te.sRazonSocial, te.sRFC, te.sDomicilio, te.sCiudad, te.sEstado, te.sCP, te.dImporteTotal, ' +
                       'tp.sIdEgreso, ce.mDescripcion, tp.sTipoEgreso, tp.sIdProveedor as sIdProveedor2, ' +
                       'tp.sRazonSocial as sRazonSocial2, tp.sIdFactura, tp.mDescripcion, tp.dImporte from con_tesoreriaegresos te ' +
-                      'inner join con_tesoreriapegresos tp on (te.iIdFolio = tp.iIdFolio and tp.idorganizacion =:organizacion) ' +
+                      'inner join con_tesoreriapegresos tp on (te.iIdFolio = tp.iIdFolio) ' +
                       'inner join con_catalogodeegresos ce on (ce.sIdEgreso = tp.sIdEgreso) ' +
                       'inner join con_cuentasbancarias cb on (te.sIdNumeroCuenta = cb.sIdNumeroCuenta) ' +
-                      'where te.iIdFolio = :Folio and ((te.sTipoMovimiento ="GASTOS") Or (te.sTipoMovimiento ="CHEQUE")) Order By tp.sTipoEgreso, tp.sIdEgreso') ;
-    zTmpQuery.Params.ParamByName('Folio').DataType    := ftInteger ;
-    zTmpQuery.Params.ParamByName('Folio').Value       := ParamFolio ;
-    zTmpQuery.Params.ParamByName('organizacion').Value := connection.contrato.FieldByName('idorganizacion').AsInteger;
+                      'where te.iIdFolio = :Folio and te.sTipoMovimiento ="GASTOS" Order By tp.sTipoEgreso, tp.sIdEgreso') ;
+
+    zTmpQuery.Params.ParamByName('Folio').DataType := ftInteger ;
+    zTmpQuery.Params.ParamByName('Folio').Value := ParamFolio ;
     zTmpQuery.Open ;
 
     rptReporte := TfrxReport.Create(Nil) ;
@@ -934,16 +828,10 @@ begin
     rptReporte.DataSets.Clear;
     rptReporte.DataSets.Add(frPrinter);
     if zTmpQuery.RecordCount > 0 then
-
-    rptReporte.LoadFromFile(global_files+ global_miReporte + '_CADfrComprobacionCheque.fr3') ;
-
-   if not FileExists(global_files + global_miReporte + '_CADfrComprobacionCheque.fr3') then
-   begin
-    showmessage('El archivo de reporte '+global_Mireporte+'CAD_frComprobacionCheque.fr3 no existe, notifique al administrador del sistema');
-         
-   end;
+         rptReporte.LoadFromFile(global_files+ 'frComprobacionCheque.fr3') ;
 
     rptReporte.ShowReport() ;
+
     rptReporte.Destroy ;
     frPrinter.Destroy ;
     zTmpQuery.Destroy ;
@@ -1968,692 +1856,6 @@ begin
 
 end;
 
-function sProrrateaBarco(dParamFecha: TDate; sParamBarco: string; tOrigen: TComponent; iParamRedondeo: Integer): string;
-var
-  QryConsulta: tzQuery;
-  Valor,
-  Cadena: string;
-  PosicionMin, PosicionMax: Pointer;
-  iValor,
-  Acumulado,
-  iDecimales, i: Integer;
-  OldRangoMax,
-  OldRangoMin,
-  Acum,
-  CuentaP: Real;
-  Progress: TProgressBar;
-  PasoValor, mExcel: Extended;
-  ExisteAjuste: Boolean;
-begin
-  // Codigo optimizado por Eduardo Rangel - 03 de Marzo de 2011
-  // Función: Optimizar el tiempo de generación de reporte de embarcación
-  if iParamRedondeo = -1 then
-  begin
-    Connection.configuracion.Refresh;
-    iDecimales := Connection.configuracion.FieldValues['iRedondeoEmbarcacion'];
-  end
-  else
-    iDecimales := iParamRedondeo;
-
-  mExcel := 0.1;
-  for I := 0 to iDecimales do
-    mExcel := mExcel * 10;
-
-  // Crear una transacción
-  Connection.CommandTrx.Active := False;
-  Connection.CommandTrx.SQL.Text := 'START TRANSACTION';
-  Connection.CommandTrx.ExecSQL;
-
-  try
-    try
-      QryConsulta := tzQuery.Create(tOrigen);
-      QryConsulta.Connection := connection.ConnTrx;
-      QryConsulta.Active := False;
-      Qryconsulta.SQL.Clear;
-      QryConsulta.Sql.Text := 'select a.*, ' +
-                              '(select count(*) from movimientosdeembarcacion b where b.sContrato = a.sContrato and b.dIdfecha = a.dIdFecha and b.sIdEmbarcacion = a.sIdEmbarcacion and ' +
-                              '(((LEFT(b.sHoraFinal, 2) * 60) + RIGHT(b.sHoraFinal, 2)) - ((LEFT(b.sHoraInicio, 2) * 60) + RIGHT(b.sHoraInicio, 2))) = ' +
-                              '(((LEFT(a.sHoraFinal, 2) * 60) + RIGHT(a.sHoraFinal, 2)) - ((LEFT(a.sHoraInicio, 2) * 60) + RIGHT(a.sHoraInicio, 2)))) as Cuenta ' +
-                              'from movimientosdeembarcacion a inner join tiposdemovimiento c on (a.sContrato = c.sContrato and a.sClasificacion = c.sIdTipoMovimiento) ' +
-                              'WHERE a.sContrato = :Contrato and a.dIdfecha = :Fecha and a.sIdEmbarcacion = :Barco order by sIdEmbarcacion, sHoraInicio';
-      {QryConsulta.SQL.Add('select movimientosdeembarcacion.* ' +
-        'from movimientosdeembarcacion ' +
-        'inner join tiposdemovimiento on (movimientosdeembarcacion.sContrato = tiposdemovimiento.sContrato ' +
-        'and movimientosdeembarcacion.sClasificacion = tiposdemovimiento.sIdTipoMovimiento) ' +
-        'where movimientosdeembarcacion.dIdFecha = :Fecha and movimientosdeembarcacion.sIdEmbarcacion = :barco order by sIdEmbarcacion, sHoraInicio');}
-      QryConsulta.Active := False;
-      QryConsulta.Params.ParamByName('contrato').DataType := ftString;
-      QryConsulta.Params.ParamByName('contrato').Value := global_contrato;
-      QryConsulta.Params.ParamByName('Fecha').DataType := ftDate;
-      QryConsulta.Params.ParamByName('Fecha').Value := dParamFecha;
-      QryConsulta.Params.ParamByName('barco').DataType := ftString;
-      QryConsulta.Params.ParamByName('barco').Value := sParamBarco;
-      QryConsulta.Open;
-
-      // Por seguridad se debe verificar que exista al menos un registro en el cual se pueda aplicar el ajuste final
-      ExisteAjuste := False;
-      while (not QryConsulta.Eof) and (Not ExisteAjuste) do
-      begin
-        ExisteAjuste := QryConsulta.FieldByName('Cuenta').AsInteger = 1;
-        QryConsulta.Next;
-      end;
-      QryConsulta.First;
-
-      case RngTipoAjuste of
-        0: OldRangoMax := 0;
-        1: OldRangoMin := 10;
-        2,3: begin
-               OldRangoMax := 0;
-               OldRangoMin := 10;
-             end;
-        4: OldRangoMin := 10;
-        5: OldRangoMax := 0;
-      end;
-
-      Acumulado := 0;
-      Acum := 0;
-
-      // Verificar si se cuenta con un objeto de progreso
-      for iValor := 0 to tOrigen.ComponentCount - 1 do
-        if (CompareText(tOrigen.Components[iValor].ClassName, 'tpanel') = 0) and (tOrigen.Components[iValor].Name = 'PanelProgress') then
-          if (TWinControl(tOrigen.Components[iValor]).ControlCount = 5) and (CompareText(TWinControl(TWinControl(tOrigen.Components[iValor]).Controls[4]).Name, 'progressbar1') = 0) then
-            Progress := TProgressBar(TWinControl(tOrigen.Components[iValor]).Controls[4]);
-
-      if Assigned(Progress) then
-      begin
-        CuentaP := ((1 / ProgPartes) / (QryConsulta.RecordCount + 1)) * (Progress.Max - Progress.Min);
-        AcumulaProgress := AcumulaProgress + CuentaP;
-        Progress.Position := Trunc(AcumulaProgress);
-      end;
-
-      while not QryConsulta.Eof do
-      begin
-        if Assigned(Progress) then
-        begin
-          AcumulaProgress := AcumulaProgress + CuentaP;
-          Progress.Position := Trunc(AcumulaProgress);
-        end;
-
-        // Desarrollar el tiempo en minutos
-        Cadena := QryConsulta.FieldByName('sHoraFinal').AsString;
-        iValor := (StrToInt(leftstr(Cadena, 2)) * 60) + StrToInt(RightStr(Cadena, 2));
-
-        Cadena := QryConsulta.FieldByName('sHoraInicio').AsString;
-        iValor := iValor - ((StrToInt(Leftstr(Cadena, 2)) * 60) + StrToInt(RightStr(Cadena, 2)));
-
-        Acumulado := Acumulado + iValor;
-
-        if (QryConsulta.FieldValues['sHoraInicio'] = '00:00') and (QryConsulta.FieldValues['sHoraFinal'] = '24:00') then
-          Valor := '1'
-        else
-          Valor := sfnFactor(QryConsulta.FieldValues['sHoraInicio'], QryConsulta.FieldValues['sHoraFinal'], 24, iDecimales);
-
-        Acum := Acum + Round(StrToFloat(Valor) * mExcel);
-
-        // Verificar que este registro puede ser optativo para ajuste final
-        if (QryConsulta.FieldByName('Cuenta').AsInteger = 1) or (Not ExisteAjuste) then
-        begin
-          // Marcar el registro adecuado en base al criterio indicado por el usuario
-          case RngTipoAjuste of
-            0: begin
-              // Localizar el registro de mayor tiempo
-              if StrToFloat(Valor) > OldRangoMax then
-              begin
-                OldRangoMax := StrToFloat(Valor);
-                PosicionMax := QryConsulta.GetBookmark;
-              end;
-            end;
-
-            1: begin
-              // Localizar el registro de menor tiempo
-              if StrToFloat(Valor) < OldRangoMin then
-              begin
-                OldRangoMin := StrToFloat(Valor);
-                PosicionMin := QryConsulta.GetBookmark;
-              end;
-            end;
-
-            2: begin
-              // Localizar ambos registros
-              if StrToFloat(Valor) > OldRangoMax then
-              begin
-                OldRangoMax := StrToFloat(Valor);
-                PosicionMax := QryConsulta.GetBookmark;
-              end;
-
-              if StrToFloat(Valor) < OldRangoMin then
-              begin
-                OldRangoMin := StrToFloat(Valor);
-                PosicionMin := QryConsulta.GetBookmark;
-              end;
-            end;
-
-            3: begin
-              // Localizar ambos registros
-              if StrToFloat(Valor) > OldRangoMax then
-              begin
-                OldRangoMax := StrToFloat(Valor);
-                PosicionMax := QryConsulta.GetBookmark;
-              end;
-
-              if StrToFloat(Valor) < OldRangoMin then
-              begin
-                OldRangoMin := StrToFloat(Valor);
-                PosicionMin := QryConsulta.GetBookmark;
-              end;
-            end;
-
-            4: begin
-              // Solo el primero debe ser seleccionado
-              if QryConsulta.RecNo = 1 then
-              begin
-                OldRangoMin := StrToFloat(Valor);
-                PosicionMin := QryConsulta.GetBookmark;
-              end;
-            end;
-
-            5: begin
-              // Solo seleccionar el último
-              if QryConsulta.RecNo = QryConsulta.RecordCount then
-              begin
-                OldRangoMax := StrToFloat(Valor);
-                PosicionMax := QryConsulta.GetBookmark;
-              end;
-            end;
-          end;
-        end;
-
-        // Verificar si es necesario grabar la información
-        if Valor <> QryConsulta.FieldByName('sFactor').AsString then
-        begin
-          QryConsulta.Edit;
-          QryConsulta.FieldByName('sFactor').AsString := Valor;
-          QryConsulta.Post;
-        end;
-
-        QryConsulta.Next;
-      end;
-
-      // Terminar el ciclo verificar si es necesario ajustar el tiempo
-      if Acumulado = 1440 then
-      begin
-        // Ajustar solamente si se trata del tiempo completo
-        case RngTipoAjuste of
-          0: begin
-            if QryConsulta.BookmarkValid(PosicionMax) then
-            begin
-              QryConsulta.GotoBookmark(PosicionMax);
-              QryConsulta.Edit;
-              PasoValor := (Trunc(mExcel) - Acum) / mExcel;
-              //PasoValor := (Trunc(mExcel) - Round(Acum * mExcel)) / mExcel;
-              QryConsulta.FieldByName('sFactor').AsFloat := QryConsulta.FieldByName('sFactor').AsFloat + PasoValor;
-              QryConsulta.Post;
-            end
-            else
-              raise exception.Create('No se ha podido localizar el registro para ajuste de tiempos de embarcación');
-          end;
-
-          1: begin
-            if QryConsulta.BookmarkValid(PosicionMin) then
-            begin
-              QryConsulta.GotoBookmark(PosicionMin);
-              QryConsulta.Edit;
-              PasoValor := (Trunc(mExcel) - Acum) / mExcel;
-              //PasoValor := (Trunc(mExcel) - Round(Acum * mExcel)) / mExcel;
-              QryConsulta.FieldByName('sFactor').AsFloat := QryConsulta.FieldByName('sFactor').AsFloat + PasoValor;
-              QryConsulta.Post;
-            end
-            else
-              raise exception.Create('No se ha podido localizar el registro para ajuste de tiempos de embarcación');
-          end;
-
-          2: begin
-            PasoValor := (Trunc(mExcel) - Acum) / mExcel;
-            if PasoValor > 0 then
-            begin
-              if QryConsulta.BookmarkValid(PosicionMin) then
-              begin
-                QryConsulta.GotoBookmark(PosicionMin);
-                QryConsulta.Edit;
-                QryConsulta.FieldByName('sFactor').AsFloat := QryConsulta.FieldByName('sFactor').AsFloat + PasoValor;
-                QryConsulta.Post;
-              end
-              else
-                raise exception.Create('No se ha podido localizar el registro para ajuste de tiempos de embarcación');
-            end
-            else
-            begin
-              if (QryConsulta.BookmarkValid(PosicionMax)) and (PasoValor < 0) then
-              begin
-                QryConsulta.GotoBookmark(PosicionMax);
-                QryConsulta.Edit;
-                QryConsulta.FieldByName('sFactor').AsFloat := QryConsulta.FieldByName('sFactor').AsFloat + PasoValor;
-                QryConsulta.Post;
-              end
-              else
-                raise exception.Create('No se ha podido localizar el registro para ajuste de tiempos de embarcación');
-            end;
-          end;
-
-          3: begin
-            PasoValor := (Trunc(mExcel) - Acum) / mExcel;
-            if PasoValor < 0 then
-            begin
-              if QryConsulta.BookmarkValid(PosicionMin) then
-              begin
-                QryConsulta.GotoBookmark(PosicionMin);
-                QryConsulta.Edit;
-                QryConsulta.FieldByName('sFactor').AsFloat := QryConsulta.FieldByName('sFactor').AsFloat + PasoValor;
-                QryConsulta.Post;
-              end
-              else
-                raise exception.Create('No se ha podido localizar el registro para ajuste de tiempos de embarcación');
-            end
-            else
-            begin
-              if (QryConsulta.BookmarkValid(PosicionMax)) and (PasoValor < 0) then
-              begin
-                QryConsulta.GotoBookmark(PosicionMax);
-                QryConsulta.Edit;
-                QryConsulta.FieldByName('sFactor').AsFloat := QryConsulta.FieldByName('sFactor').AsFloat + PasoValor;
-                QryConsulta.Post;
-              end
-              else
-                raise exception.Create('No se ha podido localizar el registro para ajuste de tiempos de embarcación');
-            end;
-          end;
-
-          4: begin
-            if QryConsulta.BookmarkValid(PosicionMin) then
-            begin
-              QryConsulta.GotoBookmark(PosicionMin);
-              QryConsulta.Edit;
-              PasoValor := (Trunc(mExcel) - Acum) / mExcel;
-              QryConsulta.FieldByName('sFactor').AsFloat := QryConsulta.FieldByName('sFactor').AsFloat + PasoValor;
-              QryConsulta.Post;
-            end
-            else
-              raise exception.Create('No se ha podido localizar el registro para ajuste de tiempos de embarcación');
-          end;
-
-          5: begin
-            if QryConsulta.BookmarkValid(PosicionMax) then
-            begin
-              QryConsulta.GotoBookmark(PosicionMax);
-              QryConsulta.Edit;
-              PasoValor := (Trunc(mExcel) - Acum) / mExcel;
-              QryConsulta.FieldByName('sFactor').AsFloat := QryConsulta.FieldByName('sFactor').AsFloat + PasoValor;
-              QryConsulta.Post;
-            end
-            else
-              raise exception.Create('No se ha podido localizar el registro para ajuste de tiempos de embarcación');
-          end;
-        end;
-      end;
-
-      Connection.ConnTrx.Commit; // Terminar la transacción
-    finally
-      QryConsulta.Destroy;
-      result := '0.000000';
-    end;
-  except
-    on e: EZSQLThrowable do
-    begin
-      Connection.ConnTrx.Rollback;
-      messagedlg('Ha ocurrido un error al intentar registrar la distribución de embarcación', mtInformation, [mbOk], 0);
-    end;
-
-    on e: Exception do
-    begin
-      Connection.ConnTrx.Rollback;
-      messagedlg('Ha ocurrido un error al intentar registrar la distribución de embarcación', mtInformation, [mbOk], 0);
-    end;
-  end;
-end;
-
-function sFnSumaBarco(dParamFecha: tDate; sParamBarco: string; tOrigen: TComponent; iParamRedondeo: Integer): string;
-var
-  QryConsulta: tzReadOnlyQuery;
-  sFactor: string;
-  dProrrateo: Double;
-  iMultiplo: Integer;
-  iDecimales: Integer;
-begin
-  if iParamRedondeo = -1 then
-  begin
-    Connection.configuracion.Refresh;
-    iDecimales := Connection.configuracion.FieldValues['iRedondeoEmbarcacion'];
-  end
-  else
-    iDecimales := iParamRedondeo;
-
-  QryConsulta := tzReadOnlyQuery.Create(tOrigen);
-  QryConsulta.Connection := connection.zConnection;
-  QryConsulta.Active := False;
-  Qryconsulta.SQL.Clear;
-
-  Qryconsulta.Active := False;
-  QryConsulta.SQL.clear;
-  QryConsulta.sql.Add('select SUM(sFactor) as dFactor from movimientosdeembarcacion ' +
-    'Where dIdFecha = :Fecha and sIdEmbarcacion = :embarcacion and sClasificacion <> "" ' +
-    'Group By sIdEmbarcacion');
-  QryConsulta.Active := False;
-  QryConsulta.Params.ParamByName('fecha').DataType := ftDate;
-  QryConsulta.Params.ParamByName('fecha').Value := dParamFecha;
-  QryConsulta.Params.ParamByName('embarcacion').DataType := ftString;
-  QryConsulta.Params.ParamByName('embarcacion').Value := sParamBarco;
-  QryConsulta.Open;
-  if Qryconsulta.RecordCount > 0 then
-    if (Qryconsulta.FieldValues['dFactor'] > 0) then
-      dProrrateo := Qryconsulta.FieldValues['dFactor'];
-  QryConsulta.Destroy;
-  result := FloatToStr(dProrrateo);
-end;
-
-function sFnAjustaBarco(dParamFecha: tDate; sParamBarco: string; iParamFactorTotal: string; tOrigen: TComponent; iParamRedondeo: Integer): string;
-var
-  sFactor: string;
-  dProrrateo: Double;
-  dAjuste: Double;
-  iMultiplo: Integer;
-  iDecimales: Integer;
-begin
-  if iParamRedondeo = -1 then
-  begin
-    Connection.configuracion.Refresh;
-    iDecimales := Connection.configuracion.FieldValues['iRedondeoEmbarcacion'];
-  end
-  else
-    iDecimales := iParamRedondeo;
-
-  sFactor := sFnSumaBarco(dParamFecha, sParamBarco, tOrigen, iDecimales);
-  dProrrateo := StrToFloat(sFactor);
-  if dProrrateo > StrToFloat(iParamFactorTotal) then
-    dAjuste := (dProrrateo - StrToFloat(iParamFactorTotal)) * -1
-  else
-    dAjuste := StrToFloat(iParamFactorTotal) - dProrrateo;
-
-     // Ya tengo el ajuste ahora ... modifico el horario de 24:00 por el nuevo factor ...
-  Connection.qrybusca.Active := False;
-  Connection.qrybusca.SQL.Clear;
-  Connection.qrybusca.SQL.Add('Select sContrato, dIdFecha, iIdDiario, sFactor from movimientosdeembarcacion ' +
-    'Where dIdFecha = :fecha and sIdEmbarcacion = :embarcacion and sClasificacion <>  "" ' +
-    'Order By sFactor DESC');
-  Connection.qryBusca.Params.ParamByName('Fecha').DataType := ftDate;
-  Connection.qryBusca.Params.ParamByName('Fecha').Value := dParamFecha;
-  Connection.qryBusca.Params.ParamByName('Embarcacion').DataType := ftString;
-  Connection.qryBusca.Params.ParamByName('Embarcacion').Value := sParamBarco;
-  Connection.qrybusca.Open;
-  if Connection.qrybusca.RecordCount > 0 then
-  begin
-    dAjuste := Connection.qrybusca.FieldValues['sFactor'] + dAjuste;
-    str(dAjuste: 2: iDecimales, sFactor);
-    connection.zCommand.Active := False;
-    connection.zCommand.SQL.Clear;
-    connection.zCommand.SQL.Add('update movimientosdeembarcacion SET sFactor = :Factor ' +
-      'where sContrato = :contrato and dIdFecha = :fecha and iIdDiario = :diario');
-    connection.zCommand.Params.ParamByName('Contrato').DataType := ftString;
-    connection.zCommand.Params.ParamByName('Contrato').Value := Connection.QryBusca.FieldValues['sContrato'];
-    connection.zCommand.Params.ParamByName('Fecha').DataType := ftDate;
-    connection.zCommand.Params.ParamByName('Fecha').Value := Connection.QryBusca.FieldValues['dIdFecha'];
-    connection.zCommand.Params.ParamByName('diario').DataType := ftInteger;
-    connection.zCommand.Params.ParamByName('diario').Value := Connection.QryBusca.FieldValues['iIdDiario'];
-    connection.zCommand.Params.ParamByName('Factor').DataType := ftString;
-    connection.zCommand.Params.ParamByName('Factor').Value := sFactor;
-    connection.zCommand.ExecSQL();
-  end;
-  result := '0.000000';
-  connection.qryBusca.Active := False;
-end;
-
-function sFnAjustaMovtos(dParamFecha: tDate; iParamDiario: Integer; iParamFactorTotal: string; tOrigen: TComponent; iParamRedondeo: Integer): string;
-var
-  sFactor: string;
-  dProrrateo: double;
-  dAjuste: double;
-  iMultiplo: Integer;
-  iDecimales: Integer;
-begin
-  if iParamRedondeo = -1 then
-  begin
-    Connection.configuracion.Refresh;
-    iDecimales := Connection.configuracion.FieldValues['iRedondeoEmbarcacion'];
-  end
-  else
-    iDecimales := iParamRedondeo;
-
-  iMultiplo := iDecimales * -1;
-
-  sFactor := sFnSumaMovtos(dParamFecha, iParamDiario, tOrigen, iDecimales);
-  dProrrateo := StrToFloat(sFactor);
-  if dProrrateo > StrToFloat(iParamFactorTotal) then
-    dAjuste := (dProrrateo - StrToFloat(iParamFactorTotal)) * -1
-  else
-    dAjuste := StrToFloat(iParamFactorTotal) - dProrrateo;
-
-     // Ya tengo el ajuste ahora ... modifico el horario de 24:00 por el nuevo factor ...
-  Connection.qrybusca.Active := False;
-  Connection.qrybusca.SQL.Clear;
-  Connection.qrybusca.SQL.Add('Select sContrato, sNumeroOrden, dIdFecha, iIdDiario, sFactor from fasesxorden ' +
-    'Where dIdFecha = :fecha and iIdDiario = :Diario ' +
-    'Order By dPersonalOrden DESC');
-  Connection.qryBusca.Params.ParamByName('Fecha').DataType := ftDate;
-  Connection.qryBusca.Params.ParamByName('Fecha').Value := dParamFecha;
-  Connection.qryBusca.Params.ParamByName('Diario').DataType := ftString;
-  Connection.qryBusca.Params.ParamByName('Diario').Value := iParamDiario;
-  Connection.qrybusca.Open;
-  if Connection.qrybusca.RecordCount > 0 then
-  begin
-    dAjuste := strtofloat(Connection.qrybusca.FieldValues['sFactor']) + dAjuste;
-    str(dAjuste: 3: iDecimales, sFactor);
-    connection.zCommand.Active := False;
-    connection.zCommand.SQL.Clear;
-    connection.zCommand.SQL.Add('update fasesxorden SET sFactor = :Factor ' +
-      'where sContrato = :Contrato and dIdFecha = :fecha and iIdDiario = :diario and sNumeroOrden = :Orden');
-    connection.zCommand.Params.ParamByName('Contrato').DataType := ftString;
-    connection.zCommand.Params.ParamByName('Contrato').Value := Connection.QryBusca.FieldValues['sContrato'];
-    connection.zCommand.Params.ParamByName('Orden').DataType := ftString;
-    connection.zCommand.Params.ParamByName('Orden').Value := Connection.QryBusca.FieldValues['sNumeroOrden'];
-    connection.zCommand.Params.ParamByName('Fecha').DataType := ftDate;
-    connection.zCommand.Params.ParamByName('Fecha').Value := Connection.QryBusca.FieldValues['dIdFecha'];
-    connection.zCommand.Params.ParamByName('diario').DataType := ftInteger;
-    connection.zCommand.Params.ParamByName('diario').Value := Connection.QryBusca.FieldValues['iIdDiario'];
-    connection.zCommand.Params.ParamByName('Factor').DataType := ftString;
-    connection.zCommand.Params.ParamByName('Factor').Value := sFactor;
-    connection.zCommand.ExecSQL();
-  end;
-  Result := '0.000000';
-  connection.qryBusca.Active := False;
-end;
-
-function sMultiplicaMovimientos(dParamFecha: tDate; iParamDiario: Integer; iParamFactorTotal: string; iParamRedondeo: Integer): string;
-var
-  sFactor: string;
-  dProrrateo: Double;
-  dAjuste: Double;
-  iMultiplo: Integer;
-  iDecimales: Integer;
-begin
-  if iParamRedondeo = -1 then
-  begin
-    Connection.configuracion.Refresh;
-    iDecimales := Connection.configuracion.FieldValues['iRedondeoEmbarcacion'];
-  end
-  else
-    iDecimales := iParamRedondeo;
-
-  iMultiplo := iDecimales * -1;
-
-  connection.QryBusca2.Active := False;
-  connection.qryBusca2.SQL.Clear;
-  connection.QryBusca2.SQL.Add('select sContrato, sNumeroOrden, dIdFecha, iIdDiario, sFactor from fasesxorden Where ' +
-    'dIdFecha = :Fecha and iIdDiario = :Diario');
-  connection.QryBusca2.Params.ParamByName('fecha').DataType := ftDate;
-  connection.QryBusca2.Params.ParamByName('fecha').Value := dParamFecha;
-  connection.QryBusca2.Params.ParamByName('diario').DataType := ftInteger;
-  connection.QryBusca2.Params.ParamByName('diario').Value := iParamDiario;
-  connection.QryBusca2.Open;
-  while not connection.QryBusca2.Eof do
-  begin
-          // Asigna Valores ....
-    dProrrateo := RoundTo((connection.QryBusca2.FieldValues['sFactor'] * iParamFactorTotal), iMultiplo);
-    str(dProrrateo: 3: iDecimales, sFactor);
-
-    connection.zCommand.Active := False;
-    connection.zCommand.SQL.Clear;
-    connection.zCommand.SQL.Add('update fasesxorden SET sFactor = :Factor ' +
-      'where sContrato = :contrato and sNumeroOrden = :Orden and dIdFecha = :fecha and iIdDiario = :diario');
-    connection.zCommand.Params.ParamByName('Contrato').DataType := ftString;
-    connection.zCommand.Params.ParamByName('Contrato').Value := Connection.QryBusca2.FieldValues['sContrato'];
-    connection.zCommand.Params.ParamByName('Orden').DataType := ftString;
-    connection.zCommand.Params.ParamByName('Orden').Value := Connection.QryBusca2.FieldValues['sNumeroOrden'];
-    connection.zCommand.Params.ParamByName('Fecha').DataType := ftDate;
-    connection.zCommand.Params.ParamByName('Fecha').Value := Connection.QryBusca2.FieldValues['dIdFecha'];
-    connection.zCommand.Params.ParamByName('diario').DataType := ftInteger;
-    connection.zCommand.Params.ParamByName('diario').Value := Connection.QryBusca2.FieldValues['iIdDiario'];
-    connection.zCommand.Params.ParamByName('Factor').DataType := ftString;
-    connection.zCommand.Params.ParamByName('Factor').Value := sFactor;
-    connection.zCommand.ExecSQL();
-    connection.QryBusca2.Next;
-  end;
-  Result := '0.000000';
-end;
-
-function sProrrateaMovimientos(dParamFecha: tDate; iParamDiario: Integer; iParamFactorTotal: string; iParamRedondeo: Integer): string;
-var
-  sFactor: string;
-  dProrrateo: double;
-  dAjuste: double;
-  iMultiplo: Integer;
-  iDecimales: Integer;
-begin
-  if iParamRedondeo = -1 then
-  begin
-    Connection.configuracion.Refresh;
-    iDecimales := Connection.configuracion.FieldValues['iRedondeoEmbarcacion'];
-  end
-  else
-    iDecimales := iParamRedondeo;
-
-  iMultiplo := iDecimales * -1;
-
-  connection.QryBusca.Active := False;
-  connection.qryBusca.SQL.Clear;
-  connection.QryBusca.SQL.Add('select sum(dPersonalOrden) as dTotalPersonal from fasesxorden Where ' +
-    'dIdFecha = :Fecha and iIdDiario = :Diario Group By iIdDiario');
-  connection.QryBusca.Params.ParamByName('fecha').DataType := ftDate;
-  connection.QryBusca.Params.ParamByName('fecha').Value := dParamFecha;
-  connection.QryBusca.Params.ParamByName('diario').DataType := ftInteger;
-  connection.QryBusca.Params.ParamByName('diario').Value := iParamDiario;
-  connection.QryBusca.Open;
-  if connection.QryBusca.RecordCount > 0 then
-    if connection.QryBusca.FieldValues['dTotalPersonal'] > 0 then
-    begin
-      connection.QryBusca2.Active := False;
-      connection.QryBusca2.SQL.Clear;
-      connection.QryBusca2.SQL.Add('select sContrato, sNumeroOrden, dIdFecha, iIdDiario, dPersonalOrden from fasesxorden ' +
-        'where dIdFecha = :Fecha and iIdDiario = :Diario order by sContrato, sNumeroOrden');
-
-      connection.QryBusca2.Params.ParamByName('fecha').DataType := ftDate;
-      connection.QryBusca2.Params.ParamByName('fecha').Value := dParamFecha;
-      connection.QryBusca2.Params.ParamByName('diario').DataType := ftInteger;
-      connection.QryBusca2.Params.ParamByName('diario').Value := iParamDiario;
-      connection.QryBusca2.Open;
-      while not connection.QryBusca2.Eof do
-      begin
-        dProrrateo := RoundTo((Connection.qrybusca2.FieldValues['dPersonalOrden'] / connection.QryBusca.FieldValues['dTotalPersonal']), iMultiplo);
-        str(dProrrateo: 3: iDecimales, sFactor);
-        connection.zCommand.Active := False;
-        connection.zCommand.SQL.Clear;
-        connection.zCommand.SQL.Add('update fasesxorden SET sFactor = :Factor, dTotalPersonal = :Total  ' +
-          'where sContrato = :contrato and sNumeroOrden = :Orden and dIdFecha = :fecha and iIdDiario = :diario');
-        connection.zCommand.Params.ParamByName('Contrato').DataType := ftString;
-        connection.zCommand.Params.ParamByName('Contrato').Value := Connection.QryBusca2.FieldValues['sContrato'];
-        connection.zCommand.Params.ParamByName('Orden').DataType := ftString;
-        connection.zCommand.Params.ParamByName('Orden').Value := Connection.QryBusca2.FieldValues['sNumeroOrden'];
-        connection.zCommand.Params.ParamByName('Fecha').DataType := ftDate;
-        connection.zCommand.Params.ParamByName('Fecha').Value := Connection.QryBusca2.FieldValues['dIdFecha'];
-        connection.zCommand.Params.ParamByName('diario').DataType := ftInteger;
-        connection.zCommand.Params.ParamByName('diario').Value := Connection.QryBusca2.FieldValues['iIdDiario'];
-        connection.zCommand.Params.ParamByName('Factor').DataType := ftString;
-        connection.zCommand.Params.ParamByName('Factor').Value := sFactor;
-        connection.zCommand.Params.ParamByName('Total').DataType := ftFloat;
-        connection.zCommand.Params.ParamByName('Total').Value := connection.QryBusca.FieldValues['dTotalPersonal'];
-        connection.zCommand.ExecSQL();
-        connection.QryBusca2.Next;
-      end;
-    end;
-  Result := '0.000000';
-end;
-
-
-
-function sFnSumaMovtos(dParamFecha: tDate; iParamDiario: Integer; tOrigen: TComponent; iParamRedondeo: Integer): string;
-var
-  QryConsulta: tzReadOnlyQuery;
-  sFactor: string;
-  dProrrateo: Double;
-  iMultiplo: Integer;
-  iDecimales: Integer;
-begin
-  if iParamRedondeo = -1 then
-  begin
-    Connection.configuracion.Refresh;
-    iDecimales := Connection.configuracion.FieldValues['iRedondeoEmbarcacion'];
-  end
-  else
-    iDecimales := iParamRedondeo;
-
-  QryConsulta := tzReadOnlyQuery.Create(tOrigen);
-  QryConsulta.Connection := connection.zConnection;
-  QryConsulta.Active := False;
-  Qryconsulta.SQL.Clear;
-
-  Qryconsulta.Active := False;
-  QryConsulta.SQL.clear;
-  QryConsulta.sql.Add('select SUM(sFactor) as dFactor from fasesxorden ' +
-    'Where dIdFecha = :Fecha and iIdDiario = :Diario Group By iIdDiario');
-  Qryconsulta.Params.ParamByName('fecha').DataType := ftDate;
-  Qryconsulta.Params.ParamByName('fecha').Value := dParamFecha;
-  Qryconsulta.Params.ParamByName('Diario').DataType := ftString;
-  Qryconsulta.Params.ParamByName('Diario').Value := iParamDiario;
-  Qryconsulta.Open;
-  if Qryconsulta.RecordCount > 0 then
-    if (Qryconsulta.FieldValues['dFactor'] > 0) then
-      dProrrateo := Qryconsulta.FieldValues['dFactor'];
-  QryConsulta.Destroy;
-  result := FloatToStr(dProrrateo);
-end;
- {
-function sSeguridad(sParamUsuario, sParamContrato, sParamOrden, sDerecho: string; tOrigen: TComponent): string;
-var
-  QryConsulta: tzReadOnlyQuery;
-  TipoDerecho: string;
-begin
-  QryConsulta := tzReadOnlyQuery.Create(tOrigen);
-  QryConsulta.Connection := connection.zConnection;
-  QryConsulta.Active := False;
-  Qryconsulta.SQL.Clear;
-  QryConsulta.SQL.Add('Select sDerechos From ordenesxusuario Where sIdUsuario = :Usuario And sContrato =:Contrato And sNumeroOrden =:Orden');
-  QryConsulta.Params.ParamByName('Usuario').DataType := ftString;
-  QryConsulta.Params.ParamByName('Usuario').Value := sParamUsuario;
-  QryConsulta.Params.ParamByName('Contrato').DataType := ftString;
-  QryConsulta.Params.ParamByName('Contrato').Value := sParamContrato;
-  QryConsulta.Params.ParamByName('Orden').DataType := ftString;
-  QryConsulta.Params.ParamByName('Orden').Value := sParamOrden;
-  QryConsulta.Open;
-  if QryConsulta.RecordCount > 0 then
-  begin
-    TipoDerecho := QryConsulta.fieldValues['sDerechos'];
-    if TipoDerecho = sDerecho then
-      sSeguridad := 'PASA'
-    else
-      MessageDlg('no tiene Permisos de ' + TipoDerecho + ' !!', mtError, [mbOk], 0);
-  end;
-end;                         }
-
-
-
 function dfnGeneradoAnterior(sParamContrato, sParamActividad: string; iParamConsecutivo: Word; tOrigen: TComponent): Double;
 var
   QryConsulta: tzReadOnlyQuery;
@@ -2883,58 +2085,40 @@ begin
 end;
 
 
-function lVerificaGenerador(sParamContrato, sParamConvenio, sParamOrden, sParamWbs, sParamActividad, sWbsActividad: string; dParamFecha: tDate; iParamConsecutivo: Word; dParamCantidad: Double; tOrigen: TComponent): Byte;
+function lVerificaGenerador(sParamContrato, sParamConvenio, sParamOrden, sParamWbs, sParamActividad: string; dParamFecha: tDate; iParamConsecutivo: Word; dParamCantidad: Double; tOrigen: TComponent): Byte;
 var
   QryConsulta: tzReadOnlyQuery;
   dCantidadReportada: Double;
   dCantidadGenerada: Double;
   dSuma: Real;
-  lContinua : boolean;
 begin
-  lContinua := True;
+
   QryConsulta := tzReadOnlyQuery.Create(tOrigen);
   QryConsulta.Connection := connection.zConnection;
 
   QryConsulta.Active := False;
   Qryconsulta.SQL.Clear;
-
-//    QryConsulta.SQL.Add('SELECT b.sContrato, b.sNumeroOrden, b.dIdFecha as bitacora, b.sWbs, b.dCantidad, r.dIdFecha as fechadeReporte ' +
-//      'FROM bitacoradeactividades b ' +
-//      'INNER JOIN tiposdemovimiento t ON (b.sContrato = t.sContrato And b.sIdTipoMovimiento = t.sIdTipoMovimiento ' +
-//      'And t.sClasificacion <> "Notas" And t.sClasificacion <> "Tiempo Muerto") ' +
-//      'INNER JOIN reportediario r ON (r.sContrato = b.sContrato And r.sNumeroOrden = b.sNumeroOrden ' +
-//      'And r.dIdFecha = b.dIdFecha)' +
-//      'Where r.sContrato = :Contrato and r.sNumeroOrden = :Orden And ' +
-//      'b.sNumeroActividad = :Actividad And r.dIdFecha > :Fecha and b.sWbs = :sWbs ');
-//  QryConsulta.Params.ParamByName('contrato').DataType := ftString;
-//  QryConsulta.Params.ParamByName('contrato').Value := sParamContrato;
-//  QryConsulta.Params.ParamByName('orden').DataType := ftString;
-//  QryConsulta.Params.ParamByName('orden').Value := sParamOrden;
-//  QryConsulta.Params.ParamByName('actividad').DataType := ftString;
-//  QryConsulta.Params.ParamByName('actividad').Value := sParamActividad;
-//  QryConsulta.Params.ParamByName('fecha').DataType := ftDate;
-//  QryConsulta.Params.ParamByName('fecha').Value := dParamFecha;
-//  QryConsulta.Params.ParamByName('sWbs').DataType := ftString;
-//  QryConsulta.Params.ParamByName('sWbs').Value := sWbsActividad;
-//  QryConsulta.Open;
-//  if QryConsulta.RecordCount<=0 then
-//  begin
-
-  if lContinua then
-  begin
-
-  QryConsulta.Active := False;
-  Qryconsulta.SQL.Clear;
-
+  if sParamWbs <> '' then
+    QryConsulta.SQL.Add('Select format(Sum(dCantidad),4) as dReportado from bitacoradeactividades ' +
+      'Where sContrato = :Contrato and sNumeroOrden = :Orden And sWbs = :Wbs And ' +
+      'sNumeroActividad = :Actividad And dIdFecha <= :Fecha Group By sContrato')
+  else
     QryConsulta.SQL.Add('Select format(Sum(dCantidad),4) as dReportado from bitacoradeactividades ' +
       'Where sContrato = :Contrato and sNumeroOrden = :Orden And ' +
-      'sNumeroActividad = :Actividad Group By sContrato');
+      'sNumeroActividad = :Actividad And dIdFecha <= :Fecha Group By sContrato');
   QryConsulta.Params.ParamByName('contrato').DataType := ftString;
   QryConsulta.Params.ParamByName('contrato').Value := sParamContrato;
   QryConsulta.Params.ParamByName('orden').DataType := ftString;
   QryConsulta.Params.ParamByName('orden').Value := sParamOrden;
+  if sParamWbs <> '' then
+  begin
+    QryConsulta.Params.ParamByName('wbs').DataType := ftString;
+    QryConsulta.Params.ParamByName('wbs').Value := sParamWbs;
+  end;
   QryConsulta.Params.ParamByName('actividad').DataType := ftString;
   QryConsulta.Params.ParamByName('actividad').Value := sParamActividad;
+  QryConsulta.Params.ParamByName('fecha').DataType := ftDate;
+  QryConsulta.Params.ParamByName('fecha').Value := dParamFecha;
   QryConsulta.Open;
   if QryConsulta.RecordCount > 0 then
     dCantidadReportada := QryConsulta.FieldValues['dReportado']
@@ -2943,7 +2127,11 @@ begin
 
   QryConsulta.Active := False;
   Qryconsulta.SQL.Clear;
-
+  if sParamWbs <> '' then
+    QryConsulta.SQL.Add('Select format(Sum(e.dCantidad),4) as dGenerado from estimacionxpartida e ' +
+      'inner join estimaciones e2 on (e.sContrato = e2.sContrato and e.sNumeroOrden = e2.sNumeroOrden And e2.sNumeroGenerador = e.sNumeroGenerador And e2.iConsecutivo <= :Consecutivo) ' +
+      'Where e.sContrato = :Contrato and e.sNumeroOrden = :Orden And e.sWbs = :Wbs And e.sNumeroActividad = :Actividad  Group By e.sContrato')
+  else
     QryConsulta.SQL.Add('Select format(Sum(e.dCantidad),4) as dGenerado from estimacionxpartida e ' +
       'inner join estimaciones e2 on (e.sContrato = e2.sContrato and e.sNumeroOrden = e2.sNumeroOrden And e2.sNumeroGenerador = e.sNumeroGenerador And e2.iConsecutivo <= :Consecutivo) ' +
       'Where e.sContrato = :Contrato and e.sNumeroOrden = :Orden And e.sNumeroActividad = :Actividad  Group By e.sContrato');
@@ -2951,7 +2139,11 @@ begin
   QryConsulta.Params.ParamByName('contrato').Value := sParamContrato;
   QryConsulta.Params.ParamByName('orden').DataType := ftString;
   QryConsulta.Params.ParamByName('orden').Value := sParamOrden;
-
+  if sParamWbs <> '' then
+  begin
+    QryConsulta.Params.ParamByName('wbs').DataType := ftString;
+    QryConsulta.Params.ParamByName('wbs').Value := sParamWbs;
+  end;
   QryConsulta.Params.ParamByName('actividad').DataType := ftString;
   QryConsulta.Params.ParamByName('actividad').Value := sParamActividad;
   QryConsulta.Params.ParamByName('consecutivo').DataType := ftInteger;
@@ -2984,10 +2176,6 @@ begin
       result := 1
   else
     Result := 1
-  end
-  else begin
-    Messagedlg('Esta accion no se puede realizar:'#13'La partida se Ha Reportado en una fecha Posterior a la Fecha del Generador.',mtinformation, [mbOk],0);
-  end;
 end;
 
 function espaces(paramNivel: Integer): string;
@@ -3393,9 +2581,9 @@ begin
 
 //  frxSintesisGerencial.LoadFromFile (global_files + 'SintesisGerencial.fr3') ;
   if sTipoReporte = 'Semanal' then
-    frxSintesisGerencial.LoadFromFile(global_files + global_miReporte + '_SintesisSemanal.fr3')
+    frxSintesisGerencial.LoadFromFile(global_files + 'SintesisSemanal.fr3')
   else
-    frxSintesisGerencial.LoadFromFile(global_files + global_miReporte  + '_SintesisMensual.fr3');
+    frxSintesisGerencial.LoadFromFile(global_files + 'SintesisMensual.fr3');
 
   if QryConfiguracion.FieldValues['lLicencia'] = 'No' then
     frxSintesisGerencial.PreviewOptions.Buttons := [pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator]
@@ -3711,7 +2899,7 @@ begin
   QryOrdenCambio.Open;
   if QryOrdenCambio.RecordCount > 0 then
   begin
-    frxOrdenCambio.LoadFromFile(global_files + global_miReporte + '_OrdendeCambio.fr3');
+    frxOrdenCambio.LoadFromFile(global_files + 'OrdendeCambio.fr3');
     if QryConfiguracion.FieldValues['lLicencia'] = 'No' then
       frxOrdenCambio.PreviewOptions.Buttons := [pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator]
     else
@@ -4582,7 +3770,6 @@ begin
   QryPlataforma.Destroy;
 end;
 
-
 procedure procCaratulaGenerador_1(sParamContrato, sParamEstimacion, sParamOrden, sParamGenerador, sParamConvenio: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; lParamMultiple: Boolean; FormatosExp: string = ''; PermisosExp: string = '');
 var
   rCaratula: TfrxReport;
@@ -4955,7 +4142,7 @@ begin
     rCaratula.PreviewOptions.Buttons := [pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator]
   else
     rCaratula.PreviewOptions.Buttons := [pbPrint, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator, pbExportQuick];
-  rCaratula.ShowReport;
+  rCaratula.ShowReport(True);
 
   rCaratula.Destroy;
   QryGenerador.Destroy;
@@ -5044,7 +4231,6 @@ begin
   rxGenerador.FieldDefs.Add('dAcumuladoOrden', ftFloat, 0, True);
   rxGenerador.FieldDefs.Add('dAcumuladoAnexo', ftFloat, 0, True);
   rxGenerador.FieldDefs.Add('iNumeroEstimacion', ftString, 10, True);
-  rxGenerador.FieldDefs.Add('sNumeroEstimacion', ftString, 20, True);
   rxGenerador.FieldDefs.Add('dFechaInicio', ftDate, 0, True);
   rxGenerador.FieldDefs.Add('dFechaFinal', ftDate, 0, True);
   rxGenerador.FieldDefs.Add('sMoneda', ftString, 15, True);
@@ -5080,7 +4266,7 @@ begin
     'e2.sContrato, e2.sNumeroOrden, e2.sNumeroGenerador, e2.iConsecutivo, e2.dFechaInicio, e2.dFechaFinal, e2.mComentarios, e2.iSemana, e2.sIdUsuarioValida, e2.sIdUsuarioAutoriza, ' +
     'e1.sIsometrico, e1.sPrefijo, e1.dCantidad, e1.iOrdenCambio,  e1.sIsometricoReferencia, e1.iidGrupo, e1.iidPerimetro, ' +
     'e1.dConstante, e1.dAlto, e1.dAncho, e1.dLargo, e1.dSubtotal, a.sAnexo, ' +
-    'e3.iNumeroEstimacion, e3.iNumeroEstimacion, e3.sMoneda, e3.dFechaInicio as dFechaInicioEst, e3.dFechaFinal as dFechaFinalEst from actividadesxanexo a ' +
+    'e3.iNumeroEstimacion, e3.sMoneda, e3.dFechaInicio as dFechaInicioEst, e3.dFechaFinal as dFechaFinalEst from actividadesxanexo a ' +
     'inner join estimaciones e2 on (a.sContrato = e2.sContrato And e2.sNumeroOrden = :Orden And e2.sNumeroGenerador = :Generador) ' +
     'INNER JOIN estimacionxpartida e1 ON (e1.sContrato = e2.sContrato And e1.sNumeroOrden = e2.sNumeroOrden And ' +
     'e1.sNumeroGenerador = e2.sNumeroGenerador and   replace(a.sWbs," ","") =replace(e1.sWbsContrato ," ","") AND    replace(a.sNumeroActividad," ","")=replace(e1.sNumeroActividad ," ","") )' +
@@ -5319,7 +4505,6 @@ begin
       rxGenerador.FieldValues['sPrefijo'] := QryGenerador.FieldValues['sPrefijo'];
       rxGenerador.FieldValues['dCantidad'] := QryGenerador.FieldValues['dCantidad'];
       rxGenerador.FieldValues['iNumeroEstimacion'] := QryGenerador.FieldValues['iNumeroEstimacion'];
-      //rxGenerador.FieldValues['sNumeroEstimacion'] := QryGenerador.FieldValues['sNumeroEstimacion'];
       rxGenerador.FieldValues['dFechaInicioG'] := QryGenerador.FieldValues['dFechaInicio'];
       rxGenerador.FieldValues['dFechaFinalG'] := QryGenerador.FieldValues['dFechaFinal'];
       rxGenerador.FieldValues['sMoneda'] := QryGenerador.FieldValues['sMoneda'];
@@ -5352,7 +4537,7 @@ begin
     QryGenerador.Active := False;
     QryGenerador.SQL.Clear;
     QryGenerador.SQL.Add('Select e2.sContrato, e2.sNumeroOrden, e2.sNumeroGenerador, e2.dFechaInicio, e2.dFechaFinal, e2.mComentarios, e2.iSemana, e2.sIdUsuarioValida, e2.sIdUsuarioAutoriza, ' +
-      'e3.iNumeroEstimacion, e3.sNumeroEstimacion, e3.sMoneda, e3.dFechaInicio as dFechaInicioEst, e3.dFechaFinal as dFechaFinalEst from estimaciones e2 ' +
+      'e3.iNumeroEstimacion, e3.sMoneda, e3.dFechaInicio as dFechaInicioEst, e3.dFechaFinal as dFechaFinalEst from estimaciones e2 ' +
       'inner join estimacionperiodo e3 on (e2.sContrato =  e3.sContrato And e2.iNumeroEstimacion = e3.iNumeroEstimacion) ' +
       'Where e2.sContrato = :Contrato And e2.sNumeroOrden = :Orden And e2.sNumeroGenerador = :Generador');
     QryGenerador.Params.ParamByName('Contrato').DataType := ftString;
@@ -5381,7 +4566,6 @@ begin
         rxGenerador.FieldValues['lAutoriza'] := False;
 
       rxGenerador.FieldValues['iNumeroEstimacion'] := QryGenerador.FieldValues['iNumeroEstimacion'];
-      rxGenerador.FieldValues['sNumeroEstimacion'] := QryGenerador.FieldValues['sNumeroEstimacion'];
       rxGenerador.FieldValues['dFechaIniciog'] := QryGenerador.FieldValues['dFechaInicio'];
       rxGenerador.FieldValues['dFechaFinalg'] := QryGenerador.FieldValues['dFechaFinal'];
       rxGenerador.FieldValues['sMoneda'] := QryGenerador.FieldValues['sMoneda'];
@@ -5396,29 +4580,17 @@ begin
   if iParamNivel = 0 then
   begin
       if lParamMultiple then
-         if not FileExists(global_files + global_miReporte + '_CaratulaGeneradorMultiple.fr3') then
-            showmessage('El archivo de reporte '+global_Mireporte+'_CaratulaGeneradorMultiple.fr3 no existe, notifique al administrador del sistema')
-         else
-            rCaratula.LoadFromFile(Global_Files + global_miReporte + '_CaratulaGeneradorMultiple.fr3')
+        rCaratula.LoadFromFile(global_files + global_MiReporte + '_CaratulaGeneradorMultiple.fr3')
       else
-         if not FileExists(global_files + global_miReporte + '_CaratulaGenerador.fr3') then
-            showmessage('El archivo de reporte '+global_Mireporte+'_CaratulaGenerador.fr3 no existe, notifique al administrador del sistema')
-         else
-            rCaratula.LoadFromFile(Global_Files + global_miReporte + '_CaratulaGenerador.fr3')
+        rCaratula.LoadFromFile(global_files + global_MiReporte + '_CaratulaGenerador.fr3');
   end;
 
   if iParamNivel > 0 then
   begin
       if lParamMultiple then
-      if not FileExists(global_files + global_miReporte + '_CaratulaGeneradorMultiplePaquete.fr3') then
-            showmessage('El archivo de reporte '+global_Mireporte+'_CaratulaGeneradorMultiplePaquete.fr3 no existe, notifique al administrador del sistema')
-         else
-            rCaratula.LoadFromFile(Global_Files + global_miReporte + '_CaratulaGeneradorMultiplePaquete.fr3')
+        rCaratula.LoadFromFile(global_files + global_MiReporte + '_CaratulaGeneradorMultiplePaquete.fr3')
       else
-       if not FileExists(global_files + global_miReporte + '_CaratulaGeneradorPaquete.fr3') then
-            showmessage('El archivo de reporte '+global_Mireporte+'_CaratulaGeneradorPaquete.fr3 no existe, notifique al administrador del sistema')
-         else
-            rCaratula.LoadFromFile(global_files + global_MiReporte + '_CaratulaGeneradorPaquete.fr3');
+        rCaratula.LoadFromFile(global_files + global_MiReporte + '_CaratulaGeneradorPaquete.fr3');
   end;
 
   if QryConfiguracion.FieldValues['lLicencia'] = 'No' then
@@ -5437,6 +4609,7 @@ begin
   QryConfiguracion.Destroy;
   dsConfiguracion.Destroy;
 end;
+
 
 procedure procHojasegGeneradores(sParamContrato, sParamEstimacion, sParamGenerador: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; lParamMultiple: Boolean);
 var
@@ -5497,10 +4670,8 @@ begin
 
   rCaratula.DataSets.Add(dsConfiguracion);
   rCaratula.DataSets.Add(dsGenerador);
-    if not FileExists(global_files + global_miReporte + '_hojaseggeneradores.fr3') then
-           showmessage('El archivo de reporte '+global_Mireporte+'_hojaseggeneradores.fr3 no existe, notifique al administrador del sistema')
-        else
-           rCaratula.LoadFromFile(global_files + global_miReporte + '_hojaseggeneradores.fr3');
+
+  rCaratula.LoadFromFile(global_files + 'hojaseggeneradores.fr3');
 
   if QryConfiguracion.FieldValues['lLicencia'] = 'No' then
     rCaratula.PreviewOptions.Buttons := [pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator]
@@ -5939,9 +5110,9 @@ begin
 
   rDiarioFirmas(sParamContrato, sParamOrden, 'A', QryGenerador.FieldValues['dFechaFinal'], tOrigen);
   if lParamMultiple then
-    rCaratula.LoadFromFile(global_files + global_miReporte + '_CaratulaGeneradorMultiplePerf.fr3')
+    rCaratula.LoadFromFile(global_files + 'CaratulaGeneradorMultiplePerf.fr3')
   else
-    rCaratula.LoadFromFile(global_files + global_miReporte + '_CaratulaGenerador.fr3');
+    rCaratula.LoadFromFile(global_files + 'CaratulaGenerador.fr3');
 
   if QryConfiguracion.FieldValues['lLicencia'] = 'No' then
     rCaratula.PreviewOptions.Buttons := [pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator]
@@ -6562,34 +5733,19 @@ begin
     end
   end;
   if QryConfiguracion.FieldValues['iFirmas'] = '2' then
-    begin
-     if not FileExists(global_files + global_miReporte + '_ListadeVerificacion2.fr3') then
-       showmessage('El archivo de reporte '+global_Mireporte+'_ListadeVerificacion2.fr3 no existe, notifique al administrador del sistema')
-     else
-       rCaratula.LoadFromFile(global_files + global_miReporte + '_ListadeVerificacion2.fr3');
-    end;
+    rCaratula.LoadFromFile(global_files + 'ListadeVerificacion2.fr3');
 
   if QryConfiguracion.FieldValues['iFirmas'] = '3' then
-  begin
-   if not FileExists(global_files + global_miReporte + '_ListadeVerificacion.fr3') then
-       showmessage('El archivo de reporte '+ global_Mireporte+'_ListadeVerificacion.fr3 no existe, notifique al administrador del sistema')
-     else
-       rCaratula.LoadFromFile(global_files + global_Mireporte+ '_ListadeVerificacion.fr3');
-   end ;
+    rCaratula.LoadFromFile(global_files + 'ListadeVerificacion.fr3');
 
   if QryConfiguracion.FieldValues['iFirmas'] = '4' then
-   begin
-     if not FileExists(global_files + global_miReporte + '_ListadeVerificacion4.fr3') then
-       showmessage('El archivo de reporte '+global_Mireporte+'_ListadeVerificacion4.fr3 no existe, notifique al administrador del sistema')
-     else
-       rCaratula.LoadFromFile(global_files + 'ListadeVerificacion4.fr3');
-  end;
+    rCaratula.LoadFromFile(global_files + 'ListadeVerificacion4.fr3');
 
   if QryConfiguracion.FieldValues['lLicencia'] = 'No' then
     rCaratula.PreviewOptions.Buttons := [pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator]
   else
     rCaratula.PreviewOptions.Buttons := [pbPrint, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator, pbExportQuick];
-  rCaratula.ShowReport;
+  rCaratula.ShowReport(True);
   rCaratula.Destroy;
   QryGenerador.Destroy;
   QryAcumulados.Destroy;
@@ -6659,7 +5815,7 @@ begin
     QryGenerador.SQL.Add('Select a.sNumeroActividad, a.sMedida, a.dCantidadAnexo, a.mDescripcion, e2.sIdUsuarioValida, e2.sIdUsuarioAutoriza, ' +
       'e2.sContrato, e2.sNumeroOrden, e2.sNumeroGenerador, e2.iConsecutivo, e2.sFaseObra, e2.dFechaInicio, e2.dFechaFinal, e2.mComentarios, e2.iSemana, e2.sIdUsuarioValida, e2.sIdUsuarioAutoriza, ' +
       'e1.sIsometricoReferencia, e1.sIsometrico, e1.sPrefijo, sum(e1.dCantidad) as dGenerado, a.sAnexo, ' +
-      'e3.iNumeroEstimacion, e3.sMoneda, e3.dFechaInicio as dFechaInicioEst, e3.dFechaFinal as dFechaFinalEst, e2.sNumeroAnexo, e3.sNumeroEstimacion  ' +
+      'e3.iNumeroEstimacion, e3.sMoneda, e3.dFechaInicio as dFechaInicioEst, e3.dFechaFinal as dFechaFinalEst, e2.sNumeroAnexo  ' +
       'from estimacionxpartida e1 inner join estimaciones e2 on ' +
       '(e1.sContrato = e2.sContrato And e1.sNumeroOrden = e2.sNumeroOrden And e1.sNumeroGenerador = e2.sNumeroGenerador) ' +
       'inner join estimacionperiodo e3 on (e2.sContrato =  e3.sContrato And e2.iNumeroEstimacion = e3.iNumeroEstimacion) ' +
@@ -6671,7 +5827,7 @@ begin
     QryGenerador.SQL.Add('Select a.sNumeroActividad, a.sMedida, a.dCantidadAnexo, a.mDescripcion, e2.sIdUsuarioValida, e2.sIdUsuarioAutoriza, ' +
       'e2.sContrato, e2.sNumeroOrden, e2.sNumeroGenerador, e2.iConsecutivo, e2.sFaseObra, e2.dFechaInicio, e2.dFechaFinal, e2.mComentarios, e2.iSemana, e2.sIdUsuarioValida, e2.sIdUsuarioAutoriza, ' +
       'e1.sIsometricoReferencia, e1.sIsometrico, e1.sPrefijo, sum(e1.dCantidad) as dGenerado, a.sAnexo, ' +
-      'e3.iNumeroEstimacion, e3.sMoneda, e3.dFechaInicio as dFechaInicioEst, e3.dFechaFinal as dFechaFinalEst, e2.sNumeroAnexo, e3.sNumeroEstimacion ' +
+      'e3.iNumeroEstimacion, e3.sMoneda, e3.dFechaInicio as dFechaInicioEst, e3.dFechaFinal as dFechaFinalEst, e2.sNumeroAnexo ' +
       'from estimacionxpartida e1 inner join estimaciones e2 on ' +
       '(e1.sContrato = e2.sContrato And e1.sNumeroOrden = e2.sNumeroOrden And e1.sNumeroGenerador = e2.sNumeroGenerador) ' +
       'inner join estimacionperiodo e3 on (e2.sContrato =  e3.sContrato And e2.iNumeroEstimacion = e3.iNumeroEstimacion) ' +
@@ -6693,22 +5849,16 @@ begin
   begin
     rDiarioFirmas(sParamContrato, sParamOrden, 'A', QryGenerador.FieldValues['dFechaFinal'], tOrigen);
     if sParamReporte = 'Cliente' then
-        if not FileExists(global_files + global_miReporte + '_NumerosGeneradores.fr3') then
-           showmessage('El archivo de reporte '+global_Mireporte+'_NumerosGeneradores.fr3 no existe, notifique al administrador del sistema')
-        else
-           rCaratula.LoadFromFile(global_files + global_miReporte + '_NumerosGeneradores.fr3')
+      rCaratula.LoadFromFile(global_files + 'NumerosGeneradores.fr3')
     else
-        if not FileExists(global_files + global_miReporte + '_NumerosGeneradoresContratista.fr3') then
-            showmessage('El archivo de reporte '+global_Mireporte+'_NumerosGeneradoresContratista.fr3 no existe, notifique al administrador del sistema')
-        else
-            rCaratula.LoadFromFile(global_files + global_miReporte + '_NumerosGeneradoresContratista.fr3');
+      rCaratula.LoadFromFile(global_files + 'NumerosGeneradoresContratista.fr3');
 
     if QryConfiguracion.FieldValues['lLicencia'] = 'No' then
       rCaratula.PreviewOptions.Buttons := [pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator]
     else
       rCaratula.PreviewOptions.Buttons := [pbPrint, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator, pbExportQuick];
    // rCaratula.ShowReport(FormatosExp, PermisosExp);
-      rCaratula.ShowReport() ;
+      rCaratula.ShowReport() ; 
   end
   else
     messageDLG('El Generador No Contiene Partidas!', mtInformation, [mbOK], 0);
@@ -6945,7 +6095,7 @@ begin
     'e2.sContrato, e2.sNumeroOrden, e2.sNumeroGenerador, e2.iConsecutivo, e2.sFaseObra, e2.dFechaInicio, e2.dFechaFinal, ' +
     'e2.mComentarios, e2.iSemana, e2.sIdUsuarioValida, e2.sIdUsuarioAutoriza, a.sAnexo, ' +
     'e1.sIsometricoReferencia, e1.sIsometrico, e1.sPrefijo, sum(e1.dCantidad) as dGenerado, ' +
-    'e3.iNumeroEstimacion, e3.sMoneda, e3.dFechaInicio as dFechaInicioEst, e3.dFechaFinal as dFechaFinalEst, e2.sNumeroAnexo, e3.sNumeroEstimacion ' +
+    'e3.iNumeroEstimacion, e3.sMoneda, e3.dFechaInicio as dFechaInicioEst, e3.dFechaFinal as dFechaFinalEst, e2.sNumeroAnexo ' +
     'from estimacionxpartida e1 inner join estimaciones e2 on ' +
     '(e1.sContrato = e2.sContrato And e1.sNumeroOrden = e2.sNumeroOrden And e1.sNumeroGenerador = e2.sNumeroGenerador) ' +
     'inner join estimacionperiodo e3 on (e2.sContrato =  e3.sContrato And e2.iNumeroEstimacion = e3.iNumeroEstimacion) ' +
@@ -6969,22 +6119,13 @@ begin
   begin
     rDiarioFirmas(sParamContrato, sParamOrden, 'A', QryGenerador.FieldValues['dFechaFinal'], tOrigen);
     if sParamReporte = 'Sin Importes' then
-        if not FileExists(global_files + global_miReporte + '_SemanalSinImportes.fr3') then
-           showmessage('El archivo de reporte '+global_Mireporte+'_SemanalSinImportes.fr3 no existe, notifique al administrador del sistema')
-        else
-          rCaratula.LoadFromFile(global_files + global_miReporte + '_SemanalSinImportes.fr3');
+      rCaratula.LoadFromFile(global_files + 'SemanalSinImportes.fr3');
 
     if (sParamReporte = 'Con Importes') and (global_Caratula = 'MN') then
-       if not FileExists(global_files + global_miReporte + 'SemanalConImportes.fr3') then
-           showmessage('El archivo de reporte '+global_Mireporte + 'SemanalConImportes.fr3 no existe, notifique al administrador del sistema')
-        else
-          rCaratula.LoadFromFile(global_files + global_miReporte + 'SemanalConImportes.fr3');
+      rCaratula.LoadFromFile(global_files + 'SemanalConImportes.fr3');
 
     if (sParamReporte = 'Con Importes') and (global_Caratula = 'DLL') then
-       if not FileExists(global_files + global_miReporte + 'SemanalConImportesDLL.fr3') then
-           showmessage('El archivo de reporte '+global_Mireporte + 'SemanalConImportesDLL.fr3 no existe, notifique al administrador del sistema')
-        else
-           rCaratula.LoadFromFile(global_files + global_Mireporte + 'SemanalConImportesDLL.fr3');
+      rCaratula.LoadFromFile(global_files + 'SemanalConImportesDLL.fr3');
 
     if QryConfiguracion.FieldValues['lLicencia'] = 'No' then
       rCaratula.PreviewOptions.Buttons := [pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator]
@@ -8138,7 +7279,7 @@ begin
 
   rFinanciero.LoadFromFile(global_files + 'AnalisisFinanciero.fr3');
   rFinanciero.PreviewOptions.Buttons := [pbPrint, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator, pbExportQuick];
-  rFinanciero.ShowReport;
+  rFinanciero.ShowReport(True);
 
   QryPartidas.Destroy;
   QryPersonal.Destroy;
@@ -8914,7 +8055,7 @@ begin
   if sParamDestino = 'Printer' then
     rDiario.Print
   else
-    rDiario.ShowReport;
+    rDiario.ShowReport(True);
 
   QryBuscar.Destroy;
   QryBuscarAux.Destroy;
@@ -9902,7 +9043,7 @@ begin
   dsFichaTecnica.UserName := 'dsFichaTecnica';
   QryFichaTecnica.Active := False;
   QryFichaTecnica.SQL.Clear;
-  QryFichaTecnica.SQL.Add('Select f.*, a.mDescripcion, a.dCantidadAnexo, a.sMedida, a.sEspecificacion From recursosanexosnuevos f ' +
+  QryFichaTecnica.SQL.Add('Select f.*, a.mDescripcion, a.dCantidadAnexo, a.sMedida, a.sEspecificacion From fichatecnica f ' +
     'INNER JOIN actividadesxanexo a ON (a.sContrato = f.sContrato And a.sIdConvenio = :Convenio And a.sNumeroActividad = f.sNumeroActividad And a.sTipoActividad = "Actividad") ' +
     'Where f.sContrato = :Contrato And f.sNumeroActividad = :Actividad');
   QryFichaTecnica.Params.ParamByName('Contrato').DataType := ftString;
@@ -9913,9 +9054,10 @@ begin
   QryFichaTecnica.Params.ParamByName('Actividad').Value := sParamActividad;
   QryFichaTecnica.Open;
 
-  rFichaTecnica.LoadFromFile(global_files +global_MiReporte+ '_rFichaTecnica.fr3');
+  rFichaTecnica.LoadFromFile(global_files + 'rFichaTecnica.fr3');
   rFichaTecnica.PreviewOptions.Buttons := [pbPrint, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator, pbExportQuick];
-  rFichaTecnica.ShowReport;
+  //<ROJAS>
+  rFichaTecnica.ShowReport(True); //
   rFichaTecnica.Destroy;
   QryFichaTecnica.Destroy;
   dsFichaTecnica.Destroy;
@@ -10535,156 +9677,6 @@ begin
   lfnVerificarHorasEmbarcacion := lModificar;
 end;
 
-
-
-//Calcula el prorrateo de embarcaciones
-
-procedure prorrateoOrdenes(sParamContrato, sParamFecha: string; sParamDiario: Integer);
-var
-  dTotal: Double;
-  dProrrateoOrden: Double;
-  dDiferencia: Double;
-  iDecimales: Integer;
-  qrySumaProrrateosOrden: TZReadOnlyQuery;
-begin
-  qrySumaProrrateosOrden := TZReadOnlyQuery.Create(connection);
-
-  iDecimales := Connection.configuracion.FieldValues['iRedondeoEmbarcacion'];
-      //#######Obtener el total de personal en todas las ordenes y contratos dentro de el movimiento de barco seleccionado
-  connection.QryBusca.Active := False;
-  connection.QryBusca.SQL.Clear;
-  connection.QryBusca.SQL.Add(
-    'select sum(dPersonalOrden) as dTotal from prorrateos ' +
-    'where  dIdFecha=:Fecha and idDiario=:Diario group by idDiario'
-    );
-  connection.QryBusca.Params.ParamByName('Diario').DataType := ftInteger;
-  connection.QryBusca.Params.ParamByName('Diario').Value := sParamDiario;
-  connection.QryBusca.Params.ParamByName('Fecha').DataType := ftDate;
-  connection.QryBusca.Params.ParamByName('Fecha').Value := sParamFecha;
-  connection.QryBusca.Open;
-  if connection.QryBusca.RecordCount > 0 then
-    dTotal := connection.QryBusca.FieldValues['dTotal']
-  else
-    dTotal := 0;
-
-      //#######Seleccionar movimiento de embarcacion seleccionado
-
-  connection.QryBusca.Active := False;
-  connection.QryBusca.SQL.Clear;
-
-  connection.QryBusca.SQL.Add(
-    'select * from movimientosdeembarcacion where sTipoEmbarcacion="S/E"  and ' +
-    'sContrato=:Contrato and idDiario=:Diario and dIdFecha=:Fecha');
-
-  connection.QryBusca.Params.ParamByName('Diario').DataType := ftInteger;
-  connection.QryBusca.Params.ParamByName('Diario').Value := sParamDiario;
-
-  connection.QryBusca.Params.ParamByName('Contrato').DataType := ftString;
-  connection.QryBusca.Params.ParamByName('Contrato').Value := sParamContrato;
-
-  connection.QryBusca.Params.ParamByName('Fecha').DataType := ftDate;
-  connection.QryBusca.Params.ParamByName('Fecha').Value := sParamFecha;
-  connection.QryBusca.Open;
-
-  while not connection.QryBusca.Eof do
-  begin
-        //#######Seleccionar todas y cada una de las ordenes registradas en el movimiento de embarcacion seleccionado
-    connection.QryBusca2.Active := False;
-    connection.QryBusca2.SQL.Clear;
-    connection.QryBusca2.SQL.Add(
-      'select sContrato,sNumeroOrden,dIdFecha,idDiario,dPersonalOrden,dProrrateoBarco ' +
-      'from prorrateos where idDiario=:Diario and dIdFecha=:Fecha');
-    connection.QryBusca2.Params.ParamByName('Diario').DataType := ftInteger;
-    connection.QryBusca2.Params.ParamByName('Diario').Value := sParamDiario;
-    connection.QryBusca2.Params.ParamByName('Fecha').DataType := ftDate;
-    connection.QryBusca2.Params.ParamByName('Fecha').Value := sParamFecha;
-    connection.QryBusca2.Open;
-
-        //#######hacer el calculo de prorrateo para todas y cada una de las ordenes registradas en cada uno de los movimientos de embarcacion
-    while not connection.QryBusca2.Eof do
-    begin
-      if dTotal <= 0 then
-        dProrrateoOrden := 0
-      else
-        dProrrateoOrden := (connection.QryBusca2.FieldValues['dPersonalOrden'] / dTotal) * connection.QryBusca2.FieldValues['dProrrateoBarco'];
-
-
-      connection.zCommand.Active := False;
-      connection.zCommand.SQL.Clear;
-      connection.zCommand.SQL.Add('update prorrateos set dTotalPersonal=:dTotal, dProrrateoOrden=:dProrrateoOrden' +
-        ' where sContrato=:Contrato and sNumeroOrden=:Orden and dIdFecha=:Fecha and idDiario=:Diario');
-      connection.zCommand.Params.ParamByName('dTotal').DataType := ftFloat;
-      connection.zCommand.Params.ParamByName('dTotal').Value := dTotal;
-      connection.zCommand.Params.ParamByName('dProrrateoOrden').DataType := ftFloat;
-      connection.zCommand.Params.ParamByName('dProrrateoOrden').Value := dProrrateoOrden;
-      connection.zCommand.Params.ParamByName('Contrato').DataType := ftString;
-      connection.zCommand.Params.ParamByName('Contrato').Value := connection.QryBusca2.FieldValues['sContrato'];
-      connection.zCommand.Params.ParamByName('Orden').DataType := ftString;
-      connection.zCommand.Params.ParamByName('Orden').Value := connection.QryBusca2.FieldValues['sNumeroOrden'];
-      connection.zCommand.Params.ParamByName('Fecha').DataType := ftDate;
-      connection.zCommand.Params.ParamByName('Fecha').Value := connection.QryBusca2.FieldValues['dIdFecha'];
-      connection.zCommand.Params.ParamByName('Diario').DataType := ftInteger;
-      connection.zCommand.Params.ParamByName('Diario').Value := sParamDiario;
-      connection.zCommand.ExecSQL;
-
-          //ajustarla para que el total sea la unidad
-
-      if connection.QryBusca.RecNo = connection.QryBusca.RecordCount then
-      begin
-            //Suma de la orden
-        qrySumaProrrateosOrden.Active := False;
-        qrySumaProrrateosOrden.Connection := connection.zConnection;
-        qrySumaProrrateosOrden.SQL.Clear;
-        qrySumaProrrateosOrden.SQL.Add('select sContrato,sNumeroOrden,dProrrateoBarco,dProrrateoOrden,sum(dProrrateoOrden) as Suma ' +
-          ' from prorrateos where dIdFecha=:Fecha and idDiario=:Diario group by idDiario');
-        qrySumaProrrateosOrden.Params.ParamByName('Diario').DataType := ftInteger;
-        qrySumaProrrateosOrden.Params.ParamByName('Diario').Value := sParamDiario;
-        qrySumaProrrateosOrden.Params.ParamByName('Fecha').DataType := ftDate;
-        qrySumaProrrateosOrden.Params.ParamByName('Fecha').Value := connection.QryBusca2.FieldValues['dIdFecha'];
-        qrySumaProrrateosOrden.Open;
-        if qrySumaProrrateosOrden.RecordCount > 0 then
-        begin
-          if qrySumaProrrateosOrden.FieldValues['Suma'] <> qrySumaProrrateosOrden.FieldValues['dProrrateoBarco'] then
-          begin
-            if qrySumaProrrateosOrden.FieldValues['Suma'] < qrySumaProrrateosOrden.FieldValues['dProrrateoBarco'] then
-            begin
-              dDiferencia := qrySumaProrrateosOrden.FieldValues['dProrrateoBarco'] - qrySumaProrrateosOrden.FieldValues['Suma'];
-              dProrrateoOrden := qrySumaProrrateosOrden.FieldValues['dProrrateoOrden'] + dDiferencia;
-            end
-            else
-            begin
-              dDiferencia := qrySumaProrrateosOrden.FieldValues['Suma'] - qrySumaProrrateosOrden.FieldValues['dProrrateoBarco'];
-              dProrrateoOrden := qrySumaProrrateosOrden.FieldValues['dProrrateoOrden'] - dDiferencia;
-            end;
-
-
-            connection.zCommand.Active := False;
-            connection.zCommand.SQL.Clear;
-            connection.zCommand.SQL.Add('update prorrateos set  dProrrateoOrden=:dProrrateoOrden' +
-              ' where sContrato=:Contrato and sNumeroOrden=:Orden and dIdFecha=:Fecha and idDiario=:Diario');
-            connection.zCommand.Params.ParamByName('dProrrateoOrden').DataType := ftFloat;
-            connection.zCommand.Params.ParamByName('dProrrateoOrden').Value := dProrrateoOrden;
-            connection.zCommand.Params.ParamByName('Contrato').DataType := ftString;
-            connection.zCommand.Params.ParamByName('Contrato').Value := qrySumaProrrateosOrden.FieldValues['sContrato'];
-            connection.zCommand.Params.ParamByName('Orden').DataType := ftString;
-            connection.zCommand.Params.ParamByName('Orden').Value := qrySumaProrrateosOrden.FieldValues['sNumeroOrden'];
-            connection.zCommand.Params.ParamByName('Fecha').DataType := ftDate;
-            connection.zCommand.Params.ParamByName('Fecha').Value := connection.QryBusca2.FieldValues['dIdFecha'];
-            connection.zCommand.Params.ParamByName('Diario').DataType := ftInteger;
-            connection.zCommand.Params.ParamByName('Diario').Value := sParamDiario;
-            connection.zCommand.ExecSQL;
-          end;
-        end;
-      end;
-      connection.QryBusca2.Next;
-    end;
-
-    connection.QryBusca.Next;
-  end;
-
-  qrySumaProrrateosOrden.Destroy;
-end;
-
 procedure roqFilterRecord(DataSet: TDataSet; var Accept: Boolean);
 begin
   //
@@ -10693,2220 +9685,6 @@ end;
 procedure qFilterRecord(DataSet: TDataSet; var Accept: Boolean);
 begin
   //
-end;
-
-procedure procAjustaBarco(dParamFecha: tDate; sParamEmbarcacion: string; sParamDecimales: Integer; tOrigen: TComponent);
-var
-  QryMovimientoBarco,
-    roqBusca: TzReadOnlyQuery;
-  qBusca: TZQuery;
-  iValor: Integer;
-
-  iMultiplo: Integer;
-  iDecimales: Integer;
-  iFila, iColumna,
-    iCountFilas,
-    iColumnaReal: Byte;
-  dAjuste,
-    dResult, dRedond: Extended;
-
-  iFilaMayor: Byte;
-  dValorMayor: Double;
-
-  sContratoOrden,
-    MayorContrato,
-    MayorOrden: string;
-  Localizado: Boolean;
-  Progress: TProgressBar;
-  CuentaP: Real;
-  OldIdDiario: Integer;
-  MarcaMayor,
-    AjusteExcel,
-    mExcel: Extended;
-  DiarioMayor, i: Integer;
-  ListaPrimaria: TStringList;
-  qAjuste: TZReadOnlyQuery;
-begin
-  // Obtener el parámetro de Tipo de Ajuste antes de llamar el procedimiento
-  Try
-    Try
-      // Localizar el reporte diario para analizar su modo de cálculo
-      qAjuste := TZReadOnlyQuery.Create(Nil);
-      qAjuste.Connection := Connection.zConnection;
-      qAjuste.SQL.Text := 'Select TipoAjuste From reportediario where sContrato = :Contrato and dIdFecha = :Fecha';
-      qAjuste.ParamByName('Contrato').AsString := global_contrato;
-      qAjuste.ParamByName('Fecha').AsDate := dParamFecha;
-      qAjuste.Open;
-
-      if qAjuste.RecordCount = 0 then Raise Exception.Create('*');
-      RngTipoAjuste := qAjuste.FieldByName('TipoAjuste').AsInteger;
-    Finally
-      if Assigned(qAjuste) then
-        qAjuste.Close;
-
-      qAjuste.Free;
-    End;
-  Except
-    RngTipoAjuste := 0;
-  End;
-
-  // Inicio código de corrección para minimizar el tiempo de generación del reporte
-  sProrrateaBarco(dParamFecha, sParamEmbarcacion, tOrigen, sParamDecimales); // Reprorratear el barco
-
-  QryMovimientoBarco := TZReadOnlyQuery.Create(tOrigen);
-  QryMovimientoBarco.Connection := connection.zConnection;
-  QryMovimientoBarco.SQL.Text := 'select a.*, b.sContrato as sContrato2, b.sNumeroOrden, b.dPersonalOrden, (b.dPersonalOrden / (select sum(dPersonalOrden) from fasesxorden where dIdFecha = a.dIdFecha and iIdDiario = a.iIdDiario)) * a.sFactor as dFactor ' +
-    'from movimientosdeembarcacion a ' +
-    'inner join tiposdemovimiento c on (c.sIdTipoMovimiento = a.sClasificacion) ' +
-    'left join fasesxorden b on (b.dIdFecha = a.dIdFecha and b.iIdDiario = a.iIdDiario) ' +
-    'where a.sContrato = :Contrato and a.dIdFecha = :Fecha and a.sIdEmbarcacion = :Barco ' +
-    'order by a.sHoraFinal';
-  QryMovimientoBarco.ParambyName('Contrato').AsString := global_contrato;
-  QryMovimientoBarco.ParambyName('Barco').AsString := sParamEmbarcacion;
-  QryMovimientoBarco.ParambyName('Fecha').AsDate := dParamFecha;
-  QryMovimientoBarco.Open;
-
-  qBusca := TZQuery.Create(nil);
-  qBusca.Connection := Connection.zConnection;
-  qBusca.Sql.Text := 'select * from fasesxorden where dIdFecha = :Fecha and iIdDiario = :Diario and sContrato = :Contrato and sNumeroOrden = :Orden';
-  qBusca.ParamByName('Fecha').AsDate := dParamFecha;
-
-  connection.zCommand.Active := False;
-  connection.zCommand.SQL.Clear;
-  connection.zCommand.SQL.Add('select * from fasesxorden where sContrato = :Contrato and sNumeroOrden = :Orden and dIdFecha = :Fecha and iIdDiario = :Diario');
-  connection.zCommand.ParamByName('Fecha').Value := dParamFecha;
-  connection.zCommand.Open;
-
-  Connection.configuracion.Refresh;
-  iDecimales := Connection.configuracion.FieldValues['iRedondeoEmbarcacion'];
-  iMultiplo := iDecimales * -1;
-  dAjuste := 0;
-  OldIdDiario := QryMovimientoBarco.FieldByName('iIdDiario').AsInteger;
-  MarcaMayor := 0;
-  DiarioMayor := 0;
-  AjusteExcel := 5;
-  mExcel := 0.1;
-  for I := 0 to iDecimales do
-  begin
-    AjusteExcel := AjusteExcel / 10;
-    mExcel := mExcel * 10;
-  end;
-
-    // Actualizar la barra de avance
-  if Assigned(Progress) then
-  begin
-    CuentaP := ((1 / ProgPartes) / (qBusca.RecordCount + 1)) * (Progress.Max - Progress.Min);
-    AcumulaProgress := AcumulaProgress + CuentaP;
-    Progress.Position := Trunc(AcumulaProgress);
-  end;
-
-  while not QryMovimientoBarco.Eof do
-  begin
-    if Assigned(Progress) then
-    begin
-      AcumulaProgress := AcumulaProgress + CuentaP;
-      Progress.Position := Trunc(AcumulaProgress);
-    end;
-
-    if (OldIdDiario <> QryMovimientoBarco.FieldByName('iIdDiario').AsInteger) or (QryMovimientoBarco.RecNo = QryMovimientoBarco.RecordCount) then
-    begin
-      if (QryMovimientoBarco.RecNo = QryMovimientoBarco.RecordCount) and (OldIdDiario = QryMovimientoBarco.FieldByName('iIdDiario').AsInteger) then
-      begin
-        MarcaMayor := QryMovimientoBarco.FieldByName('dPersonalOrden').AsFloat;
-        DiarioMayor := QryMovimientoBarco.FieldByName('iIdDiario').AsInteger;
-        MayorContrato := QryMovimientoBarco.FieldByName('sContrato2').AsString;
-        MayorOrden := QryMovimientoBarco.FieldByName('sNumeroOrden').AsString;
-      end;
-
-      if dAjuste <> 0 then
-      begin
-          // Si ya se ha terminado el grupo entonces agregar el ajuste a la cantidad de personal mayor
-        connection.zCommand.Close;
-        connection.zCommand.ParamByName('Diario').AsInteger := DiarioMayor;
-        connection.zCommand.ParamByName('Contrato').AsString := MayorContrato;
-        connection.zCommand.ParamByName('Orden').AsString := MayorOrden;
-        connection.zCommand.ParamByName('Fecha').AsDate := QryMovimientoBarco.FieldByName('dIdFecha').AsDateTime;
-        connection.zCommand.Open;
-
-        if connection.zCommand.RecordCount > 0 then
-        begin
-          connection.zCommand.Edit;
-            {21/feb/2010: adal, marcaba error de conversion}
-          dResult := Trunc((StrToFloat(connection.zCommand.FieldByName('sFactor').AsString) + dAjuste + AjusteExcel) * mExcel) / mExcel;
-            //dResult := RoundTo(StrToFloat(connection.zCommand.FieldByName('sFactor').AsString) + dAjuste, iMultiplo);
-          connection.zCommand.FieldByName('sFactor').AsString := FloatToStr(dResult);
-          connection.zCommand.Post;
-        end;
-      end;
-
-      dAjuste := 0;
-      DiarioMayor := 0;
-      MayorContrato := '';
-      MayorOrden := '';
-      MarcaMayor := 0;
-    end;
-
-    //dResult := StrToFloat(QryMovimientoBarco.FieldByName('dFactor').AsString);
-
-    dResult := (QryMovimientoBarco.FieldByName('dFactor').AsFloat);
-    dRedond := Trunc((dResult + AjusteExcel) * mExcel) / mExcel;
-      //dRedond := RoundTo(dResult, iMultiplo);
-    dAjuste := dAjuste + (dResult - dRedond);
-
-    if QryMovimientoBarco.FieldByName('dPersonalOrden').AsFloat > MarcaMayor then
-    begin
-      MarcaMayor := QryMovimientoBarco.FieldByName('dPersonalOrden').AsFloat;
-      DiarioMayor := QryMovimientoBarco.FieldByName('iIdDiario').AsInteger;
-      MayorContrato := QryMovimientoBarco.FieldByName('sContrato2').AsString;
-      MayorOrden := QryMovimientoBarco.FieldByName('sNumeroOrden').AsString;
-    end;
-
-    qBusca.Close;
-    qBusca.ParamByName('Contrato').AsString := QryMovimientoBarco.FieldByName('sContrato2').AsString;
-    qBusca.ParamByName('Orden').AsString := QryMovimientoBarco.FieldByName('sNumeroOrden').AsString;
-    qBusca.ParamByName('Diario').AsInteger := QryMovimientoBarco.FieldByName('iIdDiario').AsInteger;
-    qBusca.Open;
-    if qBusca.RecordCount > 0 then
-    begin
-      if qBusca.FieldByName('sFactor').AsString <> FloatToStr(dRedond) then
-      begin
-        qBusca.Edit;
-        qBusca.FieldByName('sFactor').AsString := FloatToStr(dRedond);
-        qBusca.Post;
-      end;
-    end;
-
-    OldIdDiario := QryMovimientoBarco.FieldByName('iIdDiario').AsInteger;
-    QryMovimientoBarco.Next;
-  end;
-
-  {Segundo Ajuste de Prorateo de Barco..}
-  QryMovimientoBarco := TZReadOnlyQuery.Create(tOrigen);
-  QryMovimientoBarco.Connection := connection.zConnection;
-  QryMovimientoBarco.SQL.Text := 'select a.sContrato, a.sClasificacion, a.dIdFecha, a.sHoraInicio, a.sHoraFinal, sum(sFactor) as Factor ' +
-    'from movimientosdeembarcacion a ' +
-    'inner join tiposdemovimiento c on (c.sIdTipoMovimiento = a.sClasificacion) ' +
-    'where a.sContrato =:Contrato and a.dIdFecha =:Fecha and a.sIdEmbarcacion =:Barco ' +
-    'group by a.sClasificacion order by a.sHoraInicio';
-  QryMovimientoBarco.ParambyName('Contrato').AsString := global_contrato;
-  QryMovimientoBarco.ParambyName('Barco').AsString := sParamEmbarcacion;
-  QryMovimientoBarco.ParambyName('Fecha').AsDate := dParamFecha;
-  QryMovimientoBarco.Open;
-
-  while not QryMovimientoBarco.Eof do
-  begin
-    connection.zCommand.Active := False;
-    connection.zCommand.SQL.Clear;
-    connection.zCommand.SQL.Add('select f.sContrato, SUM(f.sFactor) as Factor, me.sClasificacion from movimientosdeembarcacion me ' +
-      'Inner join fasesxorden f on (f.dIdFecha = me.dIdFecha and f.iIdDiario = me.iIdDiario) ' +
-      'Where me.sContrato=:Contrato and me.dIdFecha=:Fecha and me.sIdEmbarcacion =:barco and f.sClasificacion =:Clasificacion ' +
-      'group by me.sClasificacion order by me.sHoraInicio');
-    connection.zCommand.ParamByName('Contrato').AsString := global_contrato;
-    connection.zCommand.ParamByName('Fecha').AsDate := dParamFecha;
-    connection.zCommand.ParamByName('Barco').AsString := sParamEmbarcacion;
-    connection.zCommand.ParamByName('Clasificacion').AsString := QryMovimientoBarco.FieldValues['sClasificacion'];
-    connection.zCommand.Open;
-
-    if connection.zCommand.RecordCount > 0 then
-    begin
-      if connection.zCommand.FieldValues['Factor'] <> QryMovimientoBarco.FieldValues['Factor'] then
-      begin
-        connection.QryBusca.Active := False;
-        connection.QryBusca.SQL.Clear;
-        connection.QryBusca.SQL.Add('select f.sContrato, f.sNumeroOrden, f.dIdFecha, f.iIdDiario, f.sFactor as Factor from movimientosdeembarcacion me ' +
-          'Inner join fasesxorden f on (f.dIdFecha=me.dIdFecha and f.iIdDiario=me.iIdDiario) ' +
-          'Where me.sContrato=:Contrato and me.dIdFecha=:Fecha and me.sIdEmbarcacion =:Barco and f.sClasificacion =:Clasificacion ' +
-          'order by Factor desc ');
-        connection.QryBusca.ParamByName('Contrato').AsString := global_contrato;
-        connection.QryBusca.ParamByName('Fecha').AsDate := dParamFecha;
-        connection.QryBusca.ParamByName('Barco').AsString := sParamEmbarcacion;
-        connection.QryBusca.ParamByName('Clasificacion').AsString := QryMovimientoBarco.FieldValues['sClasificacion'];
-        connection.QryBusca.Open;
-
-        if connection.QryBusca.RecordCount > 0 then
-        begin
-          if connection.zCommand.FieldValues['Factor'] < QryMovimientoBarco.FieldValues['Factor'] then
-            dRedond := connection.QryBusca.FieldValues['Factor'] + (StrToFloat(QryMovimientoBarco.FieldValues['Factor']) - StrToFloat(connection.zCommand.FieldValues['Factor']));
-
-          if connection.zCommand.FieldValues['Factor'] > QryMovimientoBarco.FieldValues['Factor'] then
-            dRedond := connection.QryBusca.FieldValues['Factor'] - (StrToFloat(connection.zCommand.FieldValues['Factor']) - StrToFloat(QryMovimientoBarco.FieldValues['Factor']));
-
-          connection.QryBusca2.Active := False;
-          connection.QryBusca2.SQL.Clear;
-          connection.QryBusca2.SQL.Add('Update fasesxorden set sFactor =:Factor where sContrato =:Contrato and sNumeroOrden =:Orden and dIdFecha =:Fecha and iIdDiario =:Diario');
-          connection.QryBusca2.ParamByName('Contrato').AsString := connection.QryBusca.FieldValues['sContrato'];
-          connection.QryBusca2.ParamByName('Orden').AsString := connection.QryBusca.FieldValues['sNumeroOrden'];
-          connection.QryBusca2.ParamByName('Fecha').AsDate := connection.QryBusca.FieldValues['dIdFecha'];
-          connection.QryBusca2.ParamByName('Diario').AsInteger := connection.QryBusca.FieldValues['iIdDiario'];
-          connection.QryBusca2.ParamByName('Factor').AsString := FloatToStr(dRedond);
-          connection.QryBusca2.ExecSQL;
-        end;
-      end;
-    end;
-
-    QryMovimientoBarco.Next;
-  end;
-
-(*
-    // Primero el barco ...
-    QryMovimientoBarco := TZReadOnlyQuery.Create(tOrigen);
-    QryMovimientoBarco.Connection := connection.zConnection;
-    QryMovimientoBarco.SQL.Clear ;
-    QryMovimientoBarco.SQL.Add('select movimientosdeembarcacion.* from movimientosdeembarcacion ' +
-                             'inner join tiposdemovimiento on (movimientosdeembarcacion.sClasificacion = tiposdemovimiento.sIdTipoMovimiento) ' +
-                             'where movimientosdeembarcacion.dIdFecha = :Fecha and movimientosdeembarcacion.sIdEmbarcacion = :barco ' +
-                             'order by sIdEmbarcacion, sHoraInicio' ) ;
-    QryMovimientoBarco.Params.ParamByName('Fecha').DataType := ftDate ;
-    QryMovimientoBarco.Params.ParamByName('Fecha').Value := dParamFecha ;
-    QryMovimientoBarco.Params.ParamByName('barco').DataType := ftString ;
-    QryMovimientoBarco.Params.ParamByName('barco').Value := sParamEmbarcacion ;
-    QryMovimientoBarco.Open ;
-    {while NOT QryMovimientoBarco.Eof do
-    begin
-      sProrrateaBarco(dParamFecha, sParamEmbarcacion, tOrigen, sParamDecimales);
-      iValor := sFnAjustaBarco (dParamFecha, sParamEmbarcacion, '1', tOrigen , sParamDecimales ) ;
-      QryMovimientoBarco.Next
-    end;}
-
-    roqBusca := TZReadOnlyQuery.Create(Nil);
-    roqBusca.Connection := Connection.zConnection;
-    roqBusca.Active := False;
-    roqBusca.SQL.Text := 'select o.sContrato, o.sNumeroOrden, a.dIdFecha, a.iIdDiario, a.sClasificacion, a.mDescripcion as sDescripcion, a.sFactor as sFactorMovto, c.sCodigo, c.sTipoObra, sum(bpx.dCantidad) as dCantidad ' +
-                         'from movimientosdeembarcacion a ' +
-                         'inner join tiposdemovimiento b on (b.sIdTipoMovimiento = a.sClasificacion) ' +
-                         'inner join ordenesdetrabajo o on (o.cIdStatus="P") ' +
-                         'inner join contratos c On (c.sContrato=o.sContrato and c.sTipoObra <> "BARCO") ' +
-                         'inner join bitacoradepersonal bpx on (bpx.sContrato = o.sContrato and bpx.dIdFecha = :Fecha and bpx.sIdPernocta= :Barco) ' +
-                         'inner join bitacoradeactividades bax on (bax.sContrato = bpx.sContrato and bax.dIdFecha = bpx.dIdFecha and bax.iIdDiario = bpx.iIdDiario and bax.sNumeroOrden = o.sNumeroOrden) ' +
-                         'inner join personal px on (px.sContrato = bpx.sContrato and px.sIdPersonal = bpx.sIdPersonal and px.lProrrateo = "Si") ' +
-                         'where a.dIdFecha = :Fecha and a.sIdEmbarcacion = :Barco Group By o.sContrato, o.sNumeroOrden, a.iIdDiario ' +
-                         'order by sIdEmbarcacion, a.sHoraInicio';
-    roqBusca.ParamByName('Fecha').AsDate := dParamFecha;
-    roqBusca.ParamByName('Barco').AsString := sParamEmbarcacion;
-    roqBusca.Open;
-    roqBusca.Filtered := False;
-    roqBusca.Filter := 'dCantidad > 0';
-    roqBusca.Filtered := True;
-
-    qBusca := TZQuery.Create(Nil);
-    qBusca.Connection := Connection.zConnection;
-    qBusca.Active := False;
-    qBusca.SQL.Text := 'select * from fasesxorden where dIdFecha = :Fecha';
-    qBusca.ParamByName('Fecha').AsDate := dParamFecha;
-    qBusca.Open;
-
-    // Verificar si se cuenta con un objeto de progreso
-    for iValor := 0 to tOrigen.ComponentCount - 1 do
-      if (CompareText(tOrigen.Components[iValor].ClassName, 'tpanel') = 0) and (tOrigen.Components[iValor].Name = 'PanelProgress') then
-        if (TWinControl(tOrigen.Components[iValor]).ControlCount = 5) and (CompareText(TWinControl(TWinControl(tOrigen.Components[iValor]).Controls[4]).Name, 'progressbar1') = 0) then
-          Progress := TProgressBar(TWinControl(tOrigen.Components[iValor]).Controls[4]);
-
-    if Assigned(Progress) then
-    begin
-      CuentaP := ((1 / ProgPartes) / (qBusca.RecordCount + 1)) * (Progress.Max - Progress.Min);
-      AcumulaProgress := AcumulaProgress + CuentaP;
-      Progress.Position := Trunc(AcumulaProgress);
-    end;
-
-    // Recorrer primero en busqueda de eliminaciones necesarias
-    while not qBusca.Eof do
-    begin
-      if Assigned(Progress) then
-      begin
-        AcumulaProgress := AcumulaProgress + CuentaP;
-        Progress.Position := Trunc(AcumulaProgress);
-      end;
-
-      roqBusca.First;
-      Localizado := False;
-      REPEAT
-        Localizado := (qBusca.FieldByName('sContrato').AsString = roqBusca.FieldByName('sContrato').AsString) and (qBusca.FieldByName('sNumeroOrden').AsString = roqBusca.FieldByName('sNumeroOrden').AsString) and
-                      (qBusca.FieldByName('dIdFecha').AsString = roqBusca.FieldByName('dIdFecha').AsString) and (qBusca.FieldByName('iIdDiario').AsString = roqBusca.FieldByName('iIdDiario').AsString) and
-                      (qBusca.FieldByName('sClasificacion').AsString = roqBusca.FieldByName('sClasificacion').AsString);
-        if Not Localizado then
-          roqBusca.Next;
-      UNTIL Localizado or roqBusca.Eof;
-
-      if Not Localizado then
-        qBusca.Delete
-      else
-        qBusca.Next;
-    end;
-
-    if Assigned(Progress) then
-    begin
-      CuentaP := ((1 / ProgPartes) / (roqBusca.RecordCount + 1)) * (Progress.Max - Progress.Min);
-      AcumulaProgress := AcumulaProgress + CuentaP;
-      Progress.Position := Trunc(AcumulaProgress);
-    end;
-
-    // Eliminados los registros necesarios verificar si se debe agregar alguno
-    roqBusca.First;
-    while Not roqBusca.Eof do
-    begin
-      if Assigned(Progress) then
-      begin
-        AcumulaProgress := AcumulaProgress + CuentaP;
-        Progress.Position := Trunc(AcumulaProgress);
-      end;
-
-      qBusca.First;
-      Localizado := False;
-      REPEAT
-        Localizado := (qBusca.FieldByName('sContrato').AsString = roqBusca.FieldByName('sContrato').AsString) and (qBusca.FieldByName('sNumeroOrden').AsString = roqBusca.FieldByName('sNumeroOrden').AsString) and
-                      (qBusca.FieldByName('dIdFecha').AsString = roqBusca.FieldByName('dIdFecha').AsString) and (qBusca.FieldByName('iIdDiario').AsString = roqBusca.FieldByName('iIdDiario').AsString) and
-                      (qBusca.FieldByName('sClasificacion').AsString = roqBusca.FieldByName('sClasificacion').AsString);
-        if Not Localizado then
-          qBusca.Next;
-      UNTIL Localizado or qBusca.Eof;
-
-      if Not Localizado then
-      begin
-{        qBusca.Append;
-        qBusca.FieldByName('sContrato').AsString      := roqBusca.FieldByName('sContrato').AsString;
-        qBusca.FieldByName('sNumeroOrden').AsString   := roqBusca.FieldByName('sNumeroOrden').AsString;
-        qBusca.FieldByName('dIdFecha').AsString       := roqBusca.FieldByName('dIdFecha').AsString;
-        qBusca.FieldByName('iIdDiario').AsString      := roqBusca.FieldByName('iIdDiario').AsString;
-        qBusca.FieldByName('sClasificacion').AsString := roqBusca.FieldByName('sClasificacion').AsString;
-        qBusca.FieldByName('sDescripcion').AsString   := roqBusca.FieldByName('sDescripcion').AsString;
-        qBusca.FieldByName('dTotalPersonal').AsFloat  := 0;
-        qBusca.FieldByName('dPersonalOrden').AsString := roqBusca.FieldByName('dCantidad').AsString;
-        qBusca.FieldByName('sFactorMovto').AsString   := roqBusca.FieldByName('sFactorMovto').AsString;
-        qBusca.FieldByName('sFactor').AsString        := '0';   //roqBusca.FieldByName('sFactor').AsString;
-        qBusca.Post;}
-      end
-      else
-      begin
-        // Verificar si se deben actualizar los datos
-        if (qBusca.FieldByName('iIdDiario').AsString = roqBusca.FieldByName('iIdDiario').AsString) or
-           (qBusca.FieldByName('sDescripcion').AsString = roqBusca.FieldByName('sDescripcion').AsString) or
-           //(qBusca.FieldByName('dTotalPersonal').AsString = roqBusca.FieldByName('dTotalPersonal').AsString) or
-           (qBusca.FieldByName('dPersonalOrden').AsString = roqBusca.FieldByName('dCantidad').AsString) or
-           (qBusca.FieldByName('sFactorMovto').AsString = roqBusca.FieldByName('sFactorMovto').AsString) or
-           (qBusca.FieldByName('sFactor').AsString = roqBusca.FieldByName('sFactor').AsString) then
-        begin
-          // Actualizar los datos que pudieron haber cambiado
-          qBusca.Edit;
-          qBusca.FieldByName('iIdDiario').AsString := roqBusca.FieldByName('iIdDiario').AsString;
-          qBusca.FieldByName('sDescripcion').AsString := roqBusca.FieldByName('sDescripcion').AsString;
-          qBusca.FieldByName('dTotalPersonal').AsString := '0';
-          qBusca.FieldByName('dPersonalOrden').AsString := roqBusca.FieldByName('dCantidad').AsString;
-          qBusca.FieldByName('sFactorMovto').AsString := roqBusca.FieldByName('sFactorMovto').AsString;
-          qBusca.FieldByName('sFactor').AsString := '0';
-          qBusca.Post;
-        end;
-      end;
-
-      roqBusca.Next;
-    end;
-    // Proceso nuevo para el prorrateo del barco.
-    // Inicializo la sabana de valores en 0
-    InicializaSabana ;
-
-    // Almaceno en la tabla los valores con todo los decimales.
-    // Primero ... se Prorratean los movimientos de embarcacion normalmente
-    // Personal de la orden / Personal Total  Si existe una diferencia entre la suma de los registros por movimiento de embarcacion
-    // se ajusta el de mayor personal.
-    // Una Vez Teniendo los valores se almacena en la matriz.
-
-    Connection.configuracion.Refresh ;
-    iDecimales := Connection.configuracion.FieldValues[ 'iRedondeoEmbarcacion' ];
-
-    iMultiplo := iDecimales * -1 ;
-
-    connection.QryBusca.Active := False;
-    connection.QryBusca.SQL.Clear;
-    connection.QryBusca.SQL.Add('SELECT SUM(bp.dCantidad) as dTotalPersonal FROM bitacoradepersonal bp ' +
-                                'inner join bitacoradeactividades ba on (ba.sContrato = bp.sContrato and ba.dIdFecha = bp.dIdFecha and ba.iIdDiario = bp.iIdDiario) ' +
-                                'inner join personal p on (p.sContrato = bp.sContrato and p.sIdPersonal = bp.sIdPersonal and p.lProrrateo = "Si") ' +
-                                'WHERE bp.dIdFecha = :Fecha and bp.sIdPernocta= :barco GROUP BY bp.dIdFecha, bp.sIdPernocta' );
-    connection.QryBusca.ParamByName( 'barco' ).DataType := ftString;
-    connection.QryBusca.ParamByName( 'barco' ).Value := sParamEmbarcacion ;
-    connection.QryBusca.ParamByName( 'Fecha' ).DataType := ftDate;
-    connection.QryBusca.ParamByName( 'Fecha' ).Value := dParamFecha ;
-    connection.QryBusca.Open;
-
-    // Aquí se tiene en connection.QryBusca. el total de personal en el dia, se debe verificar si el total de personal
-    // es mayor a la cantidad seleccionada para el horario que se va a procesar, en cuyo caso se debera utilizar la
-    // cantidad seleccionada para factorar el tiempo
-
-    connection.QryBusca2.Active := False ;
-    connection.QryBusca2.SQL.Clear ;
-    connection.QryBusca2.SQL.Add('select distinct sContrato, sNumeroOrden, dPersonalOrden from fasesxorden ' +
-                                 'where dIdFecha = :Fecha order by sContrato, sNumeroOrden');
-    connection.QryBusca2.Params.ParamByName('fecha').DataType := ftDate ;
-    connection.QryBusca2.Params.ParamByName('fecha').Value := dParamFecha ;
-    connection.QryBusca2.Open ;
-    dResult := 0 ;
-    dValorMayor := 0 ;
-    iFilaMayor := 0 ;
-    iCountFilas := 0 ;
-
-    if Assigned(Progress) then
-    begin
-      CuentaP := ((1 / ProgPartes) / (connection.QryBusca2.RecordCount + 1)) * (Progress.Max - Progress.Min);
-      AcumulaProgress := AcumulaProgress + CuentaP;
-      Progress.Position := Trunc(AcumulaProgress);
-    end;
-
-    while Not connection.QryBusca2.Eof do
-    begin
-        if Assigned(Progress) then
-        begin
-          AcumulaProgress := AcumulaProgress + CuentaP;
-          Progress.Position := Trunc(AcumulaProgress);
-        end;
-
-        cSabanaProrrateos[connection.QryBusca2.RecNo, 0] := Connection.qrybusca2.FieldValues[ 'dPersonalOrden' ] / connection.QryBusca.FieldValues['dTotalPersonal'] ;
-        cSabanaProrrateos[connection.QryBusca2.RecNo, 0] := roundto ( cSabanaProrrateos[connection.QryBusca2.RecNo, 0] , iMultiplo ) ;
-        if cSabanaProrrateos[connection.QryBusca2.RecNo, 0] > dValorMayor then
-        begin
-            iFilaMayor := connection.QryBusca2.RecNo ;
-            dValorMayor := cSabanaProrrateos[connection.QryBusca2.RecNo, 0] ;
-        end;
-        dResult := dResult + cSabanaProrrateos[connection.QryBusca2.RecNo, 0] ;
-        iCountFilas := iCountFilas + 1 ;
-        connection.QryBusca2.Next ;
-    end ;
-    dAjuste := 1 - dResult ;
-    if dAjuste <> 0 then
-        cSabanaProrrateos[iFilaMayor, 0] := cSabanaProrrateos[iFilaMayor, 0] + dAjuste ;
-
-    //Almaceno en la matriz el valor  de la multiplicacion del factor del movimiento por el resultado almacenado en la columna 0
-
-    connection.QryBusca2.Active := False ;
-    connection.QryBusca2.SQL.Clear ;
-    connection.QryBusca2.SQL.Add('select sContrato, sNumeroOrden, sFactorMovto from fasesxorden ' +
-                                 'where dIdFecha = :Fecha order by sContrato, sNumeroOrden, iIdDiario' ) ;
-    connection.QryBusca2.Params.ParamByName('fecha').DataType := ftDate ;
-    connection.QryBusca2.Params.ParamByName('fecha').Value := dParamFecha ;
-    connection.QryBusca2.Open ;
-    sContratoOrden := '' ;
-    iFila := 0 ;
-    iColumnaReal := 0 ;
-    if Assigned(Progress) then
-    begin
-      CuentaP := ((1 / ProgPartes) / (connection.QryBusca2.RecordCount + 1)) * (Progress.Max - Progress.Min);
-      AcumulaProgress := AcumulaProgress + CuentaP;
-      Progress.Position := Trunc(AcumulaProgress);
-    end;
-
-    while Not connection.QryBusca2.Eof do
-    begin
-        if Assigned(Progress) then
-        begin
-          AcumulaProgress := AcumulaProgress + CuentaP;
-          Progress.Position := Trunc(AcumulaProgress);
-        end;
-
-        if sContratoOrden <> Concat(connection.QryBusca2.FieldValues['sContrato'] , connection.QryBusca2.FieldValues['sNumeroOrden'] ) then
-        begin
-             iFila := iFila + 1 ;
-             iColumnaReal := 1 ;
-             sContratoOrden := Concat(connection.QryBusca2.FieldValues['sContrato'] , connection.QryBusca2.FieldValues['sNumeroOrden'] ) ;
-        end ;
-        cSabanaProrrateos[0, iColumnaReal] := StrToFloat(connection.QryBusca2.FieldValues['sFactorMovto']) ;
-        cSabanaProrrateos[iFila, iColumnaReal] := roundto( cSabanaProrrateos[iFila, 0 ] * cSabanaProrrateos[0, iColumnaReal] , -15) ;
-        iColumnaReal := iColumnaReal + 1 ;
-        connection.QryBusca2.Next ;
-    end ;
-
-    // Ultimo paso
-    // Ajusta los movimientos al total del factor por movto   fila 0
-
-    for iColumna := 1 to iColumnaReal do
-    begin
-        dResult := 0 ;
-        for iFila := 1 to iCountFilas do
-        begin
-            cSabanaProrrateos[iFila, iColumna] := roundto( cSabanaProrrateos[iFila, iColumna ] , iMultiplo ) ;
-            dResult := dResult + cSabanaProrrateos[iFila, iColumna] ;
-        end ;
-        dAjuste := cSabanaProrrateos[ 0, iColumna] - dResult ;
-        if dAjuste <> 0 then
-            cSabanaProrrateos[iFilaMayor, iColumna] := cSabanaProrrateos[iFilaMayor, iColumna] + dAjuste ;
-
-    end ;
-
-    sContratoOrden := '' ;
-    iFila := 0 ;
-    iColumnaReal := 0;
-
-    // Seleccionar todos los registros de esta manera para evitarnos el trigger no necesario del update
-    Connection.zCommand.Active := False;
-    Connection.zCommand.SQL.Text := 'select * from fasesxorden where dIdFecha = :Fecha order by sContrato, sNumeroOrden, iIdDiario';
-    Connection.zCommand.Params.ParamByName('Fecha').DataType := ftDate;
-    Connection.zCommand.Params.ParamByName('Fecha').Value := dParamFecha;
-    Connection.zCommand.Open;
-
-    if Assigned(Progress) then
-    begin
-      CuentaP := ((1 / ProgPartes) / (Connection.zCommand.RecordCount + 1)) * (Progress.Max - Progress.Min);
-      AcumulaProgress := AcumulaProgress + CuentaP;
-      Progress.Position := Trunc(AcumulaProgress);
-    end;
-
-    while Not Connection.zCommand.Eof do
-    begin
-      if Assigned(Progress) then
-      begin
-        AcumulaProgress := AcumulaProgress + CuentaP;
-        Progress.Position := Trunc(AcumulaProgress);
-      end;
-
-      if sContratoOrden <> Concat(connection.zCommand.FieldValues['sContrato'] , connection.zCommand.FieldValues['sNumeroOrden'] ) then
-      begin
-        iFila := iFila + 1 ;
-        iColumnaReal := 1 ;
-        sContratoOrden := Concat(connection.zCommand.FieldValues['sContrato'] , connection.zCommand.FieldValues['sNumeroOrden']);
-      end;
-
-      if Connection.zCommand.FieldByName('sFactor').AsFloat <> cSabanaProrrateos[iFila, iColumnaReal] then
-      begin
-        Connection.zCommand.Edit;
-        Connection.zCommand.FieldByName('sFactor').AsFloat := cSabanaProrrateos[iFila, iColumnaReal];
-        Connection.zCommand.Post;
-      end;
-
-      iColumnaReal := iColumnaReal + 1;
-      Connection.zCommand.Next;
-    end;
-
-    QryMovimientoBarco.Destroy ; *)
-end;
-
-
-// este el reporte de barco
-
-procedure procReporteBarco(sParamContrato, sParamOrden, sParamTurno: string; dParamFecha: tDate; tOrigen: TComponent; tProcedure: tfrxGetValueEvent; FormatosExp: string = ''; PermisosExp: string = '');
-var
-    mFactores: TrxMemoryData;
-
-    qryActividadesAnexos,
-    Prorrateos,
-    Prorrateos2,
-    QryArribos,
-    QryArribosVuelo,
-    QryClimaReporte,
-    QryDisposicionesReporte,
-    QryRecursosReporte,
-    QryRecursosEmbarcacion,
-    QryResumenRecursos,
-    QrynotasGenerales,
-    Tripulacion,
-    TripulacionFlotel,
-    TripulacionFlotelAdmon,
-    Totales, embarcacion,
-    lista_personal, 
-    TotalesOperativos,
-    QryReprograma,
-    QryBarcoVigencia: TZReadOnlyQuery;
-
-  dsClimaReporte,
-    dsActividades,
-    detProrrateos,
-    detProrrateos2,
-    ArribosReporte,
-    ArribosReporteVuelo,
-    DisposicionesReporte,
-    dsRecursosReporte,
-    dsRecursosEmbarcacion,
-    dsResumenRecursos,
-    dsNotasGenerales,
-    dsTripulacion,
-    dsTripulacionFlotel,
-    dsTripulacionFlotelAdmon,
-    dsTotales, dsEmbarcacion,
-    dsLista_personal,
-    dsTotalesOperativos: TfrxDBDataSet;
-
-    rDiario: TfrxReport;
-
-    transcurridos,diferencia, iValor: integer;
-    fechaAntes: tDate;
-    lTiempoxCia : boolean;
-    CuentaP     : Real;
-    Progress    : TProgressBar;
-    sTurnoBarco, Cadena : string;
-
-begin
-  rDiario := TfrxReport.Create(tOrigen);
-  AcumulaProgress := 0;
-
-  qryConfiguracion := TZReadOnlyQuery.Create(tOrigen);
-  qryConfiguracion.Connection := connection.zConnection;
-  dsConfiguracion := TfrxDBDataSet.Create(tOrigen);
-  dsConfiguracion.DataSet := QryConfiguracion;
-  dsConfiguracion.UserName := 'dsConfiguracion';
-
-    // Recalcular las fases xorden
-
-  QryConfiguracion.Active := False;
-  QryConfiguracion.SQL.Clear;
-  QryConfiguracion.SQL.Add('select c2.sCodigo, c.iFirmas,c.sOrdenPerEq, c.sTipoPartida, c.sImprimePEP, sReportesCIA, ' +
-    'c.sClaveSeguridad, c.cStatusProceso, c.sOrdenExtraordinaria, c.lLicencia, rd.sIdUsuarioValida, rd.sIdUsuarioResidente, rd.sIdUsuarioAutoriza, ' +
-    'c.bImagen, c.sContrato, c.sNombre, c.sPiePagina, c.sEmail, c.sWeb, c.sSlogan, c.sFirmasElectronicas, ' +
-    'c.lImprimeExtraordinario, c.sIdEmbarcacion, c.iRedondeoEmbarcacion, c.iFirmasBarco, c.sLeyenda1, c.sLeyenda2, c.sLeyenda3,' +
-    'c2.mDescripcion, c2.mCliente, c2.bImagen as bImagenPEP, c3.dFechaInicio, c3.dFechaFinal ' +
-    'From contratos c2 INNER JOIN configuracion c ON (c.sContrato = c2.sContrato) ' +
-    'inner join convenios c3 on (c2.sContrato = c3.sContrato and c.sIdConvenio = c3.sIdConvenio) ' +
-    'inner join reportediario rd on (rd.sContrato = c2.sContrato and rd.sNumeroOrden =:Orden and rd.dIdFecha =:Fecha) ' +
-    'Where c2.sContrato = :Contrato');
-  QryConfiguracion.Params.ParamByName('contrato').DataType := ftString;
-  QryConfiguracion.Params.ParamByName('contrato').Value := sParamContrato;
-  QryConfiguracion.Params.ParamByName('Orden').DataType := ftString;
-  QryConfiguracion.Params.ParamByName('Orden').Value := sParamOrden;
-  QryConfiguracion.Params.ParamByName('Fecha').DataType := ftDate;
-  QryConfiguracion.Params.ParamByName('Fecha').Value := dParamFecha;
-  QryConfiguracion.Open;
-
-  procAjustaBarco(dParamFecha, QryConfiguracion.FieldValues['sIdEmbarcacion'], QryConfiguracion.FieldValues['iRedondeoEmbarcacion'], tOrigen);
-
-  embarcacion := TzReadOnlyQuery.Create(tOrigen);
-  embarcacion.Connection := connection.zConnection;
-  qryActividadesAnexos := TZReadOnlyQuery.Create(tOrigen);
-  qryActividadesAnexos.Connection := connection.zConnection;
-  Prorrateos := TZReadOnlyQuery.Create(tOrigen);
-  Prorrateos.Connection := connection.zConnection;
-  Prorrateos2 := TZReadOnlyQuery.Create(tOrigen);
-  Prorrateos2.Connection := connection.zConnection;
-  QryArribos := TZReadOnlyQuery.Create(tOrigen);
-  QryArribos.Connection := connection.zConnection;
-  QryArribosVuelo := TZReadOnlyQuery.Create(tOrigen);
-  QryArribosVuelo.Connection := connection.zConnection;
-  QryClimaReporte := TZReadOnlyQuery.Create(tOrigen);
-  QryClimaReporte.Connection := connection.zConnection;
-  qryDisposicionesReporte := TZReadOnlyQuery.Create(tOrigen);
-  qryDisposicionesReporte.Connection := connection.zConnection;
-  qryRecursosReporte := TZReadOnlyQuery.Create(tOrigen);
-  qryRecursosReporte.Connection := connection.zConnection;
-  qryRecursosEmbarcacion := TZReadOnlyQuery.Create(tOrigen);
-  qryRecursosEmbarcacion.Connection := connection.zConnection;
-  qryResumenRecursos := TZReadOnlyQuery.Create(tOrigen);
-  qryResumenRecursos.Connection := connection.zConnection;
-  qryNotasGenerales := TZReadOnlyQuery.Create(tOrigen);
-  qryNotasGenerales.Connection := connection.zConnection;
-  Tripulacion := TZReadOnlyQuery.Create(tOrigen);
-  Tripulacion.Connection := connection.zConnection;
-  TripulacionFlotel := TZReadOnlyQuery.Create(tOrigen);
-  TripulacionFlotel.Connection := connection.zConnection;
-  TripulacionFlotelAdmon := TZReadOnlyQuery.Create(tOrigen);
-  TripulacionFlotelAdmon.Connection := connection.zConnection;
-  Totales := TZReadOnlyQuery.Create(tOrigen);
-  Totales.Connection := connection.zConnection;
-  lista_personal := TZReadOnlyQuery.Create(tOrigen);
-  lista_personal.Connection := connection.zConnection;
-  TotalesOperativos := TZReadOnlyQuery.Create(tOrigen);
-  TotalesOperativos.Connection := connection.zConnection;
-  QryReprograma := TZReadOnlyQuery.Create(tOrigen);
-  QryReprograma.Connection := connection.zConnection;
-  QryBarcoVigencia := TZReadOnlyQuery.Create(tOrigen);
-  QryBarcoVigencia.Connection := connection.zConnection;
-  qryOcupacionBarco := TZReadOnlyQuery.Create(tOrigen);
-  qryOcupacionBarco.Connection := connection.zConnection;
-  qryPernoctaBarco := TZReadOnlyQuery.Create(tOrigen);
-  qryPernoctaBarco.Connection := connection.zConnection;
-
-  mFactores := TrxMemoryData.Create(tOrigen);
-  mFactores.Active := False;
-  mFactores.FieldDefs.Add('sContrato', ftString, 25, True);
-  mFactores.FieldDefs.Add('dIdFecha', ftDate, 0, True);
-  mFactores.FieldDefs.Add('dMOV', ftFloat, 0, True);
-  mFactores.FieldDefs.Add('dDES', ftFloat, 0, True);
-  mFactores.FieldDefs.Add('dCDP', ftFloat, 0, True);
-  mFactores.FieldDefs.Add('dSDP', ftFloat, 0, True);
-  mFactores.FieldDefs.Add('dESP', ftFloat, 0, True);
-  mFactores.FieldDefs.Add('dCIA', ftFloat, 0, True);
-  mFactores.FieldDefs.Add('sMov_1', ftString, 5, True);
-  mFactores.FieldDefs.Add('sMov_2', ftString, 5, True);
-  mFactores.FieldDefs.Add('sMov_3', ftString, 5, True);
-  mFactores.FieldDefs.Add('sMov_4', ftString, 5, True);
-  mFactores.FieldDefs.Add('sMov_5', ftString, 5, True);
-  mFactores.FieldDefs.Add('sMov_6', ftString, 5, True);
-  mFactores.Active := True;
-
-  dsPernoctaBarco := TfrxDBDataSet.Create(tOrigen);
-  dsPernoctaBarco.DataSet := qryPernoctaBarco;
-  dsPernoctaBarco.UserName := 'dsPernoctaBarco';
-
-  dsOcupacionBarco := TfrxDBDataSet.Create(tOrigen);
-  dsOcupacionBarco.DataSet := qryOcupacionBarco;
-  dsOcupacionBarco.UserName := 'dsOcupacionBarco';
-
-  dsActividades := TfrxDBDataSet.Create(tOrigen);
-  dsActividades.DataSet := qryActividadesAnexos;
-  dsActividades.UserName := 'Actividades';
-
-  detProrrateos := TfrxDBDataSet.Create(tOrigen);
-  detProrrateos.DataSet := Prorrateos;
-  detProrrateos.UserName := 'detProrrateos';
-
-  detProrrateos2 := TfrxDBDataSet.Create(tOrigen);
-  detProrrateos2.DataSet := mFactores;
-  detProrrateos2.UserName := 'detProrrateos2';
-
-  ArribosReporte := TfrxDBDataSet.Create(tOrigen);
-  ArribosReporte.DataSet := QryArribos;
-  ArribosReporte.UserName := 'ArribosReporte';
-
-  ArribosReporteVuelo := TfrxDBDataSet.Create(tOrigen);
-  ArribosReporteVuelo.DataSet := QryArribosVuelo;
-  ArribosReporteVuelo.UserName := 'ArribosReporteVuelo';
-
-  dsClimaReporte := TfrxDBDataSet.Create(tOrigen);
-  dsClimaReporte.DataSet := QryClimaReporte;
-  dsClimaReporte.UserName := 'dsClimaReporte';
-
-  DisposicionesReporte := TfrxDBDataSet.Create(tOrigen);
-  DisposicionesReporte.DataSet := qryDisposicionesReporte;
-  DisposicionesReporte.UserName := 'DisposicionesReporte';
-
-  dsRecursosReporte := TfrxDBDataSet.Create(tOrigen);
-  dsRecursosReporte.DataSet := qryRecursosReporte;
-  dsRecursosReporte.UserName := 'dsRecursosReporte';
-
-  dsRecursosEmbarcacion := TfrxDBDataSet.Create(tOrigen);
-  dsRecursosEmbarcacion.DataSet := QryRecursosEmbarcacion;
-  dsRecursosEmbarcacion.UserName := 'dsRecursosEmbarcacion';
-
-  dsResumenRecursos := TfrxDBDataSet.Create(tOrigen);
-  dsResumenRecursos.DataSet := QryResumenRecursos;
-  dsResumenRecursos.UserName := 'dsResumenRecursos';
-
-  dsNotasGenerales := TfrxDBDataSet.Create(tOrigen);
-  dsNotasGenerales.DataSet := qryNotasGenerales;
-  dsNotasGenerales.UserName := 'dsNotasGenerales';
-
-  dsTripulacion := TfrxDBDataSet.Create(tOrigen);
-  dsTripulacion.DataSet := Tripulacion;
-  dsTripulacion.UserName := 'dsTripulacion';
-
-  dsTripulacionFlotel := TfrxDBDataSet.Create(tOrigen);
-  dsTripulacionFlotel.DataSet  := TripulacionFlotel;
-  dsTripulacionFlotel.UserName := 'dsTripulacionFlotel';
-
-  dsTripulacionFlotelAdmon := TfrxDBDataSet.Create(tOrigen);
-  dsTripulacionFlotelAdmon.DataSet  := TripulacionFlotelAdmon;
-  dsTripulacionFlotelAdmon.UserName := 'dsTripulacionFlotelAdmon';
-
-  dsTotales := TfrxDBDataSet.Create(tOrigen);
-  dsTotales.DataSet := Totales;
-  dsTotales.UserName := 'dsTotales';
-
-  dsLista_personal := TfrxDBDataSet.Create(tOrigen);
-  dsLista_personal.DataSet := lista_personal;
-  dsLista_personal.UserName := 'dsLista_personal';
-
-  dsTotalesOperativos := TfrxDBDataSet.Create(tOrigen);
-  dsTotalesOperativos.DataSet := TotalesOperativos;
-  dsTotalesOperativos.UserName := 'dsTotalesOperativos';
-
-  dsEmbarcacion := TfrxDBDataSet.Create(tOrigen);
-  dsEmbarcacion.DataSet := embarcacion;
-  dsEmbarcacion.UserName := 'dsEmbarcacion';
-
-  rDiario.DataSets.Add(ArribosReporte);
-  rDiario.DataSets.Add(ArribosReporteVuelo);
-  rDiario.DataSets.Add(dsClimaReporte);
-  rDiario.DataSets.Add(dsActividades);
-  rDiario.DataSets.Add(detProrrateos);
-  rDiario.DataSets.Add(detProrrateos2);
-  rDiario.DataSets.Add(DisposicionesReporte);
-  rDiario.DataSets.Add(dsRecursosReporte);
-  rDiario.DataSets.Add(dsRecursosEmbarcacion);
-  rDiario.DataSets.Add(dsResumenRecursos);
-  rDiario.DataSets.Add(dsNotasGenerales);
-  rDiario.DataSets.Add(dsTripulacion);
-  rDiario.DataSets.Add(dsTripulacionFlotel);
-  rDiario.DataSets.Add(dsTripulacionFlotelAdmon);
-  rDiario.DataSets.Add(dsTotales);
-  rDiario.DataSets.Add(dsLista_personal);
-  rDiario.DataSets.Add(dsTotalesOperativos);
-  rDiario.DataSets.Add(dsConfiguracion);
-  rDiario.DataSets.Add(dsOcupacionBarco);
-  rDiario.DataSets.Add(dsPernoctaBarco);
-
-  global_fecha_barco := dParamFecha;
-
-  QryReprograma.Active := False;
-  QryReprograma.SQL.Clear;
-  QryReprograma.SQL.Add('select * from reprogramacion_barco where sContrato =:Contrato ');
-  QryReprograma.ParamByName('Contrato').AsString := Global_Contrato_Barco;
-  QryReprograma.Open;
-
-    // Verificar si se cuenta con un objeto de progreso
-  for iValor := 0 to tOrigen.ComponentCount - 1 do
-    if (CompareText(tOrigen.Components[iValor].ClassName, 'tpanel') = 0) and (tOrigen.Components[iValor].Name = 'PanelProgress') then
-      if (TWinControl(tOrigen.Components[iValor]).ControlCount = 5) and (CompareText(TWinControl(TWinControl(tOrigen.Components[iValor]).Controls[4]).Name, 'progressbar1') = 0) then
-        Progress := TProgressBar(TWinControl(tOrigen.Components[iValor]).Controls[4]);
-
-  if Assigned(Progress) then
-  begin
-    CuentaP := ((1 / ProgPartes) / (QryReprograma.RecordCount + 1)) * (Progress.Max - Progress.Min);
-    AcumulaProgress := AcumulaProgress + CuentaP;
-    Progress.Position := Trunc(AcumulaProgress);
-  end;
-
-  if QryReprograma.RecordCount > 0 then
-  begin
-    transcurridos := 0;
-    global_dias_por_transcurrir := 0;
-    global_dias_transcurridos := 0;
-    while not QryReprograma.Eof do
-    begin
-      if Assigned(Progress) then
-      begin
-        AcumulaProgress := AcumulaProgress + CuentaP;
-        Progress.Position := Trunc(AcumulaProgress);
-      end;
-
-      if dParamFecha > QryReprograma.FieldValues['dFechaFinal'] then
-        transcurridos := transcurridos + QryReprograma.FieldValues['dDuracion'];
-
-      if dParamFecha <= QryReprograma.FieldValues['dFechaFinal'] then
-      begin
-        diferencia := QryReprograma.FieldValues['dFechaFinal'] - dParamFecha;
-        global_dias_por_transcurrir := diferencia;
-
-        global_dias_transcurridos := transcurridos + (dParamFecha - QryReprograma.FieldValues['dFechaInicio']) + 1;
-        QryReprograma.Last;
-      end;
-      QryReprograma.Next;
-    end;
-  end;
-
-  qryOcupacionBarco.Active := false;
-  qryOcupacionBarco.SQL.Clear;
-  qryOcupacionBarco.SQL.Add('select sContrato, ' +
-    ' dCantidad as dPernoctaFuera, ' +
-    ' dCantidadBordo , ' +
-    ' dCantidad + dCantidadBordo as dTotalPersonal, ' +
-    ' (select dCapacidadTripulacion from contratos where sContrato = tripulacionpernocta.sContrato) as Capacidad, ' +
-    '  mNotas, mEspacios ' +
-    ' from ' +
-    ' tripulacionpernocta where sContrato =:contrato and dIdFecha = :fecha and sIdTurno = :turno group by sContrato ');
-  qryOcupacionBarco.ParamByName('contrato').AsString := global_contrato_barco;
-  qryOcupacionBarco.ParamByName('fecha').AsDate := dParamFecha;
-  qryOcupacionBarco.ParamByName('turno').AsString := sParamTurno;
-  qryOcupacionBarco.Open;
-
-  qryPernoctaBarco.Active := false;
-  qryPernoctaBarco.SQL.Clear;
-  qryPernoctaBarco.SQL.Add('select c.sIdPernocta, c.sDescripcion ,c.sMedida, '+
-      '(select if(sum(dCantidad) is null,0,sum(dCantidad)) from bitacoradepersonal b where b.sTipoPernocta =c.sIdCuenta and '+
-      'b.dIdFecha=:fecha ) as dCantidad '+
-      'from cuentas c');
-  qryPernoctaBarco.ParamByName('fecha').AsDate   := dParamFecha;
-  qryPernoctaBarco.Open;
-
-  QryBarcoVigencia.Active := False;
-  QryBarcoVigencia.SQL.Clear;
-  QryBarcoVigencia.SQL.Add('select sIdEmbarcacion from embarcacion_vigencia ' +
-    'where sContrato =:Contrato and dFechaInicio <= :FechaI and dFechaFinal >=:FechaF ');
-  QryBarcoVigencia.ParamByName('Contrato').AsString := global_contrato_barco;
-  QryBarcoVigencia.ParamByName('FechaI').AsDate := dParamFecha;
-  QryBarcoVigencia.ParamByName('FechaF').AsDate := dParamFecha;
-  QryBarcoVigencia.Open;
-
-  sTurnoBarco := '';
-  if QryBarcoVigencia.RecordCount = 0 then
-    messageDLG('No existe una Vigencia de Embarcacion Principal!, ' + #13 + 'Favor de Registrala en el menu Administracion de Catalogos', mtInformation, [mbOk], 0);
-
-  if QryBarcoVigencia.RecordCount = 1 then
-    global_barco := QryBarcoVigencia.FieldValues['sIdEmbarcacion'];
-
-  if QryBarcoVigencia.RecordCount > 1 then
-  begin
-    embarcacion.Active := False;
-    embarcacion.SQL.Clear;
-    embarcacion.SQL.Add('Select sHoraInicio, sHoraFinal, sIdPernocta from jornadasdiarias Where sContrato =:Contrato and dIdFecha = :Fecha ' +
-      'and sNumeroOrden = :Orden and sIdTurno = :Turno ');
-    embarcacion.Params.ParamByName('Contrato').AsString := sParamContrato;
-    embarcacion.Params.ParamByName('Fecha').AsDate := dParamFecha;
-    embarcacion.Params.ParamByName('Orden').AsString := sParamOrden;
-    embarcacion.Params.ParamByName('Turno').AsString := sParamTurno;
-    embarcacion.Open;
-
-    if embarcacion.RecordCount > 0 then
-    begin
-      global_barco := embarcacion.FieldValues['sIdPernocta'];
-      sTurnoBarco := ' and m.sHoraInicio >= "' + embarcacion.FieldValues['sHoraInicio'] + '"  and ' +
-        ' m.sHoraFinal <= "' + embarcacion.FieldValues['sHoraFinal'] + '" ';
-    end;
-
-  end;
-
-  embarcacion.Active := False;
-  embarcacion.SQL.Clear;
-  embarcacion.SQL.Add('Select sDescripcion from embarcaciones Where sContrato = :Contrato and sIdEmbarcacion =:Embarcacion And sTipo="Principal"');
-  embarcacion.Params.ParamByName('Contrato').DataType := ftString;
-  embarcacion.Params.ParamByName('Contrato').Value := Global_Contrato_Barco;
-  embarcacion.Params.ParamByName('Embarcacion').DataType := ftString;
-  embarcacion.Params.ParamByName('Embarcacion').Value := Global_barco;
-  embarcacion.Open;
-
-  if embarcacion.RecordCount > 0 then
-    Global_nombre_Embarcacion := embarcacion.FieldValues['sDescripcion'];
-
-    //Cargar el query de Actividades anexo
-  qryActividadesAnexos.Active := False;
-  qryActividadesAnexos.SQL.Clear;
-  qryActividadesAnexos.SQL.Add('select me.sClasificacion as sIdFase, tm.iOrden, tm.sDescripcion, ' +
-    'me.dIdFecha, sum(me.sFactor) sFactor from tiposdemovimiento tm ' +
-    'inner join movimientosdeembarcacion me on (tm.sContrato=me.sContrato ' +
-    'And tm.sIdTipoMovimiento=me.sClasificacion and me.dIdFecha=:Fecha and me.sIdEmbarcacion =:Embarcacion ) ' +
-    'Where me.sContrato = :Contrato group by tm.sIdTipoMovimiento order by tm.iOrden');
-  qryActividadesAnexos.ParamByName('Contrato').DataType := ftString;
-  qryActividadesAnexos.ParamByName('Contrato').Value := sParamContrato;
-  qryActividadesAnexos.ParamByName('Fecha').DataType := ftDate;
-  qryActividadesAnexos.ParamByName('Fecha').Value := dParamFecha;
-  qryActividadesAnexos.ParamByName('Embarcacion').Value := global_barco;
-  qryActividadesAnexos.Open;
-
-  //Cargar el query de prorrateos
-  Prorrateos.Active := False;
-  Prorrateos.Sql.Clear;
-//  Prorrateos.Sql.Add('select f.sContrato, p.sDescripcion as sNumeroOrden, f.sFactor, me.sClasificacion, me.sIdFase, me.sTipo, ' +
-  Prorrateos.Sql.Add('select if( c.sProrrateoBarco="*" or c.sProrrateoBarco is null, f.sContrato , c.sProrrateoBarco) as sContrato, p.sDescripcion as sNumeroOrden, f.sFactor, me.sClasificacion, me.sIdFase, me.sTipo, ' +
-    'me.mDescripcion,  me.sHoraInicio,  me.sHoraFinal, me.dIdFecha, f.dPersonalOrden  from movimientosdeembarcacion me ' +
-    'Inner join fasesxorden f on (f.dIdFecha=me.dIdFecha and f.iIdDiario=me.iIdDiario) ' +
-    'Inner join contratos c on (c.sContrato=f.sContrato)  ' +
-    'Inner join ordenesdetrabajo o on (o.sContrato = f.sContrato and o.sNumeroOrden = f.sNumeroOrden) ' +
-    'Inner join plataformas p on (p.sIdPlataforma = o.sIdPlataforma) ' +
-    'Where me.sContrato=:Contrato and me.dIdFecha=:Fecha and me.sIdEmbarcacion =:Embarcacion order by me.sHoraInicio, sContrato');
-  Prorrateos.ParamByName('Contrato').DataType := ftString;
-  Prorrateos.ParamByName('Contrato').Value := sParamContrato;
-  Prorrateos.ParamByName('Fecha').DataType := ftDate;
-  Prorrateos.ParamByName('Fecha').Value := dParamFecha;
-  Prorrateos.ParamByName('Embarcacion').Value := global_barco;
-  Prorrateos.Open;
-
-   //Cargar el query de resumen de prorrateos..
-  Prorrateos2.Active := False;
-  Prorrateos2.Sql.Clear;
-//  Prorrateos2.Sql.Add('select f.sContrato , sum(f.sFactor) as sFactor, me.sClasificacion, me.sIdFase, me.sTipo, iOrden ' +
-  Prorrateos2.Sql.Add('select if( c.sProrrateoBarco="*" or c.sProrrateoBarco is null, f.sContrato , c.sProrrateoBarco) as sContrato, sum(f.sFactor) as sFactor, me.sClasificacion, me.sIdFase, me.sTipo, iOrden ' +
-    'from movimientosdeembarcacion me ' +
-    'Inner join fasesxorden f on (f.dIdFecha=me.dIdFecha and f.iIdDiario=me.iIdDiario) ' +
-    'Inner join contratos c on (c.sContrato=f.sContrato)  ' +
-    'Inner join tiposdemovimiento t on (t.sContrato = me.sContrato and t.sIdTipoMovimiento = me.sClasificacion)' +
-    'Where me.sContrato=:Contrato and me.dIdFecha=:Fecha and sIdEmbarcacion =:Embarcacion group by sTipo, sContrato  order by sContrato ');
-  Prorrateos2.ParamByName('Contrato').DataType := ftString;
-  Prorrateos2.ParamByName('Contrato').Value := sParamContrato;
-  Prorrateos2.ParamByName('Fecha').DataType := ftDate;
-  Prorrateos2.ParamByName('Fecha').Value := dParamFecha;
-  Prorrateos2.ParamByName('Embarcacion').Value := global_barco;
-  Prorrateos2.Open;
-
-    // Verificar si se cuenta con un objeto de progreso
-  for iValor := 0 to tOrigen.ComponentCount - 1 do
-    if (CompareText(tOrigen.Components[iValor].ClassName, 'tpanel') = 0) and (tOrigen.Components[iValor].Name = 'PanelProgress') then
-      if (TWinControl(tOrigen.Components[iValor]).ControlCount = 5) and (CompareText(TWinControl(TWinControl(tOrigen.Components[iValor]).Controls[4]).Name, 'progressbar1') = 0) then
-        Progress := TProgressBar(TWinControl(tOrigen.Components[iValor]).Controls[4]);
-
-  if Assigned(Progress) then
-  begin
-    CuentaP := ((1 / ProgPartes) / (Prorrateos2.RecordCount + 1)) * (Progress.Max - Progress.Min);
-    AcumulaProgress := AcumulaProgress + CuentaP;
-    Progress.Position := Trunc(AcumulaProgress);
-  end;
-
-  lTiempoxCia := false;
-  if Prorrateos2.RecordCount > 0 then
-  begin
-    sNombreFrente := '';
-    while not Prorrateos2.Eof do
-    begin
-      if Assigned(Progress) then
-      begin
-        AcumulaProgress := AcumulaProgress + CuentaP;
-        Progress.Position := Trunc(AcumulaProgress);
-      end;
-
-      if sNombreFrente <> Prorrateos2.FieldValues['sContrato'] then
-        mFactores.Append
-      else
-        mFactores.Edit;
-      if Prorrateos2.FieldValues['iOrden'] = 1 then
-        mFactores.FieldValues['dMOV'] := Prorrateos2.FieldValues['sFactor'];
-
-      if Prorrateos2.FieldValues['iOrden'] = 2 then
-        mFactores.FieldValues['dDES'] := Prorrateos2.FieldValues['sFactor'];
-
-      if Prorrateos2.FieldValues['iOrden'] = 3 then
-        mFactores.FieldValues['dCDP'] := Prorrateos2.FieldValues['sFactor'];
-
-      if Prorrateos2.FieldValues['iOrden'] = 4 then
-        mFactores.FieldValues['dSDP'] := Prorrateos2.FieldValues['sFactor'];
-
-      if Prorrateos2.FieldValues['iOrden'] = 5 then
-        mFactores.FieldValues['dESP'] := Prorrateos2.FieldValues['sFactor'];
-
-      if Prorrateos2.FieldValues['iOrden'] = 6 then begin
-        mFactores.FieldValues['dCIA'] := Prorrateos2.FieldValues['sFactor'];
-        lTiempoxCia := true;
-      end;
-
-      mFactores.FieldValues['sContrato'] := Prorrateos2.FieldValues['sContrato'];
-      mFactores.FieldValues['dIdFecha'] := dParamFecha;
-      sNombreFrente := Prorrateos2.FieldValues['sContrato'];
-
-      mFactores.Post;
-      Prorrateos2.Next;
-    end;
-  end;
-
-  connection.zCommand.Active := False;
-  connection.zCommand.SQL.Clear;
-  connection.zCommand.SQL.Add('select t.sTipo, t.iOrden from tiposdemovimiento t ' +
-    'inner join contratos c on (c.sContrato = t.sContrato and c.sTipoObra = "BARCO") ' +
-    'where t.sContrato =:Contrato and t.sClasificacion = "Movimiento de Barco"');
-  connection.zCommand.ParamByName('Contrato').AsString := sParamContrato;
-  connection.zCommand.Open;
-
-  for iValor := 0 to tOrigen.ComponentCount - 1 do
-    if (CompareText(tOrigen.Components[iValor].ClassName, 'tpanel') = 0) and (tOrigen.Components[iValor].Name = 'PanelProgress') then
-      if (TWinControl(tOrigen.Components[iValor]).ControlCount = 5) and (CompareText(TWinControl(TWinControl(tOrigen.Components[iValor]).Controls[4]).Name, 'progressbar1') = 0) then
-        Progress := TProgressBar(TWinControl(tOrigen.Components[iValor]).Controls[4]);
-
-  if Assigned(Progress) then
-  begin
-    CuentaP := ((1 / ProgPartes) / (connection.zCommand.RecordCount + 1)) * (Progress.Max - Progress.Min);
-    AcumulaProgress := AcumulaProgress + CuentaP;
-    Progress.Position := Trunc(AcumulaProgress);
-  end;
-
-  if connection.zCommand.RecordCount > 0 then
-  begin
-    mFactores.First;
-    while not connection.zCommand.Eof do
-    begin
-      if Assigned(Progress) then
-      begin
-        AcumulaProgress := AcumulaProgress + CuentaP;
-        Progress.Position := Trunc(AcumulaProgress);
-      end;
-
-      mFactores.Edit;
-      if connection.zCommand.FieldValues['iOrden'] = 1 then
-        mFactores.FieldValues['sMov_1'] := connection.zCommand.FieldValues['sTipo'];
-
-      if connection.zCommand.FieldValues['iOrden'] = 2 then
-        mFactores.FieldValues['sMov_2'] := connection.zCommand.FieldValues['sTipo'];
-
-      if connection.zCommand.FieldValues['iOrden'] = 3 then
-        mFactores.FieldValues['sMov_3'] := connection.zCommand.FieldValues['sTipo'];
-
-      if connection.zCommand.FieldValues['iOrden'] = 4 then
-        mFactores.FieldValues['sMov_4'] := connection.zCommand.FieldValues['sTipo'];
-
-      if connection.zCommand.FieldValues['iOrden'] = 5 then
-        mFactores.FieldValues['sMov_5'] := connection.zCommand.FieldValues['sTipo'];
-
-      if not lTiempoxCia then
-        mFactores.FieldValues['sMov_6'] := 'NADA';
-      if (connection.zCommand.FieldValues['iOrden'] = 6) and (lTiempoxCia) then
-        mFactores.FieldValues['sMov_6'] := connection.zCommand.FieldValues['sTipo'];
-
-      mFactores.Post;
-      connection.zCommand.Next;
-    end;
-  end;
-
-  //Cargar el query de arribos
-  qryArribos.Active := False;
-  qryArribos.SQL.Clear;
-  qryArribos.SQL.Add('Select m.sContrato, m.dIdFecha, m.sHoraInicio, m.sHoraFinal, mDescripcion, ' +
-    'e.sIdTipoEmbarcacion from movimientosdeembarcacion m ' +
-    'inner join embarcaciones e On ( m.sContrato=e.sContrato And m.sIdEmbarcacion=e.sIdEmbarcacion) ' +
-    'Where m.dIdFecha= :fecha And m.sContrato= :contrato And m.sTipo = "ARRIBO" and sIdTipoEmbarcacion <> "AE" ' + sTurnoBarco + 'order by sHoraInicio');
-  qryArribos.ParamByName('Contrato').DataType := ftString;
-  qryArribos.ParamByName('Contrato').Value := sParamContrato;
-  qryArribos.ParamByName('Fecha').DataType := ftDate;
-  qryArribos.ParamByName('Fecha').Value := dParamFecha;
-  qryArribos.Open;
-
-  //Cargar el query de arribos
-  qryArribosVuelo.Active := False;
-  qryArribosVuelo.SQL.Clear;
-  qryArribosVuelo.SQL.Add('Select m.sContrato, m.dIdFecha, m.sHoraInicio, m.sHoraFinal, mDescripcion, ' +
-    'e.sIdTipoEmbarcacion from movimientosdeembarcacion m ' +
-    'inner join embarcaciones e On ( m.sContrato=e.sContrato And m.sIdEmbarcacion=e.sIdEmbarcacion) ' +
-    'Where m.dIdFecha= :fecha And m.sContrato= :contrato And m.sTipo = "ARRIBO" and sIdTipoEmbarcacion = "AE" ' + sTurnoBarco + 'order by sHoraInicio');
-  qryArribosVuelo.ParamByName('Contrato').DataType := ftString;
-  qryArribosVuelo.ParamByName('Contrato').Value := sParamContrato;
-  qryArribosVuelo.ParamByName('Fecha').DataType := ftDate;
-  qryArribosVuelo.ParamByName('Fecha').Value := dParamFecha;
-  qryArribosVuelo.Open;
-
-  //Cargar el query de Condiciones Climatologicas
-  qryClimaReporte.Active := False;
-  qryClimareporte.Sql.Clear;
-  qryClimaReporte.Sql.Add('select max(cm.dCantidad) as maximo, cm.sCantidad, c.sDescripcion as sDescripcionTiempo, ' +
-    'd.sDescripcion as Direccion ,c.sMedida from condicionesclimatologicas cm ' +
-    'inner join condiciones c on (cm.iIdCondicion=c.iIdCondicion) ' +
-    'inner join direcciones d on (cm.iIdDireccion=d.iIdDireccion) ' +
-    'where cm.dIdFecha=:Fecha and cm.sContrato=:Contrato and cm.sHorario ="24:00" Group By sDescripcionTiempo');
-  qryClimaReporte.ParamByName('Contrato').DataType := ftString;
-  qryClimaReporte.ParamByName('Contrato').Value := sParamContrato;  //se coloca a 24:00 para que no se mezclez con el gerencial.
-  qryClimaReporte.ParamByName('Fecha').DataType := ftDate;
-  qryClimaReporte.ParamByName('Fecha').Value := dParamFecha;
-  qryClimaReporte.Open;
-
-  //Cargar el query de Movimientos de Disposiciones
-  qryDisposicionesReporte.Active := False;
-  qryDisposicionesReporte.Sql.Clear;
-  qryDisposicionesReporte.Sql.Add('select m.sIdEmbarcacion, m.sHoraInicio, m.sHoraFinal, m.mDescripcion, ' +
-    'e.sDescripcion as nomlancha  from movimientosdeembarcacion m ' +
-    'Inner Join  embarcaciones e On (m.sContrato=e.sContrato And m.sIdEmbarcacion= e.sIdEmbarcacion) ' +
-    'where m.dIdFecha=:Fecha And m.sContrato=:Contrato and m.sTipo="DISPOSICION" ' + sTurnoBarco +
-    'order by e.sDescripcion, m.sHoraInicio');
-  qryDisposicionesReporte.ParamByName('Contrato').DataType := ftString;
-  qryDisposicionesReporte.ParamByName('Contrato').Value := sParamContrato;
-  qryDisposicionesReporte.ParamByName('Fecha').DataType := ftDate;
-  qryDisposicionesReporte.ParamByName('Fecha').Value := dParamFecha;
-  qryDisposicionesReporte.Open;
-
-  //Cargar el query de Recursos o mezclas embarcacion..
-  qryRecursosReporte.Active := False;
-  qryRecursosReporte.Sql.Clear;
-  qryRecursosReporte.Sql.Add('select r.*, e.sTipo, re.sMedida, re.sDescripcion as concepto, e.sDescripcion from recursos r ' +
-    'inner join recursosdeexistencias re on (r.iIdRecursoExistencia=re.iIdRecursoExistencia) ' +
-    'inner join embarcaciones e on (e.sContrato = r.sContrato and e.sIdEmbarcacion = r.sIdEmbarcacion and e.sTipo = "Principal") ' +
-    'where r.dIdFecha=:Fecha and r.sContrato=:Contrato and r.sIdEmbarcacion =:Embarcacion ');
-  qryRecursosReporte.ParamByName('Contrato').DataType := ftString;
-  qryRecursosReporte.ParamByName('Contrato').Value := sParamContrato;
-  qryRecursosReporte.ParamByName('Fecha').DataType := ftDate;
-  qryRecursosReporte.ParamByName('Fecha').Value := dParamFecha;
-  qryRecursosReporte.ParamByName('Embarcacion').DataType := ftString;
-  qryRecursosReporte.ParamByName('Embarcacion').Value := global_barco;
-  qryRecursosReporte.Open;
-
-   //Cargar el query de Recursos o mezclas embarcacioness
-  QryRecursosEmbarcacion.Active := False;
-  QryRecursosEmbarcacion.Sql.Clear;
-  QryRecursosEmbarcacion.Sql.Add('select r.*, e.sTipo, re.sMedida, re.sDescripcion as concepto, e.sDescripcion from recursos r ' +
-    'inner join recursosdeexistencias re on (r.iIdRecursoExistencia=re.iIdRecursoExistencia) ' +
-    'inner join embarcaciones e on (e.sContrato = r.sContrato and e.sIdEmbarcacion = r.sIdEmbarcacion and e.sTipo = "Secundario") ' +
-    'where r.dIdFecha=:Fecha and r.sContrato=:Contrato order by e.sDescripcion ');
-  QryRecursosEmbarcacion.ParamByName('Contrato').DataType := ftString;
-  QryRecursosEmbarcacion.ParamByName('Contrato').Value := sParamContrato;
-  QryRecursosEmbarcacion.ParamByName('Fecha').DataType := ftDate;
-  QryRecursosEmbarcacion.ParamByName('Fecha').Value := dParamFecha;
-  QryRecursosEmbarcacion.Open;
-
-    //Cargar el query de Resumen recursos...
-  QryResumenRecursos.Active := False;
-  QryResumenRecursos.Sql.Clear;
-  QryResumenRecursos.Sql.Add('select r.*, re.sMedida, e.sDescripcion, re.sDescripcion as Concepto, e.sTipo from recursos r ' +
-    'inner join recursosdeexistencias re on (r.iIdRecursoExistencia=re.iIdRecursoExistencia) ' +
-    'inner join embarcaciones e on (e.sContrato = r.sContrato and e.sIdEmbarcacion = r.sIdEmbarcacion and re.lCombustible = "Si" ) ' +
-    'where r.dIdFecha=:Fecha and r.sContrato=:Contrato order by r.iIdRecursoExistencia, e.sDescripcion ');
-  QryResumenRecursos.ParamByName('Contrato').DataType := ftString;
-  QryResumenRecursos.ParamByName('Contrato').Value := sParamContrato;
-  QryResumenRecursos.ParamByName('Fecha').DataType := ftDate;
-  QryResumenRecursos.ParamByName('Fecha').Value := dParamFecha;
-  //QryResumenRecursos.ParamByName('Embarcacion').DataType := ftString;
-  //QryResumenRecursos.ParamByName('Embarcacion').Value := global_barco;
-  QryResumenRecursos.Open;
-
-  //Cargar el query de Notas Generales
-  qryNotasGenerales.Active := False;
-  qryNotasGenerales.Sql.Clear;
-  qryNotasGenerales.Sql.Add('select mDescripcion from bitacoradeactividades ' +
-    'where sContrato=:Contrato and dIdFecha=:Fecha and sIdTipoMovimiento="B" and sIdTurno =:Turno ');
-  qryNotasGenerales.ParamByName('Contrato').DataType := ftString;
-  qryNotasGenerales.ParamByName('Contrato').Value := sParamContrato;
-  qryNotasGenerales.ParamByName('Turno').DataType := ftString;
-  qryNotasGenerales.ParamByName('Turno').Value := sParamTurno;
-  qryNotasGenerales.ParamByName('Fecha').DataType := ftDate;
-  qryNotasGenerales.ParamByName('Fecha').Value := dParamFecha;
-  qryNotasGenerales.Open;
-
-  //Vigencia de personal de tripulacion..
-  connection.zCommand.Active := False;
-  connection.zCommand.SQL.Clear;
-  connection.zCommand.SQL.Add('select dFechaVigencia from categorias group by dFechaVigencia order by dFechaVigencia ');
-  connection.zCommand.Open;
-
-  for iValor := 0 to tOrigen.ComponentCount - 1 do
-    if (CompareText(tOrigen.Components[iValor].ClassName, 'tpanel') = 0) and (tOrigen.Components[iValor].Name = 'PanelProgress') then
-      if (TWinControl(tOrigen.Components[iValor]).ControlCount = 5) and (CompareText(TWinControl(TWinControl(tOrigen.Components[iValor]).Controls[4]).Name, 'progressbar1') = 0) then
-        Progress := TProgressBar(TWinControl(tOrigen.Components[iValor]).Controls[4]);
-
-  if Assigned(Progress) then
-  begin
-    CuentaP := ((1 / ProgPartes) / (connection.zCommand.RecordCount + 1)) * (Progress.Max - Progress.Min);
-    AcumulaProgress := AcumulaProgress + CuentaP;
-    Progress.Position := Trunc(AcumulaProgress);
-  end;
-
-  fechaAntes := date;
-  if connection.zCommand.RecordCount > 0 then
-  begin
-    fechaAntes := connection.zCommand.FieldValues['dFechaVigencia'];
-    while not connection.zCommand.Eof do
-    begin
-      if Assigned(Progress) then
-      begin
-        AcumulaProgress := AcumulaProgress + CuentaP;
-        Progress.Position := Trunc(AcumulaProgress);
-      end;
-
-      if dParamFecha >= connection.zCommand.FieldValues['dFechaVigencia'] then
-        fechaAntes := connection.zCommand.FieldValues['dFechaVigencia'];
-      connection.zCommand.Next;
-    end;
-  end;
-
-  // Ajustar el progreso exacto para detener de porma automatica el timer
-  if Assigned(Progress) then
-    Progress.Position := Progress.Max;
-
-  Tripulacion.Active := False;
-  Tripulacion.SQL.Clear;
-  Tripulacion.SQL.Add(
-    ' SELECT td.sOrden, o.sProrrateoBarco, c.sIdCategoria, td.dIdFecha, c.sDescripcion as sCategoria , t.sDescripcionGrupo as sDescripcion, Sum(td.iNacionales) as iNacionales,' +
-    ' Sum(td.iExtranjeros) as iExtranjeros FROM tripulaciondiaria td '+
-    ' INNER JOIN tripulacion t ON (t.sContrato = td.sContrato And t.sIdTripulacion = td.sIdTripulacion and t.dFechaVigencia =:FechaVig ) ' +
-    ' INNER JOIN categorias c ON (t.sIdCategoria = c.sIdCategoria and c.dFechaVigencia =:FechaVig ) ' +
-    ' LEFT JOIN contratos o on (o.sContrato = td.sOrden ) '+
-    ' Where td.sContrato =:Contrato And td.dIdFecha = :Fecha and td.sIdTurno =:Turno ' +
-    ' Group By td.sOrden, t.sIdTripulacionGrupo Order By td.sOrden, c.sIdCategoria, t.iOrden ');
-  Tripulacion.ParamByName('Contrato').DataType := ftString;
-  Tripulacion.ParamByName('Contrato').Value := sParamContrato;
-  Tripulacion.ParamByName('Turno').DataType := ftString;
-  Tripulacion.ParamByName('Turno').Value := sParamTurno;
-  Tripulacion.ParamByName('Fecha').DataType := ftDate;
-  Tripulacion.ParamByName('Fecha').Value := dParamFecha;
-  cadena := datetostr(dParamFecha);
-  Tripulacion.ParamByName('FechaVig').DataType := ftDate;
-  Tripulacion.ParamByName('FechaVig').Value := fechaAntes;
-  cadena := datetostr(fechaAntes);
-  Tripulacion.Open;
-
-  //Personal de operacion pernoctando en otras embarcaicones, plataformas
-  TripulacionFlotel.Active := False;
-  TripulacionFlotel.SQL.Clear;
-  TripulacionFlotel.SQL.Add('select b.dIdFecha, b.sIdPernocta, t.sDescripcion, sum(b.dCantidad) as dCantidad from bitacoradepersonal b '+
-                            'inner join pernoctan t on (t.sIdPernocta = b.sIdPernocta) '+
-                            'inner join personal p on (p.sContrato = b.sContrato and p.sIdPersonal = b.sIdPersonal and p.sIdTipoPersonal <> "PE-A") '+
-                            'where b.dIdFecha =:Fecha and b.sIdPernocta <> :Barco group by b.sIdPernocta order by t.sDescripcion');
-  TripulacionFlotel.ParamByName('Barco').DataType := ftString;
-  TripulacionFlotel.ParamByName('Barco').Value    := global_barco;
-  TripulacionFlotel.ParamByName('Fecha').DataType := ftDate;
-  TripulacionFlotel.ParamByName('Fecha').Value    := dParamFecha;
-  TripulacionFlotel.Open;
-
-  //Personal administrativo pernoctando en otras embarcaciones..
-  TripulacionFlotelAdmon.Active := False;
-  TripulacionFlotelAdmon.SQL.Clear;
-  TripulacionFlotelAdmon.SQL.Add('SELECT bp.dIdFecha, sum(bp.dCantidad) as dCantidad FROM bitacoradepersonal bp '+
-                                 'inner join personal p on (p.sContrato = bp.sContrato and p.sIdPersonal = bp.sIdPersonal and p.lPernocta = "Si" and p.sIdTipoPersonal = "PE-A") '+
-                                 'WHERE bp.dIdFecha =:fecha and bp.sIdPernocta <> :Barco and bp.sIdPernOcta <> "TIERRA" GROUP BY bp.dIdFecha');
-  TripulacionFlotelAdmon.ParamByName('Barco').DataType := ftString;
-  TripulacionFlotelAdmon.ParamByName('Barco').Value    := global_barco;
-  TripulacionFlotelAdmon.ParamByName('Fecha').DataType := ftDate;
-  TripulacionFlotelAdmon.ParamByName('Fecha').Value    := dParamFecha;
-  TripulacionFlotelAdmon.Open;
-
-  //Cargo totalizado
-  TotalesOperativos.Active := False;
-  TotalesOperativos.Sql.Clear;
-  TotalesOperativos.Sql.Add('select t.sDescripcion, sum(td.iNacionales) as nacionales, t.sMiGrupoResumen, t.lPersonalAnexo from tripulaciondiaria td ' +
-    'inner join categorias t On (t.sIdCategoria=td.sIdCategoria and t.dFechaVigencia =:FechaVig) ' +
-    'where td.sContrato=:Contrato and td.dIdFecha=:Fecha and td.sIdTurno =:Turno and t.lPersonalAnexo = "Si" group by t.sIdCategoria order by t.sIdCategoria, t.sDescripcion');
-  TotalesOperativos.ParamByName('Contrato').DataType := ftString;
-  TotalesOperativos.ParamByName('Contrato').Value := sParamContrato;
-  TotalesOperativos.ParamByName('Turno').DataType := ftString;
-  TotalesOperativos.ParamByName('Turno').Value := sParamTurno;
-  TotalesOperativos.ParamByName('Fecha').DataType := ftDate;
-  TotalesOperativos.ParamByName('Fecha').Value := dParamFecha;
-  cadena := datetostr(dParamFecha);
-  TotalesOperativos.ParamByName('FechaVig').DataType := ftDate;
-  TotalesOperativos.ParamByName('FechaVig').Value := fechaAntes;
-  cadena := datetostr(fechaAntes);
-  TotalesOperativos.Open;
-
-  Totales.Active := False;
-  Totales.Sql.Clear;
-  Totales.Sql.Add('select t.sDescripcion, sum(td.iNacionales) as nacionales, t.sMiGrupoResumen, t.lPersonalAnexo from tripulaciondiaria td ' +
-    'inner join categorias t On (t.sIdCategoria=td.sIdCategoria and t.dFechaVigencia =:FechaVig) ' +
-    'where td.sContrato=:Contrato and td.dIdFecha=:Fecha and td.sIdTurno =:Turno and t.lPersonalAnexo = "No" group by t.sIdCategoria order by t.sIdCategoria, t.sDescripcion');
-  Totales.ParamByName('Contrato').DataType := ftString;
-  Totales.ParamByName('Contrato').Value := sParamContrato;
-  Totales.ParamByName('Turno').DataType := ftString;
-  Totales.ParamByName('Turno').Value := sParamTurno;
-  Totales.ParamByName('Fecha').DataType := ftDate;
-  Totales.ParamByName('Fecha').Value := dParamFecha;
-  cadena := datetostr(dParamFecha);
-  Totales.ParamByName('FechaVig').DataType := ftDate;
-  Totales.ParamByName('FechaVig').Value := fechaAntes;
-  cadena := datetostr(fechaAntes);
-  Totales.Open;
-
-  lista_personal.Active := False;
-  lista_personal.Sql.Clear;
-  lista_personal.Sql.Add('select td.*, o.sProrrateoBarco from tripulaciondiaria_listado td ' +
-       'LEFT JOIN contratos o on (o.sContrato = td.sOrden ) '+
-       'where td.sContrato=:Contrato and td.dIdFecha=:Fecha and td.sIdTurno =:Turno order by td.sOrden, td.sDescripcion ');
-  lista_personal.ParamByName('Contrato').DataType := ftString;
-  lista_personal.ParamByName('Contrato').Value := sParamContrato;
-  lista_personal.ParamByName('Turno').DataType := ftString;
-  lista_personal.ParamByName('Turno').Value := sParamTurno;
-  lista_personal.ParamByName('Fecha').DataType := ftDate;
-  lista_personal.ParamByName('Fecha').Value := dParamFecha;
-  lista_personal.Open;
-
-  rDiario.OnGetValue := tProcedure;
-  rDiarioFirmas(sParamContrato, sParamOrden, sParamTurno, dParamFecha, tOrigen);
-
-  global_miReporte := QryConfiguracion.FieldValues['sReportesCIA'];
-
-       if not FileExists(global_files + global_miReporte + '_rDiarioBarco.fr3') then
-           showmessage('EL TIPO DE OBRA, CONFIGURADA ES DE BARCO, EL ARCHIVO ' + global_files + global_Mireporte+'_rDiarioBarco.fr3 no existe, notifique al administrador del sistema')
-       else
-           rDiario.LoadFromFile(global_files + global_miReporte + '_rDiarioBarco.fr3');
-
-    //Verificamos si solo se enviara el mail o solo se imprimira el reporte diario..
-  if tOrigen.Name = 'frmValida' then
-  begin
-    if connection.configuracion.FieldValues['lEnviaCorreo'] = 'Si' then
-    begin
-      connection.zCommand.Active := False;
-      connection.zCommand.SQL.Clear;
-      connection.zCommand.SQL.Add('select * from usuarios where sIdUsuario =:Usuario and lEnviaCorreo = "Si" ');
-      connection.zCommand.Params.ParamByName('Usuario').AsString := global_usuario;
-      connection.zCommand.Open;
-
-      if connection.zCommand.RecordCount > 0 then
-      begin
-        connection.frxPDFExport1.ShowProgress := False;
-        connection.frxPDFExport1.ShowDialog := False;
-        rDiario.PrepareReport(true);
-        GetTempPath(SizeOf(global_TempPath), global_TempPath);
-        connection.frxPDFExport1.DefaultPath := global_TempPath; // se extrae la ruta de la carpeta temporal
-        sNombreFrente := sParamOrden;
-        sNombreFrente := AnsireplaceStr(sNombreFrente, '\', '');
-        sNombreFrente := AnsireplaceStr(sNombreFrente, '/', '');
-        sNombreFrente := AnsireplaceStr(sNombreFrente, '.', '');
-        connection.frxPDFExport1.FileName := 'ReporteDiario ' + sNombreFrente + ' ' + formatdatetime('dd-mm-yyyy hhnnss', now) + '.pdf';
-        if rDiario.Export(connection.frxPDFExport1) then
-        begin
-          SendMail(connection.QryBusca2.FieldValues['sMailPrincipal'],
-            connection.QryBusca2.FieldValues['clave'],
-            connection.QryBusca2.FieldValues['sDestino'],
-            connection.QryBusca2.FieldValues['sCC'],
-            connection.QryBusca2.FieldValues['sCCO'],
-            connection.QryBusca2.FieldValues['sAsunto'],
-            connection.frxPDFExport1.FileName,
-            connection.QryBusca2.FieldValues['sContenido']);
-        end;
-      end
-    end;
-  end
-  else
-  begin
-    if global_reportes_fecha then
-    begin
-        connection.frxPDFExport1.ShowProgress := False;
-        connection.frxPDFExport1.ShowDialog := False;
-        rDiario.PrepareReport(true);
-        connection.frxPDFExport1.DefaultPath := global_directorio; // se extrae la ruta de la carpeta temporal
-        sNombreFrente := sParamOrden;
-        sNombreFrente := AnsireplaceStr(sNombreFrente, '\', '');
-        sNombreFrente := AnsireplaceStr(sNombreFrente, '/', '');
-        sNombreFrente := AnsireplaceStr(sNombreFrente, '.', '');
-        connection.frxPDFExport1.FileName := 'Reporte Diario ' + sParamContrato + ' ' + sNombreFrente + ' ' + formatdatetime('dd-mm-yyyy', dParamFecha) + '.pdf';
-        rDiario.Export(connection.frxPDFExport1);
-    end
-    else
-      rDiario.ShowReport;
-  end;
-
-    // Destruye Objetos ...
-   rDiario.Destroy;
-   qryActividadesAnexos.Destroy;
-   Prorrateos.Destroy;
-   Prorrateos2.Destroy;
-   QryArribos.Destroy;
-   QryArribosVuelo.Destroy;
-   QryClimaReporte.Destroy;
-   qryDisposicionesReporte.Destroy;
-   qryRecursosReporte.Destroy;
-   qryRecursosEmbarcacion.Destroy;
-   qryResumenRecursos.Destroy;
-   dsRecursosEmbarcacion.Destroy;
-   dsResumenRecursos.Destroy;
-   qryNotasGenerales.Destroy;
-   QryConfiguracion.Destroy;
-   Tripulacion.Destroy;
-   TripulacionFlotel.Destroy;
-   TripulacionFlotelAdmon.Destroy;
-   Totales.Destroy;
-   lista_personal.Destroy;
-   TotalesOperativos.Destroy;
-   dsActividades.Destroy;
-   detProrrateos.Destroy;
-   detProrrateos2.Destroy;
-   mFactores.Destroy;
-   ArribosReporte.Destroy;
-   ArribosReporteVuelo.Destroy;
-   dsClimaReporte.Destroy;
-   DisposicionesReporte.Destroy;
-   dsRecursosReporte.Destroy;
-   dsNotasGenerales.Destroy;
-   dsTripulacion.Destroy;
-   dsTripulacionFlotel.Destroy;
-   dsTripulacionFlotelAdmon.Destroy;
-   dsTotales.Destroy;
-   dsLista_personal.Destroy;
-   dsTotalesOperativos.Destroy;
-   embarcacion.Destroy;
-   dsEmbarcacion.Destroy;
-   QryReprograma.Destroy;
-   dsConfiguracion.Destroy;
-   qryOcupacionBarco.Destroy;
-   qryPernoctaBarco.Destroy;
-   dsOcupacionBarco.Destroy;
-   dsPernoctaBarco.Destroy;
-end;
-
-
-//Procedimiento para impresion del reporte de diavaz
-procedure procReporteAvanzado(sParamContrato, sParamOrden, sParamConvenio, sParamTurno: string; dParamFecha: tDate; tOrigen: TComponent; tProcedure: tfrxGetValueEvent);
-var
-  qryActividadesAnexos,
-    Prorrateos,
-    QryArribos,
-    QryClimaReporte,
-    QryDisposicionesReporte,
-    QryRecursosReporte,
-    QrynotasGenerales,
-    Tripulacion,
-    Totales, embarcacion: TZReadOnlyQuery;
-
-  dsClimaReporte,
-    dsActividades,
-    detProrrateos,
-    ArribosReporte,
-    DisposicionesReporte,
-    dsRecursosReporte,
-    dsNotasGenerales,
-    dsTripulacion,
-    dsTotales: TfrxDBDataSet;
-
-  rDiario: TfrxReport;
-
-
-begin
-  rDiario := TfrxReport.Create(tOrigen);
-
-  qryConfiguracion := TZReadOnlyQuery.Create(tOrigen);
-  qryConfiguracion.Connection := connection.zConnection;
-  dsConfiguracion := TfrxDBDataSet.Create(tOrigen);
-  dsConfiguracion.DataSet := QryConfiguracion;
-  dsConfiguracion.UserName := 'dsConfiguracion';
-  QryConfiguracion.Active := False;
-  QryConfiguracion.SQL.Clear;
-  QryConfiguracion.SQL.Add('select c2.sCodigo, c.iFirmas,c.sOrdenPerEq, c.sTipoPartida, c.sImprimePEP, ' +
-    'c.sClaveSeguridad, c.cStatusProceso, c.sOrdenExtraordinaria, c.lLicencia, ' +
-    'c.bImagen, c.sContrato, c.sNombreCorto, c.sNombre, c.sPiePagina, sDireccion1, sDireccion2, sDireccion3, c.sEmail, c.sWeb, c.sSlogan, c.sFirmasElectronicas, ' +
-    'c.lImprimeExtraordinario, c.sIdEmbarcacion, c.iRedondeoEmbarcacion, c2.sTitulo,  ' +
-    'c2.mDescripcion, c2.mCliente, c2.bImagen as bImagenPEP, c3.dFechaInicio, c3.dFechaFinal ' +
-    'From contratos c2 INNER JOIN configuracion c ON (c.sContrato = c2.sContrato) ' +
-    'inner join convenios c3 on (c2.sContrato = c3.sContrato and c.sIdConvenio = c3.sIdConvenio) ' +
-    'Where c2.sContrato = :Contrato');
-  QryConfiguracion.Params.ParamByName('contrato').DataType := ftString;
-  QryConfiguracion.Params.ParamByName('contrato').Value := sParamContrato;
-  QryConfiguracion.Open;
-
-    // Se incluye esta rutina para que incluya al imprimir el calculo de los factores de prorrateo.
-  QryReporteDiario := tzReadOnlyQuery.Create(tOrigen);
-  QryReporteDiario.Connection := connection.zconnection;
-  QryReporteDiario.Active := False;
-  QryReporteDiario.SQL.Clear;
-  QryReporteDiario.SQL.Add('Select r.*, o.sIdFolio, o.sDescripcionCorta From reportediario r ' +
-    'inner join ordenesdetrabajo o ON (r.sContrato = o.sContrato And r.sNumeroOrden = o.sNumeroOrden) ' +
-    'Where r.sContrato = :Contrato And r.sNumeroOrden = :Orden And r.dIdFecha = :Fecha');
-  QryReporteDiario.Params.ParamByName('contrato').DataType := ftString;
-  QryReporteDiario.Params.ParamByName('contrato').Value := sParamContrato;
-  QryReporteDiario.Params.ParamByName('orden').DataType := ftString;
-  QryReporteDiario.Params.ParamByName('orden').Value := sParamOrden;
-  QryReporteDiario.Params.ParamByName('Fecha').DataType := ftDate;
-  QryReporteDiario.Params.ParamByName('Fecha').Value := dParamFecha;
-  QryReporteDiario.Open;
-
-  procAjustaBarco(dParamFecha, QryConfiguracion.FieldValues['sIdEmbarcacion'], QryConfiguracion.FieldValues['iRedondeoEmbarcacion'], tOrigen);
-
-  embarcacion := TzReadOnlyQuery.Create(tOrigen);
-  embarcacion.Connection := connection.zConnection;
-  qryActividadesAnexos := TZReadOnlyQuery.Create(tOrigen);
-  qryActividadesAnexos.Connection := connection.zConnection;
-  Prorrateos := TZReadOnlyQuery.Create(tOrigen);
-  Prorrateos.Connection := connection.zConnection;
-  QryArribos := TZReadOnlyQuery.Create(tOrigen);
-  QryArribos.Connection := connection.zConnection;
-  QryClimaReporte := TZReadOnlyQuery.Create(tOrigen);
-  QryClimaReporte.Connection := connection.zConnection;
-  qryDisposicionesReporte := TZReadOnlyQuery.Create(tOrigen);
-  qryDisposicionesReporte.Connection := connection.zConnection;
-  qryRecursosReporte := TZReadOnlyQuery.Create(tOrigen);
-  qryRecursosReporte.Connection := connection.zConnection;
-  qryNotasGenerales := TZReadOnlyQuery.Create(tOrigen);
-  qryNotasGenerales.Connection := connection.zConnection;
-  Tripulacion := TZReadOnlyQuery.Create(tOrigen);
-  Tripulacion.Connection := connection.zConnection;
-  Totales := TZReadOnlyQuery.Create(tOrigen);
-  Totales.Connection := connection.zConnection;
-  QryBuscar := tZReadOnlyQuery.Create(tOrigen);
-  QryBuscar.Connection := connection.zconnection;
-  QryBuscarAux := tZReadOnlyQuery.Create(tOrigen);
-  QryBuscarAux.Connection := connection.zconnection;
-
-  rptPersonal := TZReadOnlyQuery.Create(tOrigen);
-  rptPersonal.Connection := connection.zConnection;
-  rptEquipos := TZReadOnlyQuery.Create(tOrigen);
-  rptEquipos.Connection := connection.zConnection;
-  rptEquiposSeguridad := TZReadOnlyQuery.Create(tOrigen);
-  rptEquiposSeguridad.Connection := connection.zConnection;
-
-  dsPersonal := TfrxDBDataSet.Create(tOrigen);
-  dsPersonal.DataSet := rptPersonal;
-  dsPersonal.UserName := 'dsPersonal';
-
-  dsTiempoExtra := TfrxDBDataSet.Create(tOrigen);
-  dsTiempoExtra.DataSet := rptTiempoExtra;
-  dsTiempoExtra.UserName := 'dsTiempoExtra';
-
-  dsSeguridad := TfrxDBDataSet.Create(tOrigen);
-  dsSeguridad.DataSet := rptEquiposSeguridad;
-  dsSeguridad.UserName := 'dsSeguridad';
-
-  dsEquipos := TfrxDBDataSet.Create(tOrigen);
-  dsEquipos.DataSet := rptEquipos;
-  dsEquipos.UserName := 'dsEquipos';
-
-
-  dsActividades := TfrxDBDataSet.Create(tOrigen);
-  dsActividades.DataSet := qryActividadesAnexos;
-  dsActividades.UserName := 'Actividades';
-
-  detProrrateos := TfrxDBDataSet.Create(tOrigen);
-  detProrrateos.DataSet := Prorrateos;
-  detProrrateos.UserName := 'detProrrateos';
-
-  ArribosReporte := TfrxDBDataSet.Create(tOrigen);
-  ArribosReporte.DataSet := QryArribos;
-  ArribosReporte.UserName := 'ArribosReporte';
-
-  dsClimaReporte := TfrxDBDataSet.Create(tOrigen);
-  dsClimaReporte.DataSet := QryClimaReporte;
-  dsClimaReporte.UserName := 'dsClimaReporte';
-
-  DisposicionesReporte := TfrxDBDataSet.Create(tOrigen);
-  DisposicionesReporte.DataSet := qryDisposicionesReporte;
-  DisposicionesReporte.UserName := 'DisposicionesReporte';
-
-  dsRecursosReporte := TfrxDBDataSet.Create(tOrigen);
-  dsRecursosReporte.DataSet := qryRecursosReporte;
-  dsRecursosReporte.UserName := 'dsRecursosReporte';
-
-  dsNotasGenerales := TfrxDBDataSet.Create(tOrigen);
-  dsNotasGenerales.DataSet := qryNotasGenerales;
-  dsNotasGenerales.UserName := 'dsNotasGenerales';
-
-  dsTripulacion := TfrxDBDataSet.Create(tOrigen);
-  dsTripulacion.DataSet := Tripulacion;
-  dsTripulacion.UserName := 'dsTripulacion';
-
-  dsTotales := TfrxDBDataSet.Create(tOrigen);
-  dsTotales.DataSet := Totales;
-  dsTotales.UserName := 'dsTotales';
-
-  dsReporteDiario := TfrxDBDataSet.Create(tOrigen);
-  dsReporteDiario.DataSet := QryReporteDiario;
-  dsReporteDiario.UserName := 'dsReporteDiario';
-
-  rDiario.DataSets.Clear;
-  rDiario.DataSets.Add(dsReporteDiario);
-  rDiario.DataSets.Add(ArribosReporte);
-  rDiario.DataSets.Add(dsClimaReporte);
-  rDiario.DataSets.Add(dsActividades);
-  rDiario.DataSets.Add(detProrrateos);
-  rDiario.DataSets.Add(DisposicionesReporte);
-  rDiario.DataSets.Add(dsRecursosReporte);
-  rDiario.DataSets.Add(dsNotasGenerales);
-  rDiario.DataSets.Add(dsTripulacion);
-  rDiario.DataSets.Add(dsTotales);
-  rDiario.DataSets.Add(dsConfiguracion);
-  rDiario.DataSets.Add(dsEquipos);
-  rDiario.DataSets.Add(dsSeguridad);
-  rDiario.DataSets.Add(dsPersonal);
-  rDiario.DataSets.Add(dsTiempoExtra);
-
-  global_fecha_barco := dParamFecha;
-
-  if QryConfiguracion.RecordCount > 0 then
-  begin
-    global_dias_transcurridos := DaysBetween(QryConfiguracion.FieldValues['dFechaFinal'], global_fecha_barco) + 1;
-    global_dias_por_transcurrir := DaysBetween(global_fecha_barco, QryConfiguracion.FieldValues['dFechaInicio']);
-  end;
-
-    // Llamo a procedimiento que cierra el dia y lo acumula en la nota de campo bitacora ...
-    // Checo que no existate diario pendiente de autorizar....
-
-  QryBuscar.Active := False;
-  QryBuscar.SQL.Clear;
-  QryBuscar.SQL.Add('Select sContrato From reportediario where sContrato = :Contrato And dIdFecha = :Fecha And lStatus <> "Autorizado" ');
-  QryBuscar.Params.ParamByName('Contrato').DataType := ftString;
-  QryBuscar.Params.ParamByName('Contrato').Value := sParamContrato;
-  QryBuscar.Params.ParamByName('Fecha').DataType := ftDate;
-  QryBuscar.Params.ParamByName('Fecha').Value := dParamFecha;
-  QryBuscar.Open;
-  if QryBuscar.RecordCount > 0 then
-    ProcCierraDiaNCammpo_Bitacora(sParamContrato, sParamOrden, sParamConvenio, dParamFecha, tOrigen);
-
-    //Creacion del reporte ....
-  mBitacora1 := TrxMemoryData.Create(tOrigen);
-  mBitacora1.Active := False;
-  mBitacora1.FieldDefs.Add('sContrato', ftString, 15, True);
-  mBitacora1.FieldDefs.Add('sPaquete', ftString, 30, True);
-  mBitacora1.FieldDefs.Add('sNumeroActividad', ftString, 60, True);
-  mBitacora1.FieldDefs.Add('sActividadAnterior', ftString, 10, True);
-  mBitacora1.FieldDefs.Add('mDescripcion', ftMemo, 0, True);
-  mBitacora1.FieldDefs.Add('sMedida', ftString, 8, True);
-  mBitacora1.FieldDefs.Add('dCantidadAnexo', ftFloat, 0, True);
-  mBitacora1.FieldDefs.Add('sHoraInicio', ftString, 8, True);
-  mBitacora1.FieldDefs.Add('sHoraFinal', ftMemo, 0, True);
-  mBitacora1.FieldDefs.Add('dCantidad', ftFloat, 0, True);
-  mBitacora1.FieldDefs.Add('dAvance', ftFloat, 0, True);
-  mBitacora1.FieldDefs.Add('sTipo', ftString, 20, True);
-  mBitacora1.FieldDefs.Add('iFase', ftInteger, 0, True);
-  mBitacora1.FieldDefs.Add('dCantidadAnterior', ftFloat, 0, True);
-  mBitacora1.FieldDefs.Add('dAvanceAnterior', ftFloat, 0, True);
-  mBitacora1.FieldDefs.Add('dCantidadActual', ftFloat, 0, True);
-  mBitacora1.FieldDefs.Add('dAvanceActual', ftFloat, 0, True);
-  mBitacora1.Active := True;
-
-  if mBitacora1.RecordCount > 0 then
-    mBitacora1.EmptyTable;
-
-  dsmBitacora1 := TfrxDBDataSet.Create(tOrigen);
-  dsmBitacora1.DataSet := mBitacora1;
-  dsmBitacora1.UserName := 'dsmBitacora1';
-  rDiario.DataSets.Add(dsmBitacora1);
-
-  mBitacoraActividades := TrxMemoryData.Create(tOrigen);
-  mBitacoraActividades.Active := False;
-  mBitacoraActividades.FieldDefs.Add('sContrato', ftString, 15, True);
-  mBitacoraActividades.FieldDefs.Add('sNumeroActividad', ftString, 60, True);
-  mBitacoraActividades.FieldDefs.Add('sOrigen', ftString, 20, True);
-  mBitacoraActividades.FieldDefs.Add('mDescripcion', ftMemo, 0, True);
-  mBitacoraActividades.FieldDefs.Add('sMedidaComercial', ftString, 10, True);
-  mBitacoraActividades.FieldDefs.Add('sMedida', ftString, 10, True);
-  mBitacoraActividades.FieldDefs.Add('dCantidadComercial', ftFloat, 0, True);
-  mBitacoraActividades.FieldDefs.Add('dCantidad', ftFloat, 0, True);
-  mBitacoraActividades.FieldDefs.Add('dAvanceActual', ftFloat, 0, True);
-  mBitacoraActividades.FieldDefs.Add('sTrazabilidad', ftString, 30, True);
-  mBitacoraActividades.Active := True;
-
-  if mBitacoraActividades.RecordCount > 0 then
-    mBitacoraActividades.EmptyTable;
-
-  dsmBitacoraActividades := TfrxDBDataSet.Create(tOrigen);
-  dsmBitacoraActividades.DataSet := mBitacoraActividades;
-  dsmBitacoraActividades.UserName := 'dsmBitacoraActividades';
-  rDiario.DataSets.Add(dsmBitacoraActividades);
-
-    // Partidas Generalizadas reportadas
-  QryBuscar.Active := False;
-  QryBuscar.SQL.Clear;
-  QryBuscar.SQL.Add('Select sContrato, sOrigen, sNumeroActividad, mDescripcionActividad, sMedidaComercial, sMedida, ' +
-    'dCantidad, dCantidadInstalar, dAvanceActual, sTrazabilidad From  ncampo_bitacora ' +
-    'Where sContrato = :Contrato And sNumeroOrden = :Orden And dIdFecha = :Fecha ' +
-    'And sTipoActividad = "Actividad" Order By iItemOrden');
-  QryBuscar.Params.ParamByName('Contrato').DataType := ftString;
-  QryBuscar.Params.ParamByName('Contrato').Value := sParamContrato;
-  QryBuscar.Params.ParamByName('Orden').DataType := ftString;
-  QryBuscar.Params.ParamByName('Orden').Value := sParamOrden;
-  QryBuscar.Params.ParamByName('Fecha').DataType := ftDate;
-  QryBuscar.Params.ParamByName('Fecha').Value := dParamFecha;
-  QryBuscar.Open;
-
-  if QryBuscar.RecordCount > 0 then
-  begin
-    QryBuscar.First;
-    while not QryBuscar.Eof do
-    begin
-      mBitacoraActividades.Append;
-      mBitacoraActividades.FieldValues['sContrato'] := QryBuscar.FieldValues['sContrato'];
-      mBitacoraActividades.FieldValues['sOrigen'] := QryBuscar.FieldValues['sOrigen'];
-      mBitacoraActividades.FieldValues['sNumeroActividad'] := QryBuscar.FieldValues['sNumeroActividad'];
-      mBitacoraActividades.FieldValues['mDescripcion'] := QryBuscar.FieldValues['mDescripcionActividad'];
-      mBitacoraActividades.FieldValues['sMedidaComercial'] := QryBuscar.FieldValues['sMedidaComercial'];
-      mBitacoraActividades.FieldValues['sMedida'] := QryBuscar.FieldValues['sMedida'];
-      mBitacoraActividades.FieldValues['dCantidadComercial'] := QryBuscar.FieldValues['dCantidad'];
-      mBitacoraActividades.FieldValues['dCantidad'] := QryBuscar.FieldValues['dCantidadInstalar'];
-      mBitacoraActividades.FieldValues['dAvanceActual'] := QryBuscar.FieldValues['dAvanceActual'];
-      mBitacoraActividades.FieldValues['sTrazabilidad'] := QryBuscar.FieldValues['sTrazabilidad'];
-      mBitacoraActividades.Post;
-      QryBuscar.Next
-    end;
-  end;
-
-    // Termina de Cargar la bitacora, la nueva, la de las ordenes de campo....
-
-    // Comentarios ...
-
-  mBitacora3 := TrxMemoryData.Create(tOrigen);
-  mBitacora3.Active := False;
-  mBitacora3.FieldDefs.Add('sContrato', ftString, 15, True);
-  mBitacora3.FieldDefs.Add('sIdComentario', ftString, 5, True);
-  mBitacora3.FieldDefs.Add('mDescripcion', ftMemo, 0, True);
-  mBitacora3.Active := True;
-
-  dsBitacora3 := TfrxDBDataSet.Create(tOrigen);
-  dsBitacora3.DataSet := mBitacora3;
-  dsBitacora3.UserName := 'dsBitacora3';
-  rDiario.DataSets.Add(dsBitacora3);
-
-  if mBitacora3.RecordCount > 0 then
-    mBitacora3.EmptyTable;
-
-  with connection do
-  begin
-    QryBusca.Active := False;
-    QryBusca.SQL.Clear;
-    QryBusca.SQL.Add('select b.sContrato,b.iIdDiario,b.dIdFecha, b.mDescripcion, length(b.mDescripcion) as longi from bitacoradeactividades b ' +
-      'INNER JOIN tiposdemovimiento t ON (b.sContrato = t.sContrato And b.sIdTipoMovimiento = t.sIdTipoMovimiento And t.sClasificacion = "Notas") ' +
-      'Where b.sContrato = :contrato and b.dIdFecha = :fecha and b.sNumeroOrden = :Orden And b.sIdTurno = :Turno and b.sIdTipoMovimiento<>"NI" and lImprime ="Si"');
-    QryBusca.Params.ParamByName('contrato').DataType := ftString;
-    QryBusca.Params.ParamByName('contrato').Value := sParamContrato;
-    QryBusca.Params.ParamByName('orden').DataType := ftString;
-    QryBusca.Params.ParamByName('orden').Value := sParamOrden;
-    QryBusca.Params.ParamByName('fecha').DataType := ftDate;
-    QryBusca.Params.ParamByName('fecha').Value := dParamFecha;
-    QryBusca.Params.ParamByName('Turno').DataType := ftString;
-    QryBusca.Params.ParamByName('Turno').Value := sParamTurno;
-    QryBusca.Open;
-    while not QryBusca.Eof do
-    begin
-      mBitacora3.Append;
-      mBitacora3.FieldValues['sContrato'] := QryBusca.FieldValues['sContrato'];
-      mBitacora3.FieldValues['mDescripcion'] := QryBusca.FieldValues['mDescripcion'];
-      mBitacora3.Post;
-
-      QryBusca.Next;
-    end;
-  end;
-
-  TiempoMuerto := TZReadOnlyQuery.Create(tOrigen);
-  TiempoMuerto.Connection := connection.zConnection;
-  dsTiemposMuertos := TfrxDBDataSet.Create(tOrigen);
-  dsTiemposMuertos.DataSet := TiempoMuerto;
-
-  dsTiemposMuertos.UserName := 'dsTiempoMuerto';
-  rDiario.DataSets.Add(dsTiemposMuertos);
-
-  TiempoMuerto.Active := False;
-  TiempoMuerto.SQL.Clear;
-  TiempoMuerto.SQL.Add('Select t.sNumeroOrden, t.sArea, t.sHoraInicio, t.sHoraFinal, t.dPersonal, t.dFrente, t.sTiempoMuerto, t.sJornada, t.mDescripcion, c.sDescripcion from jornadasdiarias t ' +
-    'INNER JOIN tiposdemovimiento c ON (t.sContrato = c.sContrato And t.sIdTipoMovimiento = c.sIdTipoMovimiento) ' +
-    'Where t.sContrato = :Contrato And t.dIdFecha = :Fecha And t.sNumeroOrden = :Orden ' +
-    'And t.sIdTurno = :Turno And t.sTipo = "Tiempo Inactivo" Order By t.sHoraInicio ASC');
-  TiempoMuerto.Params.ParamByName('Contrato').DataType := ftString;
-  TiempoMuerto.Params.ParamByName('Contrato').Value := sParamContrato;
-  TiempoMuerto.Params.ParamByName('Fecha').DataType := ftDate;
-  TiempoMuerto.Params.ParamByName('Fecha').Value := dParamFecha;
-  TiempoMuerto.Params.ParamByName('Orden').DataType := ftString;
-  TiempoMuerto.Params.ParamByName('Orden').Value := sParamOrden;
-  TiempoMuerto.Params.ParamByName('turno').DataType := ftString;
-  TiempoMuerto.Params.ParamByName('turno').Value := sParamTurno;
-  TiempoMuerto.Open;
-  sJornadasSuspendidas := '00:00';
-  while not TiempoMuerto.Eof do
-  begin
-    sJornadasSuspendidas := sfnSumaHoras(sJornadasSuspendidas, TiempoMuerto.FieldValues['sJornada']);
-    TiempoMuerto.Next
-  end;
-
-    // Termina Comentarios
-
-
-    // Arbol detalle de Actividades y SubActividaes
-
-  QryBuscar.Active := False;
-  QryBuscar.SQL.Clear;
-  QryBuscar.SQL.Add('Select * From  ncampo_bitacora ' +
-    'Where sContrato = :Contrato And sNumeroOrden = :Orden And dIdFecha = :Fecha And lGerencial = "Si" Order By iItemOrden, sHoraInicio, sHoraFinal');
-  QryBuscar.Params.ParamByName('Contrato').DataType := ftString;
-  QryBuscar.Params.ParamByName('Contrato').Value := sParamContrato;
-  QryBuscar.Params.ParamByName('Orden').DataType := ftString;
-  QryBuscar.Params.ParamByName('Orden').Value := sParamOrden;
-  QryBuscar.Params.ParamByName('Fecha').DataType := ftDate;
-  QryBuscar.Params.ParamByName('Fecha').Value := dParamFecha;
-  QryBuscar.Open;
-
-  if QryBuscar.RecordCount > 0 then
-  begin
-    QryBuscar.First;
-    while not QryBuscar.Eof do
-    begin
-
-      mBitacora1.Append;
-      mBitacora1.FieldValues['sTipo'] := QryBuscar.FieldValues['sTipoActividad'];
-      mBitacora1.FieldValues['sContrato'] := QryBuscar.FieldValues['sContrato'];
-      mBitacora1.FieldValues['sPaquete'] := QryBuscar.FieldValues['sWbs'];
-//          mBitacora1.FieldValues['sNumeroActividad'] := espaces (QryBuscar.FieldValues['iNivel']) +  QryBuscar.FieldValues['sWbs'];
-      mBitacora1.FieldValues['sNumeroActividad'] := QryBuscar.FieldValues['sNumeroActividad'];
-      if QryBuscar.FieldValues['sTipoActividad'] <> 'SubActividad' then
-      begin
-        mBitacora1.FieldValues['sHoraInicio'] := '';
-        mBitacora1.FieldValues['sHoraFinal'] := '';
-        mBitacora1.FieldValues['sMedida'] := QryBuscar.FieldValues['sMedida'];
-        mBitacora1.FieldValues['mDescripcion'] := QryBuscar.FieldValues['mDescripcionActividad'];
-        if QryBuscar.FieldValues['sTipoActividad'] <> 'Actividad' then
-          mBitacora1.FieldValues['dCantidadAnexo'] := QryBuscar.FieldValues['dCantidadInstalar'];
-      end
-      else
-      begin
-        mBitacora1.FieldValues['sHoraInicio'] := QryBuscar.FieldValues['sHoraInicio'];
-        mBitacora1.FieldValues['sHoraFinal'] := QryBuscar.FieldValues['sHoraFinal'];
-        mBitacora1.FieldValues['sMedida'] := '';
-        mBitacora1.FieldValues['dCantidadAnexo'] := 0;
-        mBitacora1.FieldValues['mDescripcion'] := QryBuscar.FieldValues['mDescripcion'];
-      end;
-      mBitacora1.FieldValues['dCantidad'] := QryBuscar.FieldValues['dCantidad'];
-      mBitacora1.FieldValues['iFase'] := 0;
-      mBitacora1.FieldValues['dCantidadAnterior'] := QryBuscar.FieldValues['dCantidadAnterior'];
-      mBitacora1.FieldValues['dAvanceAnterior'] := QryBuscar.FieldValues['dAvanceAnterior'];
-      mBitacora1.FieldValues['dCantidad'] := QryBuscar.FieldValues['dCantidad'];
-      mBitacora1.FieldValues['dAvance'] := QryBuscar.FieldValues['dAvance'];
-      mBitacora1.FieldValues['dCantidadActual'] := QryBuscar.FieldValues['dCantidadActual'];
-      mBitacora1.FieldValues['dAvanceActual'] := QryBuscar.FieldValues['dAvanceActual'];
-      mBitacora1.FieldValues['iFase'] := 0;
-      mBitacora1.Post;
-      QryBuscar.Next
-    end;
-  end;
-
-    // Termina de Cargar la bitacora, la nueva, la de las ordenes de campo...
-
-  rptPersonal.Active := False;
-  rptPersonal.Sql.Clear;
-
-  rptEquipos.Active := False;
-  rptEquipos.SQL.Clear;
-
-  rptEquiposSeguridad.Active := False;
-  rptEquiposSeguridad.SQL.Clear;
-  if lCheckReporte() then
-  begin
-    if QryConfiguracion.FieldValues['sOrdenPerEq'] = 'Pernocta' then
-    begin
-      rptPersonal.SQL.Add('select b.sContrato, p2.sDescripcion as sPernocta, b.sDescripcion as sPersonal, Sum(b.dCantidad) as dCantidad from bitacoradepersonal b ' +
-        'inner join bitacoradeactividades a on (b.sContrato = a.sContrato And b.dIdFecha = a.dIdFecha And b.iIdDiario = a.iIdDiario And a.sIdTurno = :Turno) ' +
-        'inner join personal p on (b.sContrato = p.sContrato And b.sIdPersonal = p.sIdPersonal And p.lImprime = "Si") ' +
-        'inner join pernoctan p2 on (b.sIdPernocta = p2.sIdPernocta) ' +
-        'where a.sContrato = :contrato and a.dIdFecha = :fecha and a.sNumeroOrden = :Orden Group By ' +
-        'p2.sIdPernocta, p.sIdPersonal order by p2.sIdPernocta, p.iItemOrden asc');
-      rptPersonal.Params.ParamByName('contrato').DataType := ftString;
-      rptPersonal.Params.ParamByName('contrato').Value := sParamContrato;
-      rptPersonal.Params.ParamByName('orden').DataType := ftString;
-      rptPersonal.Params.ParamByName('orden').Value := sParamOrden;
-      rptPersonal.Params.ParamByName('fecha').DataType := ftDate;
-      rptPersonal.Params.ParamByName('fecha').Value := dParamFecha;
-      rptPersonal.Params.ParamByName('Turno').DataType := ftString;
-      rptPersonal.Params.ParamByName('Turno').Value := sParamTurno;
-      rptPersonal.Open;
-    end
-    else
-    begin
-      rptPersonal.SQL.Add('select b.sContrato, p2.sDescripcion as sPernocta, b.sDescripcion as sPersonal, Sum(b.dCantidad) as dCantidad from bitacoradepersonal b ' +
-        'inner join bitacoradeactividades a on (b.sContrato = a.sContrato And b.dIdFecha = a.dIdFecha And b.iIdDiario = a.iIdDiario And a.sIdTurno = :Turno) ' +
-        'inner join personal p on (b.sContrato = p.sContrato And b.sIdPersonal = p.sIdPersonal And p.lImprime = "Si") ' +
-        'inner join plataformas p2 on (b.sIdPlataforma = p2.sIdPlataforma) ' +
-        'where a.sContrato = :contrato and a.dIdFecha = :fecha and a.sNumeroOrden = :Orden Group By ' +
-        'p2.sIdPlataforma, p.sIdPersonal order by p2.sIdPlataforma, p.iItemOrden asc');
-      rptPersonal.Params.ParamByName('contrato').DataType := ftString;
-      rptPersonal.Params.ParamByName('contrato').Value := sParamContrato;
-      rptPersonal.Params.ParamByName('orden').DataType := ftString;
-      rptPersonal.Params.ParamByName('orden').Value := sParamOrden;
-      rptPersonal.Params.ParamByName('fecha').DataType := ftDate;
-      rptPersonal.Params.ParamByName('fecha').Value := dParamFecha;
-      rptPersonal.Params.ParamByName('Turno').DataType := ftString;
-      rptPersonal.Params.ParamByName('Turno').Value := sParamTurno;
-      rptPersonal.Open;
-    end;
-
-    rptEquipos.SQL.Add('select b.sContrato, p2.sDescripcion as sPernocta, b.sDescripcion as sEquipo, Sum(b.dCantidad) as dCantidad  from bitacoradeequipos b ' +
-      'inner join bitacoradeactividades a on (b.sContrato = a.sContrato And b.dIdFecha = a.dIdFecha And b.iIdDiario = a.iIdDiario And a.sIdTurno = :Turno) ' +
-      'inner join equipos p on (b.sContrato = p.sContrato And b.sIdEquipo = p.sIdEquipo) ' +
-      'inner join pernoctan p2 on (b.sIdPernocta = p2.sIdPernocta) ' +
-      'where a.sContrato = :contrato and a.dIdFecha = :fecha and a.sNumeroOrden = :Orden And p.sIdTipoEquipo <> :Equipo ' +
-      'Group By p2.sIdPernocta, p.sIdEquipo order by p2.sIdPernocta, p.iItemOrden asc');
-    rptEquipos.Params.ParamByName('contrato').DataType := ftString;
-    rptEquipos.Params.ParamByName('contrato').Value := sParamContrato;
-    rptEquipos.Params.ParamByName('orden').DataType := ftString;
-    rptEquipos.Params.ParamByName('orden').Value := sParamOrden;
-    rptEquipos.Params.ParamByName('fecha').DataType := ftDate;
-    rptEquipos.Params.ParamByName('fecha').Value := dParamFecha;
-    rptEquipos.Params.ParamByName('equipo').DataType := ftString;
-    rptEquipos.Params.ParamByName('equipo').Value := QryConfiguracion.FieldValues['sClaveSeguridad'];
-    rptEquipos.Params.ParamByName('Turno').DataType := ftString;
-    rptEquipos.Params.ParamByName('Turno').Value := sParamTurno;
-    rptEquipos.Open;
-
-    rptEquiposSeguridad.SQL.Add('select b.sContrato, p2.sDescripcion as sPernocta, b.sDescripcion as sEquipo, Sum(b.dCantidad) as dCantidad  from bitacoradeequipos b ' +
-      'inner join bitacoradeactividades a on (b.sContrato = a.sContrato And b.dIdFecha = a.dIdFecha And b.iIdDiario = a.iIdDiario And a.sIdTurno = :Turno) ' +
-      'inner join equipos p on (b.sContrato = p.sContrato And b.sIdEquipo = p.sIdEquipo And p.lImprime = "Si") ' +
-      'inner join pernoctan p2 on (b.sIdPernocta = p2.sIdPernocta) ' +
-      'where a.sContrato = :contrato and a.dIdFecha = :fecha and a.sNumeroOrden = :Orden And p.sIdTipoEquipo = :Equipo ' +
-      'Group By p2.sIdPernocta, p.sIdEquipo order by p2.sIdPernocta, p.iItemOrden asc');
-    rptEquiposSeguridad.Params.ParamByName('contrato').DataType := ftString;
-    rptEquiposSeguridad.Params.ParamByName('contrato').Value := sParamContrato;
-    rptEquiposSeguridad.Params.ParamByName('orden').DataType := ftString;
-    rptEquiposSeguridad.Params.ParamByName('orden').Value := sParamOrden;
-    rptEquiposSeguridad.Params.ParamByName('fecha').DataType := ftDate;
-    rptEquiposSeguridad.Params.ParamByName('fecha').Value := dParamFecha;
-    rptEquiposSeguridad.Params.ParamByName('equipo').DataType := ftString;
-    rptEquiposSeguridad.Params.ParamByName('equipo').Value := QryConfiguracion.FieldValues['sClaveSeguridad'];
-    rptEquiposSeguridad.Params.ParamByName('Turno').DataType := ftString;
-    rptEquiposSeguridad.Params.ParamByName('Turno').Value := sParamTurno;
-    rptEquiposSeguridad.Open;
-  end
-  else
-  begin
-    rptPersonal.SQL.Add('select b.sContrato, "" as sPernocta, b.sDescripcion as sPersonal, Sum(b.dCantidad) as dCantidad from bitacoradepersonal b ' +
-      'inner join bitacoradeactividades a on (b.sContrato = a.sContrato And b.dIdFecha = a.dIdFecha And b.iIdDiario = a.iIdDiario And a.sIdTurno = :Turno) ' +
-      'inner join personal p on (b.sContrato = p.sContrato And b.sIdPersonal = p.sIdPersonal And p.lImprime = "Si") ' +
-      'where a.sContrato = :contrato and a.dIdFecha = :fecha and a.sNumeroOrden = :Orden Group By ' +
-      'p.sIdPersonal order by p.iItemOrden asc');
-    rptPersonal.Params.ParamByName('contrato').DataType := ftString;
-    rptPersonal.Params.ParamByName('contrato').Value := sParamContrato;
-    rptPersonal.Params.ParamByName('orden').DataType := ftString;
-    rptPersonal.Params.ParamByName('orden').Value := sParamOrden;
-    rptPersonal.Params.ParamByName('fecha').DataType := ftDate;
-    rptPersonal.Params.ParamByName('fecha').Value := dParamFecha;
-    rptPersonal.Params.ParamByName('Turno').DataType := ftString;
-    rptPersonal.Params.ParamByName('Turno').Value := sParamTurno;
-    rptPersonal.Open;
-
-
-    rptEquipos.SQL.Add('select b.sContrato, "" as sPernocta, b.sDescripcion as sEquipo, Sum(b.dCantidad) as dCantidad  from bitacoradeequipos b ' +
-      'inner join bitacoradeactividades a on (b.sContrato = a.sContrato And b.dIdFecha = a.dIdFecha And b.iIdDiario = a.iIdDiario And a.sIdTurno = :Turno) ' +
-      'inner join equipos p on (b.sContrato = p.sContrato And b.sIdEquipo = p.sIdEquipo And p.lImprime = "Si") ' +
-      'where a.sContrato = :contrato and a.dIdFecha = :fecha and a.sNumeroOrden = :Orden And p.sIdTipoEquipo <> :Equipo ' +
-      'Group By p.sIdEquipo order by p.iItemOrden asc');
-    rptEquipos.Params.ParamByName('contrato').DataType := ftString;
-    rptEquipos.Params.ParamByName('contrato').Value := sParamContrato;
-    rptEquipos.Params.ParamByName('orden').DataType := ftString;
-    rptEquipos.Params.ParamByName('orden').Value := sParamOrden;
-    rptEquipos.Params.ParamByName('fecha').DataType := ftDate;
-    rptEquipos.Params.ParamByName('fecha').Value := dParamFecha;
-    rptEquipos.Params.ParamByName('equipo').DataType := ftString;
-    rptEquipos.Params.ParamByName('equipo').Value := QryConfiguracion.FieldValues['sClaveSeguridad'];
-    rptEquipos.Params.ParamByName('Turno').DataType := ftString;
-    rptEquipos.Params.ParamByName('Turno').Value := sParamTurno;
-    rptEquipos.Open;
-
-    rptEquiposSeguridad.SQL.Add('select b.sContrato, "" as sPernocta, b.sDescripcion as sEquipo, Sum(b.dCantidad) as dCantidad  from bitacoradeequipos b ' +
-      'inner join bitacoradeactividades a on (b.sContrato = a.sContrato And b.dIdFecha = a.dIdFecha And b.iIdDiario = a.iIdDiario And a.sIdTurno = :Turno) ' +
-      'inner join equipos p on (b.sContrato = p.sContrato And b.sIdEquipo = p.sIdEquipo And p.lImprime = "Si") ' +
-      'where a.sContrato = :contrato and a.dIdFecha = :fecha and a.sNumeroOrden = :Orden And p.sIdTipoEquipo = :Equipo ' +
-      'Group By p.sIdEquipo order by p.iItemOrden asc');
-    rptEquiposSeguridad.Params.ParamByName('contrato').DataType := ftString;
-    rptEquiposSeguridad.Params.ParamByName('contrato').Value := sParamContrato;
-    rptEquiposSeguridad.Params.ParamByName('orden').DataType := ftString;
-    rptEquiposSeguridad.Params.ParamByName('orden').Value := sParamOrden;
-    rptEquiposSeguridad.Params.ParamByName('fecha').DataType := ftDate;
-    rptEquiposSeguridad.Params.ParamByName('fecha').Value := dParamFecha;
-    rptEquiposSeguridad.Params.ParamByName('equipo').DataType := ftString;
-    rptEquiposSeguridad.Params.ParamByName('equipo').Value := QryConfiguracion.FieldValues['sClaveSeguridad'];
-    rptEquiposSeguridad.Params.ParamByName('Turno').DataType := ftString;
-    rptEquiposSeguridad.Params.ParamByName('Turno').Value := sParamTurno;
-    rptEquiposSeguridad.Open;
-  end;
-
-
-    // Termina Personal, Equipo y Seguridad
-  embarcacion.Active := False;
-  embarcacion.SQL.Clear;
-  embarcacion.SQL.Add('Select sDescripcion from embarcaciones Where sContrato = :Contrato And sTipo="Principal"');
-  embarcacion.Params.ParamByName('Contrato').DataType := ftString;
-  embarcacion.Params.ParamByName('Contrato').Value := Global_Contrato_Barco;
-  embarcacion.Open;
-  if embarcacion.RecordCount > 0 then
-    Global_nombre_Embarcacion := embarcacion.FieldValues['sDescripcion'];
-
-
-    //Cargar el query de Actividades anexo
-  qryActividadesAnexos.Active := False;
-  qryActividadesAnexos.SQL.Clear;
-  qryActividadesAnexos.SQL.Add('select me.sClasificacion as sIdFase, tm.iOrden, tm.sDescripcion, ' +
-    'me.dIdFecha, sum(me.sFactor) sFactor from tiposdemovimiento tm ' +
-    'inner join movimientosdeembarcacion me on (tm.sContrato=me.sContrato ' +
-    'And tm.sIdTipoMovimiento=me.sClasificacion and me.dIdFecha=:Fecha) ' +
-    'Where me.sContrato = :Contrato group by tm.sIdTipoMovimiento order by tm.iOrden');
-  qryActividadesAnexos.ParamByName('Contrato').DataType := ftString;
-  qryActividadesAnexos.ParamByName('Contrato').Value := sParamContrato;
-  qryActividadesAnexos.ParamByName('Fecha').DataType := ftDate;
-  qryActividadesAnexos.ParamByName('Fecha').Value := dParamFecha;
-  qryActividadesAnexos.Open;
-
-  //Cargar el query de prorrateos
-  Prorrateos.Active := False;
-  Prorrateos.Sql.Clear;
-  Prorrateos.Sql.Add('select f.sContrato, p.sDescripcion as sNumeroOrden, f.sFactor, me.sClasificacion, me.sIdFase, me.sTipo, ' +
-    'me.mDescripcion,  me.sHoraInicio,  me.sHoraFinal, me.dIdFecha, f.dPersonalOrden from movimientosdeembarcacion me ' +
-    'Inner join fasesxorden f on (f.dIdFecha=me.dIdFecha and f.iIdDiario=me.iIdDiario) ' +
-    'Inner join ordenesdetrabajo o on (o.sContrato = f.sContrato and o.sNumeroOrden = f.sNumeroOrden) ' +
-    'Inner join plataformas p on (p.sIdPlataforma = o.sIdPlataforma) ' +
-    'Where me.sContrato=:Contrato and me.dIdFecha=:Fecha order by me.sHoraInicio');
-  Prorrateos.ParamByName('Contrato').DataType := ftString;
-  Prorrateos.ParamByName('Contrato').Value := sParamContrato;
-  Prorrateos.ParamByName('Fecha').DataType := ftDate;
-  Prorrateos.ParamByName('Fecha').Value := dParamFecha;
-  Prorrateos.Open;
-
-  //Cargar el query de arribos
-  qryArribos.Active := False;
-  qryArribos.SQL.Clear;
-  qryArribos.SQL.Add('Select m.sContrato, m.dIdFecha, m.sHoraInicio, m.sHoraFinal, mDescripcion, ' +
-    'e.sIdTipoEmbarcacion from movimientosdeembarcacion m ' +
-    'inner join embarcaciones e On ( m.sContrato=e.sContrato And m.sIdEmbarcacion=e.sIdEmbarcacion) ' +
-    'Where m.dIdFecha= :fecha And m.sContrato= :contrato And m.sTipo = "ARRIBO" order by sHoraInicio');
-  qryArribos.ParamByName('Contrato').DataType := ftString;
-  qryArribos.ParamByName('Contrato').Value := sParamContrato;
-  qryArribos.ParamByName('Fecha').DataType := ftDate;
-  qryArribos.ParamByName('Fecha').Value := dParamFecha;
-  qryArribos.Open;
-
-  //Cargar el query de Condiciones Climatologicas
-  qryClimaReporte.Active := False;
-  qryClimareporte.Sql.Clear;
-  qryClimaReporte.Sql.Add('select max(cm.dCantidad) as maximo, c.sDescripcion as sDescripcionTiempo, ' +
-    'd.sDescripcion as Direccion ,c.sMedida from condicionesclimatologicas cm ' +
-    'inner join condiciones c on (cm.iIdCondicion=c.iIdCondicion) ' +
-    'inner join direcciones d on (cm.iIdDireccion=d.iIdDireccion) ' +
-    'where cm.dIdFecha=:Fecha and cm.sContrato=:Contrato Group By sDescripcionTiempo');
-  qryClimaReporte.ParamByName('Contrato').DataType := ftString;
-  qryClimaReporte.ParamByName('Contrato').Value := sParamContrato;
-  qryClimaReporte.ParamByName('Fecha').DataType := ftDate;
-  qryClimaReporte.ParamByName('Fecha').Value := dParamFecha;
-  qryClimaReporte.Open;
-
-  //Cargar el query de Movimientos de Disposiciones
-  qryDisposicionesReporte.Active := False;
-  qryDisposicionesReporte.Sql.Clear;
-  qryDisposicionesReporte.Sql.Add('select m.sIdEmbarcacion, m.sHoraInicio, m.sHoraFinal, m.mDescripcion, ' +
-    'e.sDescripcion as nomlancha  from movimientosdeembarcacion m ' +
-    'Inner Join  embarcaciones e On (m.sContrato=e.sContrato And m.sIdEmbarcacion= e.sIdEmbarcacion) ' +
-    'where m.dIdFecha=:Fecha And m.sContrato=:Contrato and m.sTipo="DISPOSICION" ' +
-    'order by e.sDescripcion, m.sHoraInicio');
-  qryDisposicionesReporte.ParamByName('Contrato').DataType := ftString;
-  qryDisposicionesReporte.ParamByName('Contrato').Value := sParamContrato;
-  qryDisposicionesReporte.ParamByName('Fecha').DataType := ftDate;
-  qryDisposicionesReporte.ParamByName('Fecha').Value := dParamFecha;
-  qryDisposicionesReporte.Open;
-
-  //Cargar el query de Recursos o mezclas
-  qryRecursosReporte.Active := False;
-  qryRecursosReporte.Sql.Clear;
-  qryRecursosReporte.Sql.Add('select * from recursos r ' +
-    'inner join recursosdeexistencias re on (r.iIdRecursoExistencia=re.iIdRecursoExistencia) ' +
-    'where r.dIdFecha=:Fecha and r.sContrato=:Contrato');
-  qryRecursosReporte.ParamByName('Contrato').DataType := ftString;
-  qryRecursosReporte.ParamByName('Contrato').Value := sParamContrato;
-  qryRecursosReporte.ParamByName('Fecha').DataType := ftDate;
-  qryRecursosReporte.ParamByName('Fecha').Value := dParamFecha;
-  qryRecursosReporte.Open;
-
-  //Cargar el query de Notas Generales
-  qryNotasGenerales.Active := False;
-  qryNotasGenerales.Sql.Clear;
-  qryNotasGenerales.Sql.Add('select mDescripcion from bitacoradeactividades ' +
-    'where sContrato=:Contrato and dIdFecha=:Fecha and sIdTipoMovimiento="B" ');
-  qryNotasGenerales.ParamByName('Contrato').DataType := ftString;
-  qryNotasGenerales.ParamByName('Contrato').Value := sParamContrato;
-  qryNotasGenerales.ParamByName('Fecha').DataType := ftDate;
-  qryNotasGenerales.ParamByName('Fecha').Value := dParamFecha;
-  qryNotasGenerales.Open;
-
-  //Cargar el query de Notas Generales
-
-  Tripulacion.Active := False;
-  Tripulacion.SQL.Clear;
-  Tripulacion.SQL.Add(
-    ' SELECT c.sIdCategoria,td.dIdFecha, c.sDescripcion as sCategoria , t.sDescripcionGrupo as sDescripcion, Sum(td.iNacionales) as iNacionales,' +
-    ' Sum(td.iExtranjeros) as iExtranjeros FROM tripulaciondiaria td INNER JOIN tripulacion t ON ' +
-    ' (t.sContrato = td.sContrato And t.sIdTripulacion = td.sIdTripulacion) ' +
-    ' INNER JOIN categorias c ON (t.sIdCategoria = c.sIdCategoria) ' +
-    ' Where td.sContrato =:Contrato And td.dIdFecha = :Fecha ' +
-    ' Group By t.sIdTripulacionGrupo Order By c.sIdCategoria, t.iOrden');
-  Tripulacion.ParamByName('Contrato').DataType := ftString;
-  Tripulacion.ParamByName('Contrato').Value := sParamContrato;
-  Tripulacion.ParamByName('Fecha').DataType := ftDate;
-  Tripulacion.ParamByName('Fecha').Value := dParamFecha;
-  Tripulacion.Open;
-
-    //Cargo totalizado
-  Totales.Active := False;
-  Totales.Sql.Clear;
-  Totales.Sql.Add('select t.sDescripcion, sum(td.iNacionales) as nacionales from tripulaciondiaria td ' +
-    'inner join categorias t On (t.sIdCategoria=td.sIdCategoria) ' +
-    'where td.sContrato=:Contrato and dIdFecha=:Fecha group by t.sIdCategoria order by t.sIdCategoria, t.sDescripcion');
-  Totales.ParamByName('Contrato').DataType := ftString;
-  Totales.ParamByName('Contrato').Value := sParamContrato;
-  Totales.ParamByName('Fecha').DataType := ftDate;
-  Totales.ParamByName('Fecha').Value := dParamFecha;
-  Totales.Open;
-
-  rDiario.OnGetValue := tProcedure;
-  rDiarioFirmas(sParamContrato, sParamOrden, sParamTurno, dParamFecha, tOrigen);
-
-  rDiario.LoadFromFile(global_files + 'cotemarRDiarioBarco.fr3');
-  rDiario.ShowReport();
-
-    // Destruye Objetos ...
-
-  rDiario.Destroy;
-
-  rptPersonal.Destroy;
-  rptEquipos.Destroy;
-  rptEquiposSeguridad.Destroy;
-  dsPersonal.Destroy;
-  dsTiempoExtra.Destroy;
-  dsSeguridad.Destroy;
-  dsEquipos.Destroy;
-
-  QryBuscar.Destroy;
-  dsmBitacora1.Destroy;
-  qryActividadesAnexos.Destroy;
-  Prorrateos.Destroy;
-  QryArribos.Destroy;
-  QryClimaReporte.Destroy;
-  qryDisposicionesReporte.Destroy;
-  qryRecursosReporte.Destroy;
-  qryNotasGenerales.Destroy;
-  Tripulacion.Destroy;
-  Totales.Destroy;
-  dsActividades.Destroy;
-  detProrrateos.Destroy;
-  ArribosReporte.Destroy;
-  dsClimaReporte.Destroy;
-  DisposicionesReporte.Destroy;
-  dsRecursosReporte.Destroy;
-  dsNotasGenerales.Destroy;
-  dsTripulacion.Destroy;
-  dsTotales.Destroy;
-  embarcacion.Destroy;
-  dsmBitacoraActividades.Destroy;
-  mBitacora3.Destroy;
-  dsBitacora3.Destroy;
-  dsTiemposMuertos.Destroy;
-  TiempoMuerto.Destroy;
 end;
 
 procedure procReporteTripulacion(sParamContrato, sParamTurno: string; dParamFecha: tDate; tOrigen: TComponent; tProcedure: tfrxGetValueEvent; FormatosExp: string = ''; PermisosExp: string = ''; sParamTipo :string = '');
@@ -13188,7 +9966,7 @@ begin
   else
      rDiario.LoadFromFile(global_files + global_miReporte+'_TripulacionDiaria_admin.fr3');
 
-  rDiario.ShowReport;
+  rDiario.ShowReport(True);
 
     // Destruye Objetos ...
   rDiario.Destroy;
@@ -13353,7 +10131,7 @@ begin
 
   rDiario.LoadFromFile(global_files + global_miReporte+'_TripulacionDiaria_lista.fr3');
 
-  rDiario.ShowReport;
+  rDiario.ShowReport(True);
 
     // Destruye Objetos ...
   rDiario.Destroy;
@@ -13374,1831 +10152,6 @@ begin
   dsTotalesOperativos.Destroy;
 
 end;
-
-
-//Procedimiento del Reporte Diario Programadas..
-procedure procReporteDiarioCotemarProg(sParamContrato, sParamOrden, sParamReporte, sParamTurno, sParamConvenio: string; dParamFecha: tDate; sParamDestino: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; tDblClick: tfrxClickObjectEvent; lParamMostrarAnt: boolean = false; FormatosExp: string = ''; PermisosExp: string = '');
-var
-  Registro      : Integer;
-  sPaquete,
-  sBkPaquete    : string;
-  lEncontrado   : Boolean;
-  dAvance       : Real;
-  sTipoOrden    : string;
-  sListPaquetes : string;
-
-  iNumeroBloques, j, k, i: Integer;
-  sHistorialPartidas : string;
-  Embarcacion        : string;
-  lContinua          : boolean;
-
-  {paqueteo...}
-  MiWbs: string;
-  iPos, NumPaq, Nivel: Integer;
-  Q_Paquetes,
-  QrCantInstall,
-  QryBuscarTurnos : tzReadOnlyquery;
-  ArrayPaquetes: array[1..10, 1..4] of string;
-  Cadena : string;
-  indice : integer;
-  dAvancePaquete, dAvanceActualPaquete : double;
-  mNotas : string;
-
-  dCantidadMaterial, dCantidadMaterialComercial : double;
-begin
-   // Creo los abjetos del reporte diario ...
-   procCreateObject(tOrigen);
-   rDiario.OnGetValue := tProcedure;
-
-   if Assigned(tDblClick) then
-      rDiario.OnDblClickObject := tDblClick;
-
-   {Llamamos funcion para obtener perido del contrato de la Reprog..}
-   definirPeriodoProgramado(sParamContrato, sParamconvenio, dParamFecha);
-
-   {Llamamos la funcion para obtener la numeracion de partidas a mostrar}
-   //  sHistorialPartidas := historialPartidas(sParamContrato, sParamOrden, dParamFecha, lParamMostrarAnt);
-   //  sHistorialPartidas := 'a2.' + sHistorialPartidas + ' as partida, ';
-   //  sHistorialPartidas := '(if(a2.' + sHistorialPartidas + ' <> "", a2.' + sHistorialPartidas + ', b.sNumeroActividad)) as partida, ';
-
-  Connection.qryBusca.Active := False;
-  Connection.QryBusca.SQL.Clear;
-  Connection.QryBusca.SQL.Add('Select * from tramitedepermisos Where sContrato=:Contrato And sNumeroOrden=:Orden ' +
-                              'And dIdFecha=:Fecha And sIdTurno =:Turno');
-  Connection.QryBusca.Params.ParamByName('contrato').DataType := ftString;
-  Connection.QryBusca.Params.ParamByName('contrato').Value := sParamContrato;
-  Connection.QryBusca.Params.ParamByName('orden').DataType := ftString;
-  Connection.QryBusca.Params.ParamByName('orden').Value := sParamOrden;
-  Connection.QryBusca.Params.ParamByName('Fecha').DataType := ftDate;
-  Connection.QryBusca.Params.ParamByName('Fecha').Value := dParamFecha;
-  Connection.QryBusca.Params.ParamByName('Turno').DataType := ftString;
-  Connection.QryBusca.Params.ParamByName('Turno').Value := sParamTurno;
-  Connection.QryBusca.Open;
-
-  if Connection.QryBusca.RecordCount = 0 then
-  begin
-      {Detalle de integirdad referencial tiposdepermiso _ tramitedepermisos 12 Junio 2011}
-      connection.zCommand.Active := False;
-      connection.zCommand.SQL.Clear;
-      connection.zCommand.SQL.Add('select * from tiposdepermiso where sIdTipoPermiso = "A" ');
-      connection.zCommand.Open;
-
-      if connection.zCommand.RecordCount = 0 then
-      begin
-          try
-             connection.zCommand.Active := False;
-             connection.zCommand.SQL.Clear;
-             connection.zCommand.SQL.Add('insert into tiposdepermiso (sIdTipoPermiso, sDescripcion) values ("A","CLASE A")');
-             connection.zCommand.ExecSQL;
-          except
-          end;
-      end;
-      {fin de detalle de integridad..}
-
-      // Proceso de Insercccion ...
-      connection.zCommand.Active := False;
-      connection.zCommand.SQL.Clear;
-      connection.zCommand.SQL.Add('insert into tramitedepermisos set ' +
-        'sContrato     =:Contrato, ' +
-        'dIdFecha      =:Fecha, ' +
-        'sNumeroOrden  =:Orden, ' +
-        'sIdTurno      =:Turno ,' +
-        'sIdTipoPermiso="A", ' +
-        'sFolios       =" ", ' +
-        'sHoraInicio   ="00:00", ' +
-        'sHoraFinal    ="00:00", ' +
-        'iCantidad     =0, ' +
-        'mComentarios  ="*" ');
-
-      connection.zCommand.Params.ParamByName('Contrato').DataType := ftString;
-      connection.zCommand.Params.ParamByName('Contrato').Value := sParamContrato;
-      connection.zCommand.Params.ParamByName('Fecha').DataType := ftDate;
-      connection.zCommand.Params.ParamByName('Fecha').Value := dParamFecha;
-      connection.zCommand.Params.ParamByName('Orden').DataType := ftString;
-      connection.zCommand.Params.ParamByName('Orden').Value := sParamOrden;
-      connection.zCommand.Params.ParamByName('Turno').DataType := ftString;
-      connection.zCommand.Params.ParamByName('Turno').Value := sParamTurno;
-      connection.zCommand.ExecSQL;
-  end;
-
-  qryConfiguracionOrden.Active := False;
-  qryConfiguracionOrden.SQL.Clear;
-  qryConfiguracionOrden.SQL.Add('select * from ordenesdetrabajo where sContrato=:Contrato and sNumeroOrden=:Orden ');
-  qryConfiguracionOrden.Params.ParamByName('Contrato').DataType := ftString;
-  qryConfiguracionOrden.Params.ParamByName('Contrato').Value := sParamContrato;
-  qryConfiguracionOrden.Params.ParamByName('Orden').DataType := ftString;
-  qryConfiguracionOrden.Params.ParamByName('Orden').Value := sParamOrden;
-  qryConfiguracionOrden.Open;
-
-  // Actualizo primeramente las firmas ..
-  if mMovimientos.RecordCount > 0 then
-    mMovimientos.EmptyTable;
-
-  if mBitacora1.RecordCount > 0 then
-    mBitacora1.EmptyTable;
-
-  QryConfiguracion.Active := False;
-  QryConfiguracion.SQL.Clear;
-  QryConfiguracion.SQL.Add('select c.lImprimeNotasGerenciales, c.iFirmasReportes, c.sMostrarAvances,c.iFirmas, c.sOrdenPerEq, c.sTipoPartida, c.sImprimePEP, ' +
-      ' (select sContrato from contratos where sContrato =:contratobarco ) as sContratoBarco, ' +
-      ' (select mDescripcion from contratos where sContrato =:contratobarco ) as mDescripcionBarco, ' +
-      'c.sClaveSeguridad, c.cStatusProceso, c.sOrdenExtraordinaria, c.lLicencia, c.sReportesCIA, c.sLeyenda1, c.sLeyenda2, c.sLeyenda3,' +
-      'ot.bAvanceFrente, ot.bAvanceContrato, ot.bComentarios, ot.bPermisos, ot.lMostrarAvanceProgramado, ot.lImprimePersonalTM, ot.lPersonalxPartida, ' +
-      'c.bImagen, c.sContrato, c.sNombre, c2.sCodigo, c.sPiePagina, c.sEmail, c.sWeb, c.sSlogan, c.sFirmasElectronicas, c.lImprimeExtraordinario, ' +
-      'c2.mDescripcion, c2.sTitulo, c2.mCliente, c2.bImagen as bImagenPEP, ot.lImprimeFases, cv.dFechaInicio, cv.dfechaFinal ' +
-      'From contratos c2 INNER JOIN configuracion c ON (c.sContrato = c2.sContrato) ' +
-      'inner join ordenesdetrabajo ot on (ot.sContrato = c2.sContrato and ot.sNumeroOrden =:Orden ) ' +
-      'inner join convenios cv on (cv.sContrato = c2.sContrato and cv.sIdConvenio =:convenio) '+
-      'Where c2.sContrato = :Contrato');
-  QryConfiguracion.Params.ParamByName('contrato').DataType := ftString;
-  QryConfiguracion.Params.ParamByName('contrato').Value    := sParamContrato;
-  QryConfiguracion.Params.ParamByName('contratobarco').DataType := ftString;
-  QryConfiguracion.Params.ParamByName('contratobarco').Value    := global_contrato_barco;
-  QryConfiguracion.Params.ParamByName('convenio').DataType := ftString;
-  QryConfiguracion.Params.ParamByName('convenio').Value    := sParamConvenio;
-  QryConfiguracion.Params.ParamByName('Orden').DataType    := ftString;
-  QryConfiguracion.Params.ParamByName('Orden').Value       := sParamOrden;
-  QryConfiguracion.Open;
-
-  QryReporteDiario.Active := False;
-  QryReporteDiario.SQL.Clear;
-  if lCheckReporte() then
-    QryReporteDiario.SQL.Add('Select r.*, o.sIdFolio, o.sDescripcionCorta, t.sOrigenTierra, t.sDescripcion, p.sDescripcion as Plataforma, p.sIdPlataforma From reportediario r ' +
-      'inner join ordenesdetrabajo o ON (r.sContrato = o.sContrato And r.sNumeroOrden = o.sNumeroOrden) ' +
-      'inner join plataformas p on (o.scontrato = r.sContrato and p.sIdPlataforma = o.sIdPlataforma) '+
-      'inner join turnos t on (r.sContrato = t.sContrato and r.sIdTurno = t.sIdTurno) ' +
-      'Where r.sContrato = :Contrato And r.sNumeroOrden = :Orden And r.dIdFecha = :Fecha And r.sIdTurno = :Turno')
-  else
-    QryReporteDiario.SQL.Add('Select r.*, o.sIdFolio, o.sDescripcionCorta, p.sDescripcion as Plataforma, p.sIdPlataforma From reportediario r ' +
-      'inner join ordenesdetrabajo o ON (r.sContrato = o.sContrato And r.sNumeroOrden = o.sNumeroOrden) ' +
-      'inner join plataformas p on (o.scontrato = r.sContrato and p.sIdPlataforma = o.sIdPlataforma) '+
-      'Where r.sContrato = :Contrato And r.sNumeroOrden = :Orden And r.dIdFecha = :Fecha And r.sIdTurno = :Turno');
-  QryReporteDiario.Params.ParamByName('contrato').DataType := ftString;
-  QryReporteDiario.Params.ParamByName('contrato').Value := sParamContrato;
-  QryReporteDiario.Params.ParamByName('orden').DataType := ftString;
-  QryReporteDiario.Params.ParamByName('orden').Value := sParamOrden;
-  QryReporteDiario.Params.ParamByName('Fecha').DataType := ftDate;
-  QryReporteDiario.Params.ParamByName('Fecha').Value := dParamFecha;
-  QryReporteDiario.Params.ParamByName('Turno').DataType := ftString;
-  QryReporteDiario.Params.ParamByName('Turno').Value := sParamTurno;
-  QryReporteDiario.Open;
-
-  QryBuscar := tZReadOnlyQuery.Create(tOrigen);
-  QryBuscar.Connection := connection.zconnection;
-  QryBuscarAux := tZReadOnlyQuery.Create(tOrigen);
-  QryBuscarAux.Connection := connection.zconnection;
-
-  {22/02/2012: adal, Obtenermos el numero de paquetes a mostrar..}
-  Q_Paquetes := tzReadOnlyQuery.Create(tOrigen);
-  Q_Paquetes.Connection := connection.zConnection;
-
-  QryBuscarTurnos := tzReadOnlyQuery.Create(tOrigen);
-  QryBuscarTurnos.Connection := connection.zConnection;
-
-  Q_Paquetes.Active := False;
-  Q_Paquetes.SQL.Clear;
-  Q_Paquetes.SQL.Add('select iNiveles from ordenesdetrabajo where sContrato =:Contrato and sNumeroOrden =:Orden ');
-  Q_Paquetes.ParamByName('Contrato').AsString := sParamContrato;
-  Q_Paquetes.ParamByName('Orden').AsString := sParamOrden;
-  Q_Paquetes.Open;
-
-  if Q_Paquetes.RecordCount > 0 then
-    Nivel := Q_Paquetes.FieldValues['iNiveles'];
-
-  {actividades}//reporte detallado
-  if lCheckReporte() then
-  begin
-      if QryConfiguracion.FieldValues['sTipoPartida'] = 'Todas' then
-      begin
-          QryBuscar.Active := False;
-          QryBuscar.SQL.Clear; {01/03/2012 :adal2404, modificar query ligar la bitacora con las actividadexorden y las ac
-          vitidadesxorden con las actividadesxanexon con sWbsContrato}
-          if QryConfiguracion.FieldValues['lImprimeExtraordinario'] = 'Si' then
-             QryBuscar.SQL.Add('Select a2.sTipoAnexo, b.iIdDiario, a.sWbsAnterior, b.sWbs, b.sNumeroActividad, a2.sNumeroActividad as Partida, b.mDescripcion as mDescripcion, sum(b.dCantidad) as dCantidad, sum(b.dAvance) as dAvance, ' +
-              'a.sMedida, a.dCantidad as dCantidadAnexo, b.dCantidadAnterior, b.dAvanceAnterior, b.dCantidadActual, b.dAvanceActual, a.dVentaMN, b.lCancelada, a2.sAnexo From bitacoradeactividades b ' +
-              'INNER JOIN actividadesxorden a ON (b.sContrato = a.sContrato And b.sNumeroOrden = a.sNumeroOrden And b.sWbs = a.sWbs And ' +
-              'b.sNumeroActividad = a.sNumeroActividad And a.sIdConvenio = :Convenio And a.sTipoActividad = "Actividad" ) ' +     //and a.sTipoAnexo = "ADM"
-              'INNER JOIN actividadesxanexo a2 ON (a2.sContrato = a.sContrato And a2.sNumeroActividad = a.sNumeroActividad ' +
-              'And a.sIdConvenio = a2.sIdConvenio And a2.sTipoActividad = "Actividad" and a.sWbsContrato=a2.sWbs) ' +
-              'Where b.sContrato = :Contrato And b.sNumeroOrden = :Orden And b.dIdFecha = :Fecha And b.sIdTurno = :Turno and sIdTipoMovimiento = "E" and b.lImprime = "Si"  ' +
-              'Group By b.sWbs, b.sNumeroActividad Order By b.lCancelada, a.iItemOrden ')
-          else {01/03/2012 :adal2404, modificar query ligar la bitacora con las actividadexorden y las ac
-               vitidadesxorden con las actividadesxanexon con sWbsContrato}
-              QryBuscar.SQL.Add('Select a2.sTipoAnexo, b.iIdDiario, a.sWbsAnterior, b.sWbs, b.sNumeroActividad, a2.sNumeroActividad as Partida, b.mDescripcion as mDescripcion, sum(b.dCantidad) as dCantidad, sum(b.dAvance) as dAvance, ' +
-              'a.sMedida, a.dCantidad as dCantidadAnexo, b.dCantidadAnterior, b.dAvanceAnterior, b.dCantidadActual, b.dAvanceActual, a.dVentaMN, b.lCancelada, a2.sAnexo From bitacoradeactividades b ' +
-              'INNER JOIN actividadesxorden a ON (b.sContrato = a.sContrato And b.sNumeroOrden = a.sNumeroOrden And b.sWbs= a.sWbs And ' +
-              'b.sNumeroActividad = a.sNumeroActividad And a.sIdConvenio = :Convenio And a.sTipoActividad = "Actividad"  ) ' + //and a.sTipoAnexo = "ADM"
-              'INNER JOIN actividadesxanexo a2 ON (a2.sContrato = a.sContrato And a2.sNumeroActividad = a.sNumeroActividad ' +
-              'And a.sIdConvenio = a2.sIdConvenio And a2.sTipoActividad = "Actividad" and a2.sWbs=a.sWbsContrato) ' +
-              'Where b.sContrato = :Contrato And b.sNumeroOrden = :Orden And b.dIdFecha = :Fecha And b.sIdTurno = :Turno and sIdTipoMovimiento = "E" and b.lImprime = "Si" ' +
-              'Group By b.sWbs, b.sNumeroActividad Order By b.lCancelada, a.iItemOrden ');
-          QryBuscar.Params.ParamByName('Contrato').DataType := ftString;
-          QryBuscar.Params.ParamByName('Contrato').Value := sParamContrato;
-          QryBuscar.Params.ParamByName('Convenio').DataType := ftString;
-          QryBuscar.Params.ParamByName('Convenio').Value := sParamConvenio;
-          QryBuscar.Params.ParamByName('Orden').DataType := ftString;
-          QryBuscar.Params.ParamByName('Orden').Value := sParamOrden;
-          QryBuscar.Params.ParamByName('Fecha').DataType := ftDate;
-          QryBuscar.Params.ParamByName('Fecha').Value := dParamFecha;
-          QryBuscar.Params.ParamByName('Turno').DataType := ftString;
-          QryBuscar.Params.ParamByName('Turno').Value := sParamTurno;
-          QryBuscar.Open;
-      end
-      else
-      begin
-          QryBuscar.Active := False;
-          QryBuscar.SQL.Clear;
-          if QryConfiguracion.FieldValues['lImprimeExtraordinario'] = 'Si' then
-             {01/03/2012 :adal2404, modificar query ligar la bitacora con las actividadexorden y las ac
-             vitidadesxorden con las actividadesxanexon con sWbsContrato}
-             QryBuscar.SQL.Add('Select a2.sTipoAnexo, b.iIdDiario, a.sWbsAnterior, b.sWbs, b.sNumeroActividad, a2.sNumeroActividad as Partida, b.mDescripcion as mDescripcion, sum(b.dCantidad) as dCantidad, sum(b.dAvance) as dAvance, a.dVentaMN, ' +
-              'a.sMedida, a.dCantidad as dCantidadAnexo, b.dCantidadAnterior, b.dAvanceAnterior, b.dCantidadActual, b.dAvanceActual, a.dVentaMN, b.lCancelada, a2.sAnexo From bitacoradeactividades b ' +
-              'INNER JOIN actividadesxorden a ON (b.sContrato = a.sContrato And b.sNumeroOrden = a.sNumeroOrden And b.sWbs = a.sWbs And ' +
-              'b.sNumeroActividad = a.sNumeroActividad And a.sIdConvenio = :Convenio And a.sTipoActividad = "Actividad"  ) ' +   //and a.sTipoAnexo = "ADM"
-              'INNER JOIN actividadesxanexo a2 ON (a2.sContrato = a.sContrato And a2.sNumeroActividad = a.sNumeroActividad ' +
-              'And a.sIdConvenio = a2.sIdConvenio And a2.sTipoActividad = "Actividad" and a.sWbsContrato=a2.sWbs) ' +
-              'Where b.sContrato = :Contrato And b.sNumeroOrden =:Orden And b.dIdFecha = :Fecha And b.sIdTurno =:Turno and sIdTipoMovimiento = "E" and b.lImprime = "Si" ' +
-              'Group By b.sWbs, b.sNumeroActividad Order By b.lCancelada, a.iItemOrden ')
-          else
-             {01/03/2012 :adal2404, modificar query ligar la bitacora con las actividadexorden y las ac
-             vitidadesxorden con las actividadesxanexon con sWbsContrato}
-             QryBuscar.SQL.Add('Select a2.sTipoAnexo, b.iIdDiario, a.sWbsAnterior, b.sWbs, b.sNumeroActividad, a2.sNumeroActividad as Partida, b.mDescripcion as mDescripcion, sum(b.dCantidad) as dCantidad, sum(b.dAvance) as dAvance, a.dVentaMN, ' +
-              'a.sMedida, a.dCantidad as dCantidadAnexo,b.dCantidadAnterior, b.dAvanceAnterior, b.dCantidadActual, b.dAvanceActual, a.dVentaMN, b.lCancelada, a2.sAnexo From bitacoradeactividades b ' +
-              'INNER JOIN actividadesxorden a ON (b.sContrato = a.sContrato And b.sNumeroOrden = a.sNumeroOrden And b.sWbs = a.sWbs And ' +
-              'b.sNumeroActividad = a.sNumeroActividad And a.sIdConvenio = :Convenio And a.sTipoActividad = "Actividad"  ) ' +  //and a.sTipoAnexo = "ADM"
-              'INNER JOIN actividadesxanexo a2 ON (a2.sContrato = a.sContrato And a2.sNumeroActividad = a.sNumeroActividad ' +
-              'And a.sIdConvenio = a2.sIdConvenio And a2.sTipoActividad = "Actividad" and a.sWbsContrato=a2.sWbs) ' +
-              'Where b.sContrato = :Contrato And b.sNumeroOrden = :Orden And b.dIdFecha = :Fecha And b.sIdTurno = :Turno and sIdTipoMovimiento = "E" and b.lImprime = "Si" ' +
-              'Group By b.sWbs, b.sNumeroActividad Order By b.lCancelada, a.iItemOrden ');
-            QryBuscar.Params.ParamByName('Contrato').DataType := ftString;
-            QryBuscar.Params.ParamByName('Contrato').Value    := sParamContrato;
-            QryBuscar.Params.ParamByName('Convenio').DataType := ftString;
-            QryBuscar.Params.ParamByName('Convenio').Value    := sParamConvenio;
-            QryBuscar.Params.ParamByName('Orden').DataType    := ftString;
-            QryBuscar.Params.ParamByName('Orden').Value       := sParamOrden;
-            QryBuscar.Params.ParamByName('Fecha').DataType    := ftDate;
-            QryBuscar.Params.ParamByName('Fecha').Value       := dParamFecha;
-            QryBuscar.Params.ParamByName('Turno').DataType    := ftString;
-            QryBuscar.Params.ParamByName('Turno').Value       := sParamTurno;
-            QryBuscar.Open;
-      end;
-
-      if QryBuscar.RecordCount > 0 then
-      begin
-          QryBuscar.First;
-          sPaquete := '';
-
-          while not QryBuscar.Eof do
-          begin
-              { 22/02/2012: adal, adaptar: Implementamos algoritmo de paqueteoo..}
-              {Limpiamos el vector..}
-              for iPos := 1 to 10 do
-              begin
-                  ArrayPaquetes[iPos, 1] := '';
-                  ArrayPaquetes[iPos, 2] := '';
-                  ArrayPaquetes[iPos, 3] := '';
-                  ArrayPaquetes[iPos, 4] := '';
-              end;
-
-              if MiWbs <> QryBuscar.FieldValues['sWbsAnterior'] then
-              begin
-                  MiWbs := QryBuscar.FieldValues['sWbsAnterior'];
-                  NumPaq := 0;
-                  {Determinamos los niveles..}
-                  for iPos := 1 to Nivel do
-                  begin
-                      {Empezamos buscando los paquetes..}
-                      Q_Paquetes.Active := False;
-                      Q_Paquetes.SQL.Clear;
-                      Q_Paquetes.SQL.Add('select sWbs, sWbsAnterior, sNumeroActividad, mDescripcion, dPonderado from actividadesxorden where sContrato =:Contrato ' +
-                        'and sIdConvenio =:Convenio and sNumeroOrden  =:Orden and sWbs =:Wbs and sTipoActividad = "Paquete" ');
-                      Q_Paquetes.ParamByName('Contrato').AsString := sParamContrato;
-                      Q_Paquetes.ParamByName('Convenio').AsString := sParamConvenio;
-                      Q_Paquetes.ParamByName('Orden').AsString := sParamOrden;
-                      Q_Paquetes.ParamByName('Wbs').AsString := MiWbs;
-                      Q_Paquetes.Open;
-
-                      {Guardamos los niveles en Array..}
-                      if Q_Paquetes.RecordCount > 0 then
-                      begin
-                          MiWbs := Q_Paquetes.FieldValues['sWbsAnterior'];
-                          ArrayPaquetes[iPos, 1] := Q_Paquetes.FieldValues['sNumeroActividad'];
-                          ArrayPaquetes[iPos, 2] := Q_Paquetes.FieldValues['mDescripcion'];
-                          ArrayPaquetes[iPos, 3] := Q_Paquetes.FieldValues['sWbs'];
-                          ArrayPaquetes[iPos, 4] := FloatToStr(Q_Paquetes.FieldValues['dPonderado']);
-                          Inc(NumPaq);
-                      end;
-                  end;
-                  MiWbs := QryBuscar.FieldValues['sWbsAnterior'];
-              end;
-
-              {Ingresamos los paquetes del Array en orden al RxMemory Data.}
-              if NumPaq > 0 then
-              begin
-                  while NumPaq > 0 do
-                  begin
-                      mBitacora1.Append;
-                      mBitacora1.FieldValues['sContrato'] := sParamContrato;
-                      mBitacora1.FieldValues['iIdDiario'] := 0;
-                      mBitacora1.FieldValues['sNumeroActividad'] := ArrayPaquetes[NumPaq, 1];
-                      mBitacora1.FieldValues['sNumeroActividadGrupo'] := QryBuscar.FieldValues['partida'];
-                      mBitacora1.FieldValues['mDescripcion'] := ArrayPaquetes[NumPaq, 2];
-                      mBitacora1.FieldValues['sTipo'] := 'Paquete';
-                      mBitacora1.FieldValues['sPaquete'] := ArrayPaquetes[NumPaq, 1];
-                      mBitacora1.FieldValues['lCancelada'] := QryBuscar.FieldValues['lCancelada'];
-                      mBitacora1.FieldValues['iConsec'] := mBitacora1.RecordCount + 1;
-
-                      //Aqui obtenemos los avances de los paquetes..
-                      //Avance Anterior..
-                      QryAcumulados.Active := False ;
-                      QryAcumulados.SQL.Clear ;
-                      QryAcumulados.SQL.Add('Select a.dPonderado, '+
-                                 ' if((select ba.lCancelada from bitacoradeactividades ba where a.sContrato = ba.sContrato and a.sNumeroOrden = ba.sNumeroOrden and a.swbs = ba.swbs and lCancelada = "Si" limit 1) ="Si", 100, sum(b.dAvance)) as dAvance, '+
-                                 '    if(sum(b.dcantidad) > a.dcantidad, a.dPonderado, '+
-                                 '    if((select ba.lCancelada from bitacoradeactividades ba where a.sContrato = ba.sContrato and a.sNumeroOrden = ba.sNumeroOrden and a.swbs = ba.swbs and lCancelada = "Si" and ba.didfecha < :fecha limit 1) ="Si", a.dPonderado, '+
-                                 '        sum(b.dcantidad * (a.dPonderado / a.dcantidad))))as dAvancePonderado '+
-                                 ' From actividadesxorden a inner join bitacoradeactividades b on (b.scontrato = a.scontrato and b.snumeroorden = a.snumeroorden and b.swbs = a.swbs and b.didfecha < :fecha ) '+  //and a.sTipoAnexo = "ADM"
-                                 ' Where a.sContrato = :contrato and a.sIdConvenio =:Convenio and a.sNumeroOrden = :orden And b.sWbs like concat(:wbs, ".%") group by a.sContrato') ;
-                      QryAcumulados.Params.ParamByName('Contrato').DataType  := ftString ;
-                      QryAcumulados.Params.ParamByName('Contrato').Value     := sParamContrato ;
-                      QryAcumulados.Params.ParamByName('Convenio').DataType  := ftString ;
-                      QryAcumulados.Params.ParamByName('Convenio').Value     := sParamConvenio ;
-                      QryAcumulados.Params.ParamByName('Orden').DataType     := ftString ;
-                      QryAcumulados.Params.ParamByName('Orden').Value        := sParamOrden ;
-                      QryAcumulados.Params.ParamByName('Fecha').DataType     := ftDate ;
-                      QryAcumulados.Params.ParamByName('Fecha').Value        := dParamFecha ;
-                      QryAcumulados.Params.ParamByName('Wbs').DataType       := ftString ;
-                      QryAcumulados.Params.ParamByName('Wbs').Value          := ArrayPaquetes[NumPaq, 3];
-                      QryAcumulados.Open;
-
-                      dAvance := 0;
-                      while Not QryAcumulados.Eof do
-                      begin
-                          dAvance := dAvance + QryAcumulados.FieldByName('dAvancePonderado').AsFloat;
-                          QryAcumulados.Next;
-                      end;
-
-                      if StrToFloat(ArrayPaquetes[NumPaq, 4]) > 0 then
-                         mBitacora1.FieldValues['dAvanceAnterior'] := (100 / StrToFloat(ArrayPaquetes[NumPaq, 4])) * dAvance
-                      else
-                         mBitacora1.FieldValues['dAvanceAnterior'] := 0;
-
-                      //Avance Actual
-                      QryAcumulados.Active := False ;
-                      QryAcumulados.SQL.Clear ;
-                      QryAcumulados.SQL.Add('Select a.dPonderado, '+
-                                 ' if((select ba.lCancelada from bitacoradeactividades ba where a.sContrato = ba.sContrato and a.sNumeroOrden = ba.sNumeroOrden and a.swbs = ba.swbs and lCancelada = "Si" limit 1) ="Si", 100, sum(b.dAvance)) as dAvance, '+
-                                 '    if(sum(b.dcantidad) > a.dcantidad, a.dPonderado, '+
-                                 '    if((select ba.lCancelada from bitacoradeactividades ba where a.sContrato = ba.sContrato and a.sNumeroOrden = ba.sNumeroOrden and a.swbs = ba.swbs and lCancelada = "Si" and ba.didfecha =:fecha limit 1) ="Si", a.dPonderado, '+
-                                 '        sum(b.dcantidad * (a.dPonderado / a.dcantidad))))as dAvancePonderado '+
-                                 ' From actividadesxorden a inner join bitacoradeactividades b on (b.scontrato = a.scontrato and b.snumeroorden = a.snumeroorden and b.swbs = a.swbs and b.didfecha =:fecha  ) '+ //and a.sTipoAnexo = "ADM"
-                                 ' Where a.sContrato = :contrato and a.sIdConvenio =:Convenio and a.sNumeroOrden = :orden And b.sWbs like concat(:wbs, ".%") group by a.sContrato');
-                      QryAcumulados.Params.ParamByName('Contrato').DataType  := ftString ;
-                      QryAcumulados.Params.ParamByName('Contrato').Value     := sParamContrato ;
-                      QryAcumulados.Params.ParamByName('Convenio').DataType  := ftString ;
-                      QryAcumulados.Params.ParamByName('Convenio').Value     := sParamConvenio ;
-                      QryAcumulados.Params.ParamByName('Orden').DataType     := ftString ;
-                      QryAcumulados.Params.ParamByName('Orden').Value        := sParamOrden ;
-                      QryAcumulados.Params.ParamByName('Fecha').DataType     := ftDate ;
-                      QryAcumulados.Params.ParamByName('Fecha').Value        := dParamFecha ;
-                      QryAcumulados.Params.ParamByName('Wbs').DataType       := ftString ;
-                      QryAcumulados.Params.ParamByName('Wbs').Value          := ArrayPaquetes[NumPaq, 3];
-                      QryAcumulados.Open;
-
-                      dAvance := 0;
-                      while Not QryAcumulados.Eof do
-                      begin
-                          dAvance := dAvance + QryAcumulados.FieldByName('dAvancePonderado').AsFloat;
-                          QryAcumulados.Next;
-                      end;
-
-                      if StrToFloat(ArrayPaquetes[NumPaq, 4]) > 0 then
-                         mBitacora1.FieldValues['dAvance'] := (100 / StrToFloat(ArrayPaquetes[NumPaq, 4])) * dAvance
-                      else
-                         mBitacora1.FieldValues['dAvance'] := 0;
-
-                      if mBitacora1.FieldValues['dAvanceAnterior'] + mBitacora1.FieldValues['dAvance'] > 100 then
-                         mBitacora1.FieldValues['dAvanceActual'] := 100
-                      else
-                         mBitacora1.FieldValues['dAvanceActual'] := mBitacora1.FieldValues['dAvanceAnterior'] + mBitacora1.FieldValues['dAvance'];
-                      mBitacora1.Post;
-                      DEC(NumPaq)
-                  end;
-              end;
-              {Termina proceso de paqueteoo..}
-
-              mBitacora1.Append;
-              mBitacora1.FieldValues['sTipo'] := 'Partida';
-              mBitacora1.FieldValues['sTipoAnexo'] := QryBuscar.FieldValues['sTipoAnexo'];
-              mBitacora1.FieldValues['lCancelada'] := QryBuscar.FieldValues['lCancelada'];
-              mBitacora1.FieldValues['sContrato'] := sParamContrato;
-              mBitacora1.FieldValues['sPaquete'] := QryBuscar.FieldValues['sWbs'];
-              mBitacora1.FieldValues['sNumeroActividad'] := QryBuscar.FieldValues['partida']; //mBitacora1.FieldValues['sNumeroActividad'] := QryBuscar.FieldValues['sNumeroActividad'];
-              mBitacora1.FieldValues['sNumeroActividadGrupo'] := QryBuscar.FieldValues['partida'];
-              mBitacora1.FieldValues['sActividadAnterior'] := QryBuscar.FieldValues['sWbsAnterior'];
-              mBitacora1.FieldValues['mDescripcion'] := QryBuscar.FieldValues['mDescripcion'];
-              mBitacora1.FieldValues['sMedida'] := QryBuscar.FieldValues['sMedida'];
-              mBitacora1.FieldValues['dCantidadAnexo'] := QryBuscar.FieldValues['dCantidadAnexo'];
-              mBitacora1.FieldValues['dCantidad'] := QryBuscar.FieldValues['dCantidad'];
-              mBitacora1.FieldValues['dAvance'] := QryBuscar.FieldValues['dAvance'];
-              mBitacora1.FieldValues['dVentaMN'] := QryBuscar.FieldValues['dVentaMN'];
-              mBitacora1.FieldValues['iIdDiario'] := QryBuscar.FieldValues['iIdDiario'];
-              mBitacora1.FieldValues['iConsec'] := mBitacora1.RecordCount + 1;
-              mBitacora1.FieldValues['sAnexo']  := QryBuscar.FieldValues['sAnexo'];
-
-              mNotas := '';
-
-              //Primero Obtenemos las cantidades anteriores de cantidades y avances,,
-              QryAcumulados.Active := False;
-              QryAcumulados.SQL.Clear;
-              QryAcumulados.SQL.Add('Select sum(dCantidad) as dInstalado from bitacoradeactividades where sContrato = :Contrato and ' +
-                'dIdFecha < :fecha And sNumeroOrden = :Orden And sWbs = :Wbs And sNumeroActividad = :Actividad Group By sWbs, sNumeroActividad');
-              QryAcumulados.Params.ParamByName('contrato').DataType := ftString;
-              QryAcumulados.Params.ParamByName('contrato').Value := sParamContrato;
-              QryAcumulados.Params.ParamByName('Fecha').DataType := ftDate;
-              QryAcumulados.Params.ParamByName('Fecha').Value := dParamFecha;
-              QryAcumulados.Params.ParamByName('Orden').DataType := ftString;
-              QryAcumulados.Params.ParamByName('Orden').Value := sParamOrden;
-              QryAcumulados.Params.ParamByName('Wbs').DataType := ftString;
-              QryAcumulados.Params.ParamByName('Wbs').Value := QryBuscar.FieldValues['sWbs'];
-              QryAcumulados.Params.ParamByName('Actividad').DataType := ftString;
-              QryAcumulados.Params.ParamByName('Actividad').Value := QryBuscar.FieldValues['sNumeroActividad'];
-              QryAcumulados.Open;
-              if QryAcumulados.RecordCount > 0 then
-                mBitacora1.FieldValues['dCantidadAnterior'] := QryAcumulados.FieldValues['dInstalado']
-              else
-                mBitacora1.FieldValues['dCantidadAnterior'] := 0;
-
-              QryAcumulados.Active := False;
-              QryAcumulados.SQL.Clear;
-              If QryConfiguracion.FieldValues['lImprimeFases'] = 'Si' then
-                 QryAcumulados.SQL.Add('Select sum(dAvance) as dAvance from bitacoradeactividades where sContrato = :Contrato and ' +
-                                       'dIdFecha < :fecha And sNumeroOrden = :Orden And sWbs = :Wbs And sNumeroActividad = :Actividad and sIdTipoMovimiento = "A" and lAlcance = "No" Group By sWbs, sNumeroActividad')
-              else
-                  QryAcumulados.SQL.Add('Select sum(dAvance) as dAvance from bitacoradeactividades where sContrato = :Contrato and ' +
-                                       'dIdFecha < :fecha And sNumeroOrden = :Orden And sWbs = :Wbs And sNumeroActividad = :Actividad Group By sWbs, sNumeroActividad');
-              QryAcumulados.Params.ParamByName('contrato').DataType := ftString;
-              QryAcumulados.Params.ParamByName('contrato').Value := sParamContrato;
-              QryAcumulados.Params.ParamByName('Fecha').DataType := ftDate;
-              QryAcumulados.Params.ParamByName('Fecha').Value := dParamFecha;
-              QryAcumulados.Params.ParamByName('Orden').DataType := ftString;
-              QryAcumulados.Params.ParamByName('Orden').Value := sParamOrden;
-              QryAcumulados.Params.ParamByName('Wbs').DataType := ftString;
-              QryAcumulados.Params.ParamByName('Wbs').Value := QryBuscar.FieldValues['sWbs'];
-              QryAcumulados.Params.ParamByName('Actividad').DataType := ftString;
-              QryAcumulados.Params.ParamByName('Actividad').Value := QryBuscar.FieldValues['sNumeroActividad'];
-              QryAcumulados.Open;
-
-              if QryAcumulados.RecordCount > 0 then
-                 mBitacora1.FieldValues['dAvanceAnterior'] := QryAcumulados.FieldValues['dAvance']
-              else
-                 mBitacora1.FieldValues['dAvanceAnterior'] := 0;
-
-              //Aqui solo se buscan los avances actuales aplica para fases x partidas
-              //Ahora los avances del turno
-              If QryConfiguracion.FieldValues['lImprimeFases'] = 'Si' then
-              begin
-                  QryAcumulados.Active := False;
-                  QryAcumulados.SQL.Clear;
-                  QryAcumulados.SQL.Add('Select sum(dAvance) as dAvance from bitacoradeactividades where sContrato = :Contrato and ' +
-                                        'dIdFecha = :fecha And sNumeroOrden = :Orden and sIdTurno =:Turno And sWbs = :Wbs And sNumeroActividad = :Actividad and sIdTipoMovimiento = "A" and lAlcance = "No" Group By sWbs, sNumeroActividad');
-                  QryAcumulados.Params.ParamByName('contrato').DataType  := ftString;
-                  QryAcumulados.Params.ParamByName('contrato').Value     := sParamContrato;
-                  QryAcumulados.Params.ParamByName('Fecha').DataType     := ftDate;
-                  QryAcumulados.Params.ParamByName('Fecha').Value        := dParamFecha;
-                  QryAcumulados.Params.ParamByName('Orden').DataType     := ftString;
-                  QryAcumulados.Params.ParamByName('Orden').Value        := sParamOrden;
-                  QryAcumulados.Params.ParamByName('Turno').DataType     := ftString;
-                  QryAcumulados.Params.ParamByName('Turno').Value        := sParamTurno;
-                  QryAcumulados.Params.ParamByName('Wbs').DataType       := ftString;
-                  QryAcumulados.Params.ParamByName('Wbs').Value          := QryBuscar.FieldValues['sWbs'];
-                  QryAcumulados.Params.ParamByName('Actividad').DataType := ftString;
-                  QryAcumulados.Params.ParamByName('Actividad').Value    := QryBuscar.FieldValues['sNumeroActividad'];
-                  QryAcumulados.Open;
-
-                  if QryAcumulados.RecordCount > 0 then
-                     mBitacora1.FieldValues['dAvance'] := QryAcumulados.FieldValues['dAvance'];
-              end;
-              //Ahora consultamos por turnos los avances y cantidades obtenidas   iv@n diavaz abril 2012
-              QryBuscarTurnos.Active := False;
-              QryBuscarTurnos.SQL.Clear;
-              QryBuscarTurnos.SQL.Add('select sIdTurno from turnos where sContrato =:Contrato and sIdTurno <=:Turno order by sIdTurno ');
-              QryBuscarTurnos.ParamByName('Contrato').AsString := sParamContrato;
-              QryBuscarTurnos.ParamByName('Turno').AsString    := sParamTurno;
-              QryBuscarTurnos.Open;
-
-              //Inicia el acumulado por turnos..
-              while not QryBuscarTurnos.Eof do
-              begin
-                  //Cantidades instaladas del turno
-                  QryAcumulados.Active := False;
-                  QryAcumulados.SQL.Clear;
-                  QryAcumulados.SQL.Add('Select sum(dCantidad) as dInstalado from bitacoradeactividades where sContrato = :Contrato and ' +
-                    'dIdFecha = :fecha And sNumeroOrden = :Orden and sIdTurno <:Turno And sWbs = :Wbs And sNumeroActividad = :Actividad Group By sWbs, sNumeroActividad');
-                  QryAcumulados.Params.ParamByName('contrato').DataType  := ftString;
-                  QryAcumulados.Params.ParamByName('contrato').Value     := sParamContrato;
-                  QryAcumulados.Params.ParamByName('Fecha').DataType     := ftDate;
-                  QryAcumulados.Params.ParamByName('Fecha').Value        := dParamFecha;
-                  QryAcumulados.Params.ParamByName('Orden').DataType     := ftString;
-                  QryAcumulados.Params.ParamByName('Orden').Value        := sParamOrden;
-                  QryAcumulados.Params.ParamByName('Turno').DataType     := ftString;
-                  QryAcumulados.Params.ParamByName('Turno').Value        := QryBuscarTurnos.FieldValues['sIdTurno'];
-                  QryAcumulados.Params.ParamByName('Wbs').DataType       := ftString;
-                  QryAcumulados.Params.ParamByName('Wbs').Value          := QryBuscar.FieldValues['sWbs'];
-                  QryAcumulados.Params.ParamByName('Actividad').DataType := ftString;
-                  QryAcumulados.Params.ParamByName('Actividad').Value    := QryBuscar.FieldValues['sNumeroActividad'];
-                  QryAcumulados.Open;
-
-                  if QryAcumulados.RecordCount > 0 then
-                     mBitacora1.FieldValues['dCantidadAnterior'] := mBitacora1.FieldValues['dCantidadAnterior'] + QryAcumulados.FieldValues['dInstalado'];
-
-                  //Ahora los avances del turno
-                  QryAcumulados.Active := False;
-                  QryAcumulados.SQL.Clear;
-                  If QryConfiguracion.FieldValues['lImprimeFases'] = 'Si' then
-                     QryAcumulados.SQL.Add('Select sum(dAvance) as dAvance from bitacoradeactividades where sContrato = :Contrato and ' +
-                                           'dIdFecha = :fecha And sNumeroOrden = :Orden and sIdTurno <:Turno And sWbs = :Wbs And sNumeroActividad = :Actividad and sIdTipoMovimiento = "A" and lAlcance = "No" Group By sWbs, sNumeroActividad')
-                  else
-                      QryAcumulados.SQL.Add('Select sum(dAvance) as dAvance from bitacoradeactividades where sContrato = :Contrato and ' +
-                                           'dIdFecha = :fecha And sNumeroOrden = :Orden and sIdTurno <:Turno And sWbs = :Wbs And sNumeroActividad = :Actividad Group By sWbs, sNumeroActividad');
-                  QryAcumulados.Params.ParamByName('contrato').DataType  := ftString;
-                  QryAcumulados.Params.ParamByName('contrato').Value     := sParamContrato;
-                  QryAcumulados.Params.ParamByName('Fecha').DataType     := ftDate;
-                  QryAcumulados.Params.ParamByName('Fecha').Value        := dParamFecha;
-                  QryAcumulados.Params.ParamByName('Orden').DataType     := ftString;
-                  QryAcumulados.Params.ParamByName('Orden').Value        := sParamOrden;
-                  QryAcumulados.Params.ParamByName('Turno').DataType     := ftString;
-                  QryAcumulados.Params.ParamByName('Turno').Value        := QryBuscarTurnos.FieldValues['sIdTurno'];;
-                  QryAcumulados.Params.ParamByName('Wbs').DataType       := ftString;
-                  QryAcumulados.Params.ParamByName('Wbs').Value          := QryBuscar.FieldValues['sWbs'];
-                  QryAcumulados.Params.ParamByName('Actividad').DataType := ftString;
-                  QryAcumulados.Params.ParamByName('Actividad').Value    := QryBuscar.FieldValues['sNumeroActividad'];
-                  QryAcumulados.Open;
-
-                  if QryAcumulados.RecordCount > 0 then
-                     mBitacora1.FieldValues['dAvanceAnterior'] := mBitacora1.FieldValues['dAvanceAnterior'] + QryAcumulados.FieldValues['dAvance'];
-
-                  QryBuscarTurnos.Next;
-              end;
-
-              //Aqui hacemos la suma de las cantidades y avances acumuldos
-              mBitacora1.FieldValues['dCantidadActual'] := mBitacora1.FieldValues['dCantidadAnterior'] + mBitacora1.FieldValues['dCantidad'];
-              if mBitacora1.FieldValues['dAvanceAnterior'] + mBitacora1.FieldValues['dAvance'] > 100 then
-                 mBitacora1.FieldValues['dAvanceActual'] := 100
-              else
-                 mBitacora1.FieldValues['dAvanceActual'] := mBitacora1.FieldValues['dAvanceAnterior'] + mBitacora1.FieldValues['dAvance'];
-
-
-              mBitacora1.FieldValues['iFase'] := 0;
-              mBitacora1.FieldValues['lCancelada'] := QryBuscar.FieldValues['lCancelada'];
-              mBitacora1.Post;
-
-              //Colocamos las notas por partida.. de los puntos de programa.
-              if QryConfiguracion.FieldValues['lImprimeNotasGerenciales'] = 'Si' then
-              begin
-                QryBuscarAux.Active := False;
-                QryBuscarAux.SQL.Clear;
-                QryBuscarAux.SQL.Add( 'select iIdDiario, mDescripcion, sHoraInicio, sHoraFinal, CONCAT(sHoraInicio," - ",sHoraFinal, " HRS.") AS Horario, sConceptoGerencial, ' +
-                                      'concat(sHoraInicio," - ",sHoraFinal) as Nota, lImprime ' +
-                                      'from bitacoradeactividades where sContrato = :Contrato ' +
-                                      'and dIdFecha = :Fecha AND sWbs = :Wbs and sIdTipoMovimiento = "G" ');
-                QryBuscarAux.Params.ParamByName('Contrato').AsString := sParamContrato;
-                QryBuscarAux.Params.ParamByName('Fecha').AsDate := dParamFecha;
-                QryBuscarAux.Params.ParamByName('Wbs').AsString := QryBuscar.FieldValues['sWbs'];
-                QryBuscarAux.Open;
-
-                if QryBuscarAux.RecordCount > 0 then begin
-                  while Not QryBuscarAux.Eof do begin
-                    mBitacora1.Append;
-                    mBitacora1.FieldValues['sContrato'] := sParamContrato;
-                    mBitacora1.FieldValues['iIdDiario'] := 0;
-                    mBitacora1.FieldValues['sPaquete']  := QryBuscarAux.FieldByName('sHoraInicio').AsString;
-                    mBitacora1.FieldValues['sNumeroActividad'] := QryBuscarAux.FieldByName('sHoraFinal').AsString; //mBitacora1.FieldValues['sNumeroActividad'] := QryBuscar.FieldValues['sNumeroActividad'];
-                    mBitacora1.FieldValues['sActividadAnterior'] := QryBuscar.FieldValues['sWbsAnterior'];
-                    mBitacora1.FieldValues['mDescripcion'] := QryBuscarAux.FieldByName('mDescripcion').AsString;
-                    mBitacora1.FieldValues['sTipo'] := 'NotaGerencial';
-                    mBitacora1.FieldValues['iConsec'] := mBitacora1.RecordCount + 1;
-                    mBitacora1.Post;
-                    QryBuscarAux.Next;
-                  end;
-                end;
-              end;
-
-              //Ahora buscamos las partidas de PU asignadas como material a las partidas de administracion..
-              connection.QryBusca2.Active := False;
-              connection.QryBusca2.SQL.Clear;
-              connection.QryBusca2.SQL.Add('Select a2.sTipoAnexo, b.iIdDiario, a.sWbsAnterior, b.sWbs, b.sNumeroActividad, a2.sNumeroActividad as Partida, b.mDescripcion as mDescripcion, sum(b.dCantidad) as dCantidad, sum(b.dAvance) as dAvance, ' +
-                          'a.sMedida, a.dCantidad as dCantidadAnexo, b.dCantidadAnterior, b.dAvanceAnterior, b.dCantidadActual, b.dAvanceActual, a.dVentaMN, b.lCancelada, a.sAnexo From bitacoradeactividades b ' +
-                          'INNER JOIN actividadesxorden a ON (b.sContrato = a.sContrato And b.sNumeroOrden = a.sNumeroOrden And b.sWbs= a.sWbs And ' +
-                          'b.sNumeroActividad = a.sNumeroActividad And a.sIdConvenio = :Convenio And a.sTipoActividad = "Actividad" ) ' +
-                          'INNER JOIN actividadesxanexo a2 ON (a2.sContrato = a.sContrato And a2.sNumeroActividad = a.sNumeroActividad ' +
-                          'And a.sIdConvenio = a2.sIdConvenio And a2.sTipoActividad = "Actividad" and a2.sWbs=a.sWbsContrato) ' +
-                          'Where b.sContrato = :Contrato And b.sNumeroOrden = :Orden And b.dIdFecha = :Fecha And b.sIdTurno = :Turno and b.sWbs_Adm =:Wbs and sIdTipoMovimiento = "E" and b.lImprime = "Si" ' +
-                          'Group By b.sWbs, b.sNumeroActividad Order By b.lCancelada, a.iItemOrden');
-              connection.QryBusca2.Params.ParamByName('Contrato').DataType := ftString;
-              connection.QryBusca2.Params.ParamByName('Contrato').Value    := sParamContrato;
-              connection.QryBusca2.Params.ParamByName('Convenio').DataType := ftString;
-              connection.QryBusca2.Params.ParamByName('Convenio').Value    := sParamConvenio;
-              connection.QryBusca2.Params.ParamByName('Orden').DataType    := ftString;
-              connection.QryBusca2.Params.ParamByName('Orden').Value       := sParamOrden;
-              connection.QryBusca2.Params.ParamByName('Fecha').DataType    := ftDate;
-              connection.QryBusca2.Params.ParamByName('Fecha').Value       := dParamFecha;
-              connection.QryBusca2.Params.ParamByName('Turno').DataType    := ftString;
-              connection.QryBusca2.Params.ParamByName('Turno').Value       := sParamTurno;
-              connection.QryBusca2.Params.ParamByName('Wbs').DataType      := ftString;
-              connection.QryBusca2.Params.ParamByName('Wbs').Value         := QryBuscar.FieldValues['sWbs'];
-              connection.QryBusca2.Open;
-
-              while not connection.QryBusca2.Eof do
-              begin
-                  mBitacora1.Append;
-                  mBitacora1.FieldValues['sTipo'] := 'Partida';
-                  mBitacora1.FieldValues['sTipoAnexo'] := connection.QryBusca2.FieldValues['sTipoAnexo'];
-                  mBitacora1.FieldValues['lCancelada'] := connection.QryBusca2.FieldValues['lCancelada'];
-                  mBitacora1.FieldValues['sContrato'] := sParamContrato;
-                  mBitacora1.FieldValues['sPaquete'] := connection.QryBusca2.FieldValues['sWbs'];
-                  mBitacora1.FieldValues['sNumeroActividad'] := connection.QryBusca2.FieldValues['partida']; //mBitacora1.FieldValues['sNumeroActividad'] := connection.QryBusca2.FieldValues['sNumeroActividad'];
-                  mBitacora1.FieldValues['sNumeroActividadGrupo'] := connection.QryBusca2.FieldValues['partida'];
-                  mBitacora1.FieldValues['sActividadAnterior'] := connection.QryBusca2.FieldValues['sWbsAnterior'];
-                  mBitacora1.FieldValues['mDescripcion'] := connection.QryBusca2.FieldValues['mDescripcion'];
-                  mBitacora1.FieldValues['sMedida'] := connection.QryBusca2.FieldValues['sMedida'];
-                  mBitacora1.FieldValues['dCantidadAnexo'] := connection.QryBusca2.FieldValues['dCantidadAnexo'];
-                  mBitacora1.FieldValues['dCantidad'] := connection.QryBusca2.FieldValues['dCantidad'];
-                  mBitacora1.FieldValues['dAvance'] := connection.QryBusca2.FieldValues['dAvance'];
-                  mBitacora1.FieldValues['dVentaMN'] := connection.QryBusca2.FieldValues['dVentaMN'];
-                  mBitacora1.FieldValues['iIdDiario'] := connection.QryBusca2.FieldValues['iIdDiario'];
-                  mBitacora1.FieldValues['iConsec'] := mBitacora1.RecordCount + 1;
-                  mBitacora1.FieldValues['sAnexo']  := connection.QryBusca2.FieldValues['sAnexo'];
-
-                  mNotas := '';
-
-                  //Primero Obtenemos las cantidades anteriores de cantidades y avances,,
-                  QryAcumulados.Active := False;
-                  QryAcumulados.SQL.Clear;
-                  QryAcumulados.SQL.Add('Select sum(dCantidad) as dInstalado from bitacoradeactividades where sContrato = :Contrato and ' +
-                    'dIdFecha < :fecha And sNumeroOrden = :Orden And sWbs = :Wbs And sNumeroActividad = :Actividad Group By sWbs, sNumeroActividad');
-                  QryAcumulados.Params.ParamByName('contrato').DataType := ftString;
-                  QryAcumulados.Params.ParamByName('contrato').Value := sParamContrato;
-                  QryAcumulados.Params.ParamByName('Fecha').DataType := ftDate;
-                  QryAcumulados.Params.ParamByName('Fecha').Value := dParamFecha;
-                  QryAcumulados.Params.ParamByName('Orden').DataType := ftString;
-                  QryAcumulados.Params.ParamByName('Orden').Value := sParamOrden;
-                  QryAcumulados.Params.ParamByName('Wbs').DataType := ftString;
-                  QryAcumulados.Params.ParamByName('Wbs').Value := connection.QryBusca2.FieldValues['sWbs'];
-                  QryAcumulados.Params.ParamByName('Actividad').DataType := ftString;
-                  QryAcumulados.Params.ParamByName('Actividad').Value := connection.QryBusca2.FieldValues['sNumeroActividad'];
-                  QryAcumulados.Open;
-                  if QryAcumulados.RecordCount > 0 then
-                    mBitacora1.FieldValues['dCantidadAnterior'] := QryAcumulados.FieldValues['dInstalado']
-                  else
-                    mBitacora1.FieldValues['dCantidadAnterior'] := 0;
-
-                  QryAcumulados.Active := False;
-                  QryAcumulados.SQL.Clear;
-                  If QryConfiguracion.FieldValues['lImprimeFases'] = 'Si' then
-                     QryAcumulados.SQL.Add('Select sum(dAvance) as dAvance from bitacoradeactividades where sContrato = :Contrato and ' +
-                                           'dIdFecha < :fecha And sNumeroOrden = :Orden And sWbs = :Wbs And sNumeroActividad = :Actividad and sIdTipoMovimiento = "A" and lAlcance = "No" Group By sWbs, sNumeroActividad')
-                  else
-                      QryAcumulados.SQL.Add('Select sum(dAvance) as dAvance from bitacoradeactividades where sContrato = :Contrato and ' +
-                                           'dIdFecha < :fecha And sNumeroOrden = :Orden And sWbs = :Wbs And sNumeroActividad = :Actividad Group By sWbs, sNumeroActividad');
-                  QryAcumulados.Params.ParamByName('contrato').DataType := ftString;
-                  QryAcumulados.Params.ParamByName('contrato').Value := sParamContrato;
-                  QryAcumulados.Params.ParamByName('Fecha').DataType := ftDate;
-                  QryAcumulados.Params.ParamByName('Fecha').Value := dParamFecha;
-                  QryAcumulados.Params.ParamByName('Orden').DataType := ftString;
-                  QryAcumulados.Params.ParamByName('Orden').Value := sParamOrden;
-                  QryAcumulados.Params.ParamByName('Wbs').DataType := ftString;
-                  QryAcumulados.Params.ParamByName('Wbs').Value := connection.QryBusca2.FieldValues['sWbs'];
-                  QryAcumulados.Params.ParamByName('Actividad').DataType := ftString;
-                  QryAcumulados.Params.ParamByName('Actividad').Value := connection.QryBusca2.FieldValues['sNumeroActividad'];
-                  QryAcumulados.Open;
-
-                  if QryAcumulados.RecordCount > 0 then
-                     mBitacora1.FieldValues['dAvanceAnterior'] := QryAcumulados.FieldValues['dAvance']
-                  else
-                     mBitacora1.FieldValues['dAvanceAnterior'] := 0;
-
-                  //Aqui solo se buscan los avances actuales aplica para fases x partidas
-                  //Ahora los avances del turno
-                  If QryConfiguracion.FieldValues['lImprimeFases'] = 'Si' then
-                  begin
-                      QryAcumulados.Active := False;
-                      QryAcumulados.SQL.Clear;
-                      QryAcumulados.SQL.Add('Select sum(dAvance) as dAvance from bitacoradeactividades where sContrato = :Contrato and ' +
-                                            'dIdFecha = :fecha And sNumeroOrden = :Orden and sIdTurno =:Turno And sWbs = :Wbs And sNumeroActividad = :Actividad and sIdTipoMovimiento = "A" and lAlcance = "No" Group By sWbs, sNumeroActividad');
-                      QryAcumulados.Params.ParamByName('contrato').DataType  := ftString;
-                      QryAcumulados.Params.ParamByName('contrato').Value     := sParamContrato;
-                      QryAcumulados.Params.ParamByName('Fecha').DataType     := ftDate;
-                      QryAcumulados.Params.ParamByName('Fecha').Value        := dParamFecha;
-                      QryAcumulados.Params.ParamByName('Orden').DataType     := ftString;
-                      QryAcumulados.Params.ParamByName('Orden').Value        := sParamOrden;
-                      QryAcumulados.Params.ParamByName('Turno').DataType     := ftString;
-                      QryAcumulados.Params.ParamByName('Turno').Value        := sParamTurno;
-                      QryAcumulados.Params.ParamByName('Wbs').DataType       := ftString;
-                      QryAcumulados.Params.ParamByName('Wbs').Value          := connection.QryBusca2.FieldValues['sWbs'];
-                      QryAcumulados.Params.ParamByName('Actividad').DataType := ftString;
-                      QryAcumulados.Params.ParamByName('Actividad').Value    := connection.QryBusca2.FieldValues['sNumeroActividad'];
-                      QryAcumulados.Open;
-
-                      if QryAcumulados.RecordCount > 0 then
-                         mBitacora1.FieldValues['dAvance'] := QryAcumulados.FieldValues['dAvance'];
-                  end;
-                  //Ahora consultamos por turnos los avances y cantidades obtenidas   iv@n diavaz abril 2012
-                  QryBuscarTurnos.Active := False;
-                  QryBuscarTurnos.SQL.Clear;
-                  QryBuscarTurnos.SQL.Add('select sIdTurno from turnos where sContrato =:Contrato and sIdTurno <=:Turno order by sIdTurno ');
-                  QryBuscarTurnos.ParamByName('Contrato').AsString := sParamContrato;
-                  QryBuscarTurnos.ParamByName('Turno').AsString    := sParamTurno;
-                  QryBuscarTurnos.Open;
-
-                  //Inicia el acumulado por turnos..
-                  while not QryBuscarTurnos.Eof do
-                  begin
-                      //Cantidades instaladas del turno
-                      QryAcumulados.Active := False;
-                      QryAcumulados.SQL.Clear;
-                      QryAcumulados.SQL.Add('Select sum(dCantidad) as dInstalado from bitacoradeactividades where sContrato = :Contrato and ' +
-                        'dIdFecha = :fecha And sNumeroOrden = :Orden and sIdTurno <:Turno And sWbs = :Wbs And sNumeroActividad = :Actividad Group By sWbs, sNumeroActividad');
-                      QryAcumulados.Params.ParamByName('contrato').DataType  := ftString;
-                      QryAcumulados.Params.ParamByName('contrato').Value     := sParamContrato;
-                      QryAcumulados.Params.ParamByName('Fecha').DataType     := ftDate;
-                      QryAcumulados.Params.ParamByName('Fecha').Value        := dParamFecha;
-                      QryAcumulados.Params.ParamByName('Orden').DataType     := ftString;
-                      QryAcumulados.Params.ParamByName('Orden').Value        := sParamOrden;
-                      QryAcumulados.Params.ParamByName('Turno').DataType     := ftString;
-                      QryAcumulados.Params.ParamByName('Turno').Value        := QryBuscarTurnos.FieldValues['sIdTurno'];
-                      QryAcumulados.Params.ParamByName('Wbs').DataType       := ftString;
-                      QryAcumulados.Params.ParamByName('Wbs').Value          := connection.QryBusca2.FieldValues['sWbs'];
-                      QryAcumulados.Params.ParamByName('Actividad').DataType := ftString;
-                      QryAcumulados.Params.ParamByName('Actividad').Value    := connection.QryBusca2.FieldValues['sNumeroActividad'];
-                      QryAcumulados.Open;
-
-                      if QryAcumulados.RecordCount > 0 then
-                         mBitacora1.FieldValues['dCantidadAnterior'] := mBitacora1.FieldValues['dCantidadAnterior'] + QryAcumulados.FieldValues['dInstalado'];
-
-                      //Ahora los avances del turno
-                      QryAcumulados.Active := False;
-                      QryAcumulados.SQL.Clear;
-                      If QryConfiguracion.FieldValues['lImprimeFases'] = 'Si' then
-                         QryAcumulados.SQL.Add('Select sum(dAvance) as dAvance from bitacoradeactividades where sContrato = :Contrato and ' +
-                                               'dIdFecha = :fecha And sNumeroOrden = :Orden and sIdTurno <:Turno And sWbs = :Wbs And sNumeroActividad = :Actividad and sIdTipoMovimiento = "A" and lAlcance = "No" Group By sWbs, sNumeroActividad')
-                      else
-                          QryAcumulados.SQL.Add('Select sum(dAvance) as dAvance from bitacoradeactividades where sContrato = :Contrato and ' +
-                                               'dIdFecha = :fecha And sNumeroOrden = :Orden and sIdTurno <:Turno And sWbs = :Wbs And sNumeroActividad = :Actividad Group By sWbs, sNumeroActividad');
-                      QryAcumulados.Params.ParamByName('contrato').DataType  := ftString;
-                      QryAcumulados.Params.ParamByName('contrato').Value     := sParamContrato;
-                      QryAcumulados.Params.ParamByName('Fecha').DataType     := ftDate;
-                      QryAcumulados.Params.ParamByName('Fecha').Value        := dParamFecha;
-                      QryAcumulados.Params.ParamByName('Orden').DataType     := ftString;
-                      QryAcumulados.Params.ParamByName('Orden').Value        := sParamOrden;
-                      QryAcumulados.Params.ParamByName('Turno').DataType     := ftString;
-                      QryAcumulados.Params.ParamByName('Turno').Value        := QryBuscarTurnos.FieldValues['sIdTurno'];;
-                      QryAcumulados.Params.ParamByName('Wbs').DataType       := ftString;
-                      QryAcumulados.Params.ParamByName('Wbs').Value          := connection.QryBusca2.FieldValues['sWbs'];
-                      QryAcumulados.Params.ParamByName('Actividad').DataType := ftString;
-                      QryAcumulados.Params.ParamByName('Actividad').Value    := connection.QryBusca2.FieldValues['sNumeroActividad'];
-                      QryAcumulados.Open;
-
-                      if QryAcumulados.RecordCount > 0 then
-                         mBitacora1.FieldValues['dAvanceAnterior'] := mBitacora1.FieldValues['dAvanceAnterior'] + QryAcumulados.FieldValues['dAvance'];
-
-                      QryBuscarTurnos.Next;
-                  end;
-
-                  //Aqui hacemos la suma de las cantidades y avances acumuldos
-                  mBitacora1.FieldValues['dCantidadActual'] := mBitacora1.FieldValues['dCantidadAnterior'] + mBitacora1.FieldValues['dCantidad'];
-                  if mBitacora1.FieldValues['dAvanceAnterior'] + mBitacora1.FieldValues['dAvance'] > 100 then
-                     mBitacora1.FieldValues['dAvanceActual'] := 100
-                  else
-                     mBitacora1.FieldValues['dAvanceActual'] := mBitacora1.FieldValues['dAvanceAnterior'] + mBitacora1.FieldValues['dAvance'];
-
-
-                  mBitacora1.FieldValues['iFase'] := 0;
-                  mBitacora1.FieldValues['lCancelada'] := connection.QryBusca2.FieldValues['lCancelada'];
-                  mBitacora1.Post;
-
-                  //Colocamos las notas por partida.. de los puntos de programa.
-                  if QryConfiguracion.FieldValues['lImprimeNotasGerenciales'] = 'Si' then
-                  begin
-                      QryBuscarAux.Active := False;
-                      QryBuscarAux.SQL.Clear;
-                      QryBuscarAux.SQL.Add( 'select iIdDiario, mDescripcion, sHoraInicio, sHoraFinal, CONCAT(sHoraInicio," - ",sHoraFinal, " HRS.") AS Horario, sConceptoGerencial, ' +
-                                            'concat(sHoraInicio," - ",sHoraFinal) as Nota, lImprime ' +
-                                            'from bitacoradeactividades where sContrato = :Contrato ' +
-                                            'and dIdFecha = :Fecha AND sWbs = :Wbs and sIdTipoMovimiento = "G" ');
-                      QryBuscarAux.Params.ParamByName('Contrato').AsString := sParamContrato;
-                      QryBuscarAux.Params.ParamByName('Fecha').AsDate := dParamFecha;
-                      QryBuscarAux.Params.ParamByName('Wbs').AsString := connection.QryBusca2.FieldValues['sWbs'];
-                      QryBuscarAux.Open;
-
-                      if QryBuscarAux.RecordCount > 0 then
-                      begin
-                          while Not QryBuscarAux.Eof do
-                          begin
-                             mBitacora1.Append;
-                             mBitacora1.FieldValues['sContrato'] := sParamContrato;
-                             mBitacora1.FieldValues['iIdDiario'] := 0;
-                             mBitacora1.FieldValues['sPaquete']  := QryBuscarAux.FieldByName('sHoraInicio').AsString;
-                             mBitacora1.FieldValues['sNumeroActividad'] := QryBuscarAux.FieldByName('sHoraFinal').AsString;
-                             mBitacora1.FieldValues['sActividadAnterior'] := connection.QryBusca2.FieldValues['sWbsAnterior'];
-                             mBitacora1.FieldValues['mDescripcion'] := QryBuscarAux.FieldByName('mDescripcion').AsString;
-                             mBitacora1.FieldValues['sTipo'] := 'NotaGerencial';
-                             mBitacora1.FieldValues['iConsec'] := mBitacora1.RecordCount + 1;
-                             mBitacora1.Post;
-                             QryBuscarAux.Next;
-                          end;
-                      end;
-                  end;
-
-                  connection.QryBusca2.Next;
-              end;
-
-
-              if (QryConfiguracion.FieldValues['sTipoPartida'] = 'Todas') and (QryConfiguracion.FieldValues['lImprimeFases'] = 'Si') then
-              begin
-                  QryBuscarAux.Active := False;
-                  QryBuscarAux.SQL.Clear; {10/marzo/2012 : adal, sWbs a la tabla alcance}
-                  QryBuscarAux.SQL.Add('Select b.dCantidad, a.sTipoActividad, a.iNivel, b.dAvance, b.iFase, b.sReferencia, a.sdescripcion, b.dcantidadanterior, b.davanceanterior, b.dcantidadactual, b.davanceactual, b.mNotas From bitacoradealcances b ' +
-                    'INNER JOIN actividadesxorden ao ON ( ao.sContrato=b.sContrato and ao.sNumeroOrden=b.sNumeroOrden and b.sWbs=ao.sWbs and b.sNumeroActividad=ao.sNumeroActividad )   ' +
-                    'INNER JOIN alcancesxactividad a ON (ao.sContrato = a.sContrato And ao.sNumeroActividad = a.sNumeroActividad and ao.sWbsContrato=a.sWbs  And b.iFase = a.iFase ) ' +
-                    'Where b.sContrato = :Contrato And b.dIdFecha = :Fecha And b.sIdTurno = :Turno And b.sNumeroOrden = :Orden And b.sWbs = :Wbs And b.sNumeroActividad = :Actividad and ao.sIdConvenio=:convenio  Order By b.iFase');
-                  QryBuscarAux.Params.ParamByName('Contrato').DataType := ftString;
-                  QryBuscarAux.Params.ParamByName('Contrato').Value := sParamContrato;
-                  QryBuscarAux.Params.ParamByName('Fecha').DataType := ftDate;
-                  QryBuscarAux.Params.ParamByName('Fecha').Value := dParamFecha;
-                  QryBuscarAux.Params.ParamByName('turno').DataType := ftString;
-                  QryBuscarAux.Params.ParamByName('turno').Value := sParamTurno;
-                  QryBuscarAux.Params.ParamByName('Orden').DataType := ftString;
-                  QryBuscarAux.Params.ParamByName('Orden').Value := sParamOrden;
-                  QryBuscarAux.Params.ParamByName('Wbs').DataType := ftString;
-                  QryBuscarAux.Params.ParamByName('Wbs').Value := QryBuscar.FieldValues['sWbs'];
-                  QryBuscarAux.Params.ParamByName('Actividad').DataType := ftString;
-                  QryBuscarAux.Params.ParamByName('Actividad').Value := QryBuscar.FieldValues['sNumeroActividad'];
-                  QryBuscarAux.Params.ParamByName('Convenio').DataType := ftString;
-                  QryBuscarAux.Params.ParamByName('Convenio').Value := sParamConvenio;
-                  QryBuscarAux.Open;
-
-                  indice         := 0;
-                  dAvancePaquete := 0;
-                  dAvanceActualPaquete := 0;
-
-                  if QryBuscarAux.RecordCount > 0 then
-                  begin
-                      while not QryBuscarAux.Eof do
-                      begin
-                          mBitacora1.Append;
-                          mBitacora1.FieldValues['sTipo'] := 'Alcance';
-                          mBitacora1.FieldValues['sTipoSubActividad'] := QryBuscarAux.FieldValues['sTipoActividad'];
-                          mBitacora1.FieldValues['sContrato'] := sParamContrato;
-                          mBitacora1.FieldValues['lCancelada'] := QryBuscar.FieldValues['lCancelada'];
-                          mBitacora1.FieldValues['sPaquete'] := QryBuscar.FieldValues['sWbs'];
-                          mBitacora1.FieldValues['sNumeroActividad'] := QryBuscar.FieldValues['partida'];
-                          mBitacora1.FieldValues['sNumeroActividadGrupo'] := QryBuscar.FieldValues['partida'];
-                          mBitacora1.FieldValues['sActividadAnterior'] := QryBuscar.FieldValues['sWbsAnterior'];
-                          mBitacora1.FieldValues['mDescripcion'] := QryBuscarAux.FieldValues['sDescripcion'];
-                          mBitacora1.FieldValues['sMedida'] := '';
-                          mBitacora1.FieldValues['dCantidadAnexo'] := 0;
-                          mBitacora1.FieldValues['dCantidad'] := QryBuscarAux.FieldValues['dCantidad'];
-                          mBitacora1.FieldValues['dAvance'] := QryBuscarAux.FieldValues['dAvance'];
-                          mBitacora1.FieldValues['iFase'] := QryBuscarAux.FieldValues['iFase'];
-                          if trim(QryBuscarAux.FieldValues['mNotas']) <> '' then
-                             mNotas := mNotas + #13 + QryBuscarAux.FieldValues['mNotas'];
-                          mBitacora1.FieldValues['mNotas'] := mNotas;
-
-                          if QryReporteDiario.FieldValues['lStatus'] = 'Pendiente' then
-                          begin
-                              QryAcumulados.Active := False;
-                              QryAcumulados.SQL.Clear;
-                              QryAcumulados.SQL.Add('Select sum(dCantidad) as dInstalado from bitacoradealcances where sContrato = :Contrato and ' +
-                                'dIdFecha < :fecha And sNumeroOrden = :Orden And sWbs = :Wbs And sNumeroActividad = :Actividad And iFase = :Fase Group By sWbs, sNumeroActividad');
-                              QryAcumulados.Params.ParamByName('contrato').DataType := ftString;
-                              QryAcumulados.Params.ParamByName('contrato').Value := sParamContrato;
-                              QryAcumulados.Params.ParamByName('Fecha').DataType := ftDate;
-                              QryAcumulados.Params.ParamByName('Fecha').Value := dParamFecha;
-                              QryAcumulados.Params.ParamByName('Orden').DataType := ftString;
-                              QryAcumulados.Params.ParamByName('Orden').Value := sParamOrden;
-                              QryAcumulados.Params.ParamByName('Wbs').DataType := ftString;
-                              QryAcumulados.Params.ParamByName('Wbs').Value := QryBuscar.FieldValues['sWbs'];
-                              QryAcumulados.Params.ParamByName('Actividad').DataType := ftString;
-                              QryAcumulados.Params.ParamByName('Actividad').Value := QryBuscar.FieldValues['sNumeroActividad'];
-                              QryAcumulados.Params.ParamByName('Fase').DataType := ftInteger;
-                              QryAcumulados.Params.ParamByName('Fase').Value := mBitacora1.FieldValues['iFase'];
-                              QryAcumulados.Open;
-
-                              if QryAcumulados.RecordCount > 0 then
-                                 mBitacora1.FieldValues['dCantidadAnterior'] := QryAcumulados.FieldValues['dInstalado']
-                              else
-                                 mBitacora1.FieldValues['dCantidadAnterior'] := 0;
-
-                              QryAcumulados.Active := False;
-                              QryAcumulados.SQL.Clear;
-                              QryAcumulados.SQL.Add('Select sum(dAvance) as dAvance from bitacoradealcances where sContrato = :Contrato and ' +
-                                'dIdFecha < :fecha And sNumeroOrden = :Orden And sWbs = :Wbs And sNumeroActividad = :Actividad And iFase = :Fase ' +
-                                'Group By sWbs, sNumeroActividad');
-                              QryAcumulados.Params.ParamByName('contrato').DataType := ftString;
-                              QryAcumulados.Params.ParamByName('contrato').Value := sParamContrato;
-                              QryAcumulados.Params.ParamByName('Fecha').DataType := ftDate;
-                              QryAcumulados.Params.ParamByName('Fecha').Value := dParamFecha;
-                              QryAcumulados.Params.ParamByName('Orden').DataType := ftString;
-                              QryAcumulados.Params.ParamByName('Orden').Value := sParamOrden;
-                              QryAcumulados.Params.ParamByName('Wbs').DataType := ftString;
-                              QryAcumulados.Params.ParamByName('Wbs').Value := QryBuscar.FieldValues['sWbs'];
-                              QryAcumulados.Params.ParamByName('Actividad').DataType := ftString;
-                              QryAcumulados.Params.ParamByName('Actividad').Value := QryBuscar.FieldValues['sNumeroActividad'];
-                              QryAcumulados.Params.ParamByName('Fase').DataType := ftInteger;
-                              QryAcumulados.Params.ParamByName('Fase').Value := mBitacora1.FieldValues['iFase'];
-                              QryAcumulados.Open;
-
-                              if QryAcumulados.RecordCount > 0 then
-                                 mBitacora1.FieldValues['dAvanceAnterior'] := QryAcumulados.FieldValues['dAvance']
-                              else
-                                 mBitacora1.FieldValues['dAvanceAnterior'] := 0;
-
-                              mBitacora1.FieldValues['dCantidadActual'] := mBitacora1.FieldValues['dCantidadAnterior'] + mBitacora1.FieldValues['dCantidad'];
-                              mBitacora1.FieldValues['dAvanceActual'] := mBitacora1.FieldValues['dAvanceAnterior'] + mBitacora1.FieldValues['dAvance'];
-                          end
-                          else
-                          begin
-                              mBitacora1.FieldValues['dCantidadAnterior'] := QryBuscarAux.FieldValues['dCantidadAnterior'];
-                              mBitacora1.FieldValues['dAvanceAnterior'] := QryBuscarAux.FieldValues['dAvanceAnterior'];
-                              mBitacora1.FieldValues['dCantidad'] := QryBuscarAux.FieldValues['dCantidadActual'];
-                              mBitacora1.FieldValues['dAvance'] := QryBuscarAux.FieldValues['dAvanceActual'];
-                              mBitacora1.FieldValues['dCantidadActual'] := mBitacora1.FieldValues['dCantidadAnterior'] + mBitacora1.FieldValues['dCantidad'];
-                              mBitacora1.FieldValues['dAvanceActual'] := mBitacora1.FieldValues['dAvanceAnterior'] + mBitacora1.FieldValues['dAvance'];
-                          end;
-
-                          if QryBuscarAux.FieldValues['sTipoActividad'] = 'Actividad' then
-                          begin
-                              dAvancePaquete       := dAvancePaquete + mBitacora1.FieldValues['dAvance'];
-                              dAvanceActualPaquete := dAvanceActualPaquete + mBitacora1.FieldValues['dAvanceActual'];
-                              inc(indice);
-                          end;
-                          mBitacora1.Post;
-
-                          if QryBuscarAux.FieldValues['sTipoActividad'] = 'Paquete' then
-                          begin
-                              for i := 0 to indice do
-                                  mBitacora1.Prior;
-
-                              //Actualizamos el paquete padre de las fases
-                              if mBitacora1.FieldValues['sTipo'] = 'Alcance' then
-                              begin
-                                  if QryBuscarAux.FieldValues['sTipoActividad'] = 'Paquete' then
-                                  begin
-                                      mBitacora1.Edit;
-                                      mBitacora1.FieldValues['dAvance']       := dAvancePaquete;
-                                      mBitacora1.FieldValues['dAvanceActual'] := dAvanceActualPaquete;
-                                      mBitacora1.Post;
-                                  end;
-                              end;
-
-                              dAvancePaquete := 0;
-                              dAvanceActualPaquete := 0;
-                              indice := 0;
-                          end;
-
-                          QryBuscarAux.Next;
-                      end;
-
-                      //Finalmente se suma lo del ultimo paquete...
-                      for i := 0 to indice - 1 do
-                          mBitacora1.Prior;
-
-                      //Actualizamos el paquete padre de las fases
-                      if mBitacora1.FieldValues['sTipo'] = 'Alcance' then
-                      begin
-                          if mBitacora1.FieldValues['sTipoSubActividad'] = 'Paquete' then
-                          begin
-                              mBitacora1.Edit;
-                              mBitacora1.FieldValues['dAvance']       := dAvancePaquete;
-                              mBitacora1.FieldValues['dAvanceActual'] := dAvanceActualPaquete;
-                              mBitacora1.Post;
-                          end;
-                      end;
-                  end;
-              end;
-              QryBuscar.Next
-          end
-       end;
-  end
-  else
-  begin
-     {actividades}// Reporte Tipo Simple ....
-    QryBuscar.Active := False;
-    QryBuscar.SQL.Clear;
-     {01/03/2012 :adal2404, modificar query ligar la bitacora con las actividadexorden y las ac
-      vitidadesxorden con las actividadesxanexon con sWbsContrato}
-    QryBuscar.SQL.Add('Select b.sIsometrico, b.sWbs, b.sNumeroActividad, ' + sHistorialPartidas + 'b.mDescripcion, b.dAvance, a.dVentaMN From bitacoradeactividades b ' +
-      'INNER JOIN actividadesxorden a ON (b.sContrato = a.sContrato And b.sNumeroOrden = a.sNumeroOrden And b.sWbs = a.sWbs And ' +
-      'b.sNumeroActividad = a.sNumeroActividad And a.sIdConvenio = :Convenio And a.sTipoActividad = "Actividad") ' +
-      'INNER JOIN actividadesxanexo a2 ON (a.sContrato = a2.sContrato And a.sNumeroActividad = a2.sNumeroActividad ' +
-      'And a.sIdConvenio = a2.sIdConvenio And a2.sTipoActividad = "Actividad" and a.sWbsContrato=a2.sWbs) ' +
-      'Where b.sContrato = :Contrato And b.sNumeroOrden = :Orden And b.dIdFecha = :Fecha And b.sIdTurno = :Turno ' +
-      'Order By b.sIsometrico, a.iItemOrden ');
-    QryBuscar.Params.ParamByName('Contrato').DataType := ftString;
-    QryBuscar.Params.ParamByName('Contrato').Value := sParamContrato;
-    QryBuscar.Params.ParamByName('Convenio').DataType := ftString;
-    QryBuscar.Params.ParamByName('Convenio').Value := sParamConvenio;
-    QryBuscar.Params.ParamByName('Orden').DataType := ftString;
-    QryBuscar.Params.ParamByName('Orden').Value := sParamOrden;
-    QryBuscar.Params.ParamByName('Fecha').DataType := ftDate;
-    QryBuscar.Params.ParamByName('Fecha').Value := dParamFecha;
-    QryBuscar.Params.ParamByName('Turno').DataType := ftString;
-    QryBuscar.Params.ParamByName('Turno').Value := sParamTurno;
-    QryBuscar.Open;
-
-    sPaquete := '';
-    while not QryBuscar.Eof do
-    begin
-      if sPaquete <> QryBuscar.FieldValues['sIsometrico'] then
-      begin
-        sPaquete := QryBuscar.FieldValues['sIsometrico'];
-        mBitacora1.Append;
-        mBitacora1.FieldValues['sTipo'] := 'Paquete';
-        mBitacora1.FieldValues['sContrato'] := sParamContrato;
-        mBitacora1.FieldValues['sPaquete'] := '';
-        mBitacora1.FieldValues['sNumeroActividad'] := '';
-        mBitacora1.FieldValues['mDescripcion'] := QryBuscar.FieldValues['sIsometrico'];
-        mBitacora1.FieldValues['sMedida'] := '';
-        mBitacora1.FieldValues['dCantidadAnexo'] := 0;
-        mBitacora1.FieldValues['dCantidad'] := 0;
-        mBitacora1.FieldValues['dAvance'] := 0;
-        mBitacora1.FieldValues['iFase'] := 0;
-        mBitacora1.Post;
-      end;
-      mBitacora1.Append;
-      mBitacora1.FieldValues['sTipo'] := 'Partida';
-      mBitacora1.FieldValues['sContrato'] := sParamContrato;
-      mBitacora1.FieldValues['sPaquete'] := QryBuscar.FieldValues['sWbs'];
-      mBitacora1.FieldValues['sNumeroActividad'] := QryBuscar.FieldValues['partida'];
-      mBitacora1.FieldValues['sActividadAnterior'] := '';
-      mBitacora1.FieldValues['mDescripcion'] := QryBuscar.FieldValues['mDescripcion'];
-      mBitacora1.FieldValues['sMedida'] := '';
-      mBitacora1.FieldValues['dCantidadAnexo'] := 0;
-      mBitacora1.FieldValues['dCantidad'] := 0;
-      mBitacora1.FieldValues['dAvance'] := QryBuscar.FieldValues['dAvance'];
-      mBitacora1.FieldValues['dVentaMN'] := QryBuscar.FieldValues['dVentaMN'];
-      mBitacora1.Post;
-      QryBuscar.Next;
-    end;
-  end;
-  {Notas}
-  dsBitacora3.DataSet := mBitacora3;
-  with connection do
-  begin
-    QryBusca.Active := False;
-    QryBusca.SQL.Clear;
-    QryBusca.SQL.Add('select t.sIdTipoMovimiento, t.sDescripcion as sTipoMov, b.sContrato, b.iIdDiario, b.dIdFecha, b.mDescripcion, length(b.mDescripcion) as longi from bitacoradeactividades b ' +
-      'INNER JOIN tiposdemovimiento t ON (b.sContrato = t.sContrato And b.sIdTipoMovimiento = t.sIdTipoMovimiento And t.sClasificacion = "Notas") ' +
-      'Where b.sContrato = :contrato and b.dIdFecha = :fecha and b.sNumeroOrden = :Orden And b.sIdTurno = :Turno and b.sIdTipoMovimiento<>"NI" and b.sIdTipoMovimiento<>"R" and lImprime ="Si" ');
-    QryBusca.Params.ParamByName('contrato').DataType := ftString;
-    QryBusca.Params.ParamByName('contrato').Value := sParamContrato;
-    QryBusca.Params.ParamByName('orden').DataType := ftString;
-    QryBusca.Params.ParamByName('orden').Value := sParamOrden;
-    QryBusca.Params.ParamByName('fecha').DataType := ftDate;
-    QryBusca.Params.ParamByName('fecha').Value := dParamFecha;
-    QryBusca.Params.ParamByName('Turno').DataType := ftString;
-    QryBusca.Params.ParamByName('Turno').Value := sParamTurno;
-    QryBusca.Open;
-    while not QryBusca.Eof do
-    begin
-      mBitacora3.Append;
-      mBitacora3.FieldValues['sContrato'] := QryBusca.FieldValues['sContrato'];
-      mBitacora3.FieldValues['iIdDiario'] := QryBusca.FieldValues['iIdDiario'];
-      mBitacora3.FieldValues['mDescripcion'] := QryBusca.FieldValues['mDescripcion'];
-      mBitacora3.FieldValues['TipoMovimiento'] := QryBusca.FieldValues['sIdTipoMovimiento'];
-      mBitacora3.FieldValues['DescripcionMovimiento'] := QryBusca.FieldValues['sTipoMov'];
-      mBitacora3.Post;
-      QryBusca.Next;
-    end;
-  end;
-
-  TiempoMuerto.Active := False;
-  TiempoMuerto.SQL.Clear;
-  TiempoMuerto.SQL.Add('Select t.sNumeroOrden, t.sArea, t.sHoraInicio, t.sHoraFinal, t.dPersonal, t.dFrente, t.sTiempoMuerto, t.sJornada, t.mDescripcion, c.sDescripcion from jornadasdiarias t ' +
-    'INNER JOIN tiposdemovimiento c ON (t.sContrato = c.sContrato And t.sIdTipoMovimiento = c.sIdTipoMovimiento) ' +
-    'Where t.sContrato = :Contrato And t.dIdFecha = :Fecha And t.sNumeroOrden = :Orden ' +
-    'And t.sIdTurno = :Turno And t.sTipo = "Tiempo Inactivo" Order By t.sHoraInicio ASC');
-  TiempoMuerto.Params.ParamByName('Contrato').DataType := ftString;
-  TiempoMuerto.Params.ParamByName('Contrato').Value := sParamContrato;
-  TiempoMuerto.Params.ParamByName('Fecha').DataType := ftDate;
-  TiempoMuerto.Params.ParamByName('Fecha').Value := dParamFecha;
-  TiempoMuerto.Params.ParamByName('Orden').DataType := ftString;
-  TiempoMuerto.Params.ParamByName('Orden').Value := sParamOrden;
-  TiempoMuerto.Params.ParamByName('turno').DataType := ftString;
-  TiempoMuerto.Params.ParamByName('turno').Value := sParamTurno;
-  TiempoMuerto.Open;
-  sJornadasSuspendidas := '00:00';
-  while not TiempoMuerto.Eof do
-  begin
-    sJornadasSuspendidas := sfnSumaHoras(sJornadasSuspendidas, TiempoMuerto.FieldValues['sJornada']);
-    TiempoMuerto.Next
-  end;
-
-  //Consultamos el personal y equipo afectado en Tiempo Inactivo Diavaz by ivan Jun 2012
-  if QryConfiguracion.FieldValues['lImprimePersonalTM'] = 'Si' then
-  begin
-      //Vaciamos el RX
-      if mTiempoPersonal.RecordCount > 0 then
-         mTiempoPersonal.EmptyTable;
-
-      //Primero consultamos las categorias de personal y equipo afectadas para el RX,
-      TiempoMuertoPersonal.Active := False;
-      TiempoMuertoPersonal.SQL.Clear;
-      TiempoMuertoPersonal.SQL.Add('select tmp.sTipo, tmp.sIdPersonalEquipo, p.sDescripcion as personal, e.sDescripcion as equipo from tiempomuertopersonal tmp '+
-                'left join personal p on (p.sContrato = tmp.sContrato and p.sIdPersonal = tmp.sIdPersonalEquipo) '+
-                'left join equipos e on (e.sContrato = tmp.sContrato and e.sIdEquipo = tmp.sIdPersonalEquipo) '+
-                'where tmp.sContrato =:Contrato and tmp.dIdFecha =:fecha and tmp.sNumeroOrden =:Orden and tmp.sIdTurno =:Turno '+
-                'group by tmp.sTipo, tmp.sIdPersonalEquipo order by tmp.sTipo DESC, e.iItemOrden, p.iItemOrden');
-      TiempoMuertoPersonal.ParamByName('Contrato').AsString := sParamContrato;
-      TiempoMuertoPersonal.ParamByName('Fecha').AsDate      := dParamFecha;
-      TiempoMuertoPersonal.ParamByName('Orden').AsString    := sParamOrden;
-      TiempoMuertoPersonal.ParamByName('Turno').AsString    := sParamTurno;
-      TiempoMuertoPersonal.Open;
-
-      //Lenamos en el RX las categorias
-      while not TiempoMuertoPersonal.Eof do
-      begin
-          mTiempoPersonal.Append;
-          mTiempoPersonal.FieldValues['sContrato']         := global_contrato;
-          mTiempoPersonal.FieldValues['sIdPersonalEquipo'] := TiempoMuertoPersonal.FieldValues['sIdPersonalEquipo'];
-          mTiempoPersonal.FieldValues['sTipo']             := TiempoMuertoPersonal.FieldValues['sTipo'];
-          if TiempoMuertoPersonal.FieldValues['sTipo'] = 'Personal' then
-             mTiempoPersonal.FieldValues['Descripcion']    := TiempoMuertoPersonal.FieldValues['personal']
-          else
-             mTiempoPersonal.FieldValues['Descripcion']    := TiempoMuertoPersonal.FieldValues['equipo'];
-          mTiempoPersonal.Post;
-          TiempoMuertoPersonal.Next;
-      end;
-
-      //Ahora los horarios de Afectacion para el RX,
-      TiempoMuertoPersonal.Active := False;
-      TiempoMuertoPersonal.SQL.Clear;
-      TiempoMuertoPersonal.SQL.Add('select j.sHoraInicio as Inicio, j.sHoraFinal as Final, j.sTiempoMuerto from tiempomuertopersonal tmp '+
-                  'inner join jornadasdiarias j on (j.sContrato = tmp.sContrato and j.dIdFecha = tmp.dIdFecha and j.sNumeroOrden = tmp.sNumeroOrden '+
-                  'and j.sIdTurno = tmp.sIdTurno and j.sHoraInicio = tmp.sHoraInicio and j.sTipo = "Tiempo Inactivo") '+
-                  'where tmp.sContrato =:Contrato and tmp.dIdFecha =:Fecha and tmp.sNumeroOrden =:Orden and tmp.sIdTurno =:Turno '+
-                  'group by tmp.sHoraInicio order by tmp.sHoraInicio');
-      TiempoMuertoPersonal.ParamByName('Contrato').AsString := sParamContrato;
-      TiempoMuertoPersonal.ParamByName('Fecha').AsDate      := dParamFecha;
-      TiempoMuertoPersonal.ParamByName('Orden').AsString    := sParamOrden;
-      TiempoMuertoPersonal.ParamByName('Turno').AsString    := sParamTurno;
-      TiempoMuertoPersonal.Open;
-
-      //Lenamos en el RX las categorias
-      indice := 1;
-      while not TiempoMuertoPersonal.Eof do
-      begin
-          mTiempoPersonal.First;
-          while not mTiempoPersonal.Eof do
-          begin
-              mTiempoPersonal.Edit;
-              mTiempoPersonal.FieldValues['inicio'+IntToStr(indice)]        := TiempoMuertoPersonal.FieldValues['inicio'];
-              mTiempoPersonal.FieldValues['final'+IntToStr(indice)]         := TiempoMuertoPersonal.FieldValues['final'];
-              mTiempoPersonal.FieldValues['sTiempoMuerto'+IntToStr(indice)] := TiempoMuertoPersonal.FieldValues['sTiempoMuerto'];
-              mTiempoPersonal.Post;
-              mTiempoPersonal.Next;
-          end;
-          inc(indice);
-          TiempoMuertoPersonal.Next;
-      end;
-
-      //Ahora consultamos los Tiempos Muertos de las Categorias afectadas
-      TiempoMuertoPersonal.Active := False;
-      TiempoMuertoPersonal.SQL.Clear;
-      TiempoMuertoPersonal.SQL.Add('select tmp.*, j.sHoraInicio as Inicio, j.sHoraFinal as Final, j.sTiempoMuerto, j.mDescripcion, p.sDescripcion as personal, e.sDescripcion as equipo from tiempomuertopersonal tmp '+
-            'inner join jornadasdiarias j on (j.sContrato = tmp.sContrato and j.dIdFecha = tmp.dIdFecha and j.sNumeroOrden = tmp.sNumeroOrden '+
-            'and j.sIdTurno = tmp.sIdTurno and j.sHoraInicio = tmp.sHoraInicio and j.sTipo = "Tiempo Inactivo") '+
-            'left join personal p on (p.sContrato = tmp.sContrato and p.sIdPersonal = tmp.sIdPersonalEquipo) '+
-            'left join equipos e on (e.sContrato = tmp.sContrato and e.sIdEquipo = tmp.sIdPersonalEquipo) '+
-            'where tmp.sContrato =:Contrato and tmp.dIdFecha =:Fecha and tmp.sNumeroOrden =:Orden and tmp.sIdTurno =:Turno group by tmp.sHoraInicio, tmp.sIdPersonalEquipo '+
-            'order by tmp.sHoraInicio, e.iItemOrden, p.iItemOrden');
-      TiempoMuertoPersonal.Params.ParamByName('Contrato').DataType := ftString;
-      TiempoMuertoPersonal.Params.ParamByName('Contrato').Value    := sParamContrato;
-      TiempoMuertoPersonal.Params.ParamByName('Fecha').DataType    := ftDate;
-      TiempoMuertoPersonal.Params.ParamByName('Fecha').Value       := dParamFecha;
-      TiempoMuertoPersonal.Params.ParamByName('Orden').DataType    := ftString;
-      TiempoMuertoPersonal.Params.ParamByName('Orden').Value       := sParamOrden;
-      TiempoMuertoPersonal.Params.ParamByName('turno').DataType    := ftString;
-      TiempoMuertoPersonal.Params.ParamByName('turno').Value       := sParamTurno;
-      TiempoMuertoPersonal.Open;
-
-      //Recorremos el RX las categorias
-      cadena := '';
-      indice := 0;
-      while not TiempoMuertoPersonal.Eof do
-      begin
-          mTiempoPersonal.First;
-          while not mTiempoPersonal.Eof do
-          begin
-              if cadena <> TiempoMuertoPersonal.FieldValues['sHoraInicio'] then
-              begin
-                  inc(indice);
-                  cadena := TiempoMuertoPersonal.FieldValues['sHoraInicio'];
-              end;
-              if (TiempoMuertoPersonal.FieldValues['sTipo'] = mTiempoPersonal.FieldValues['sTipo']) and
-                 (TiempoMuertoPersonal.FieldValues['sIdPersonalEquipo'] = mTiempoPersonal.FieldValues['sIdPersonalEquipo']) and
-                 (cadena = TiempoMuertoPersonal.FieldValues['sHoraInicio']) then
-              begin
-                  mTiempoPersonal.Edit;
-                  mTiempoPersonal.FieldValues['dCantidad'+IntToStr(indice)]     := TiempoMuertoPersonal.FieldValues['dCantidad'];
-                  mTiempoPersonal.Post;
-              end;
-              mTiempoPersonal.Next;
-          end;
-          TiempoMuertoPersonal.Next;
-      end;
-  end;
-
-  rptPersonal.Active := False;
-  rptPersonal.Sql.Clear;
-
-  rptEquipos.Active := False;
-  rptEquipos.SQL.Clear;
-
-  rptEquiposSeguridad.Active := False;
-  rptEquiposSeguridad.SQL.Clear;
-
-  if lCheckReporte() then
-  begin
-    if QryConfiguracion.FieldValues['sOrdenPerEq'] = 'Pernocta' then
-    begin
-      rptPersonal.SQL.Add('select b.sTipoObra, tp.sDescripcion as TipoPersonal, b.sIdPersonal, b.sContrato, p2.sDescripcion as sPernocta, b.sDescripcion as sPersonal, Sum(b.dCantidad) as dCantidad from bitacoradepersonal b ' +
-        'inner join bitacoradeactividades a on (b.sContrato = a.sContrato And b.dIdFecha = a.dIdFecha And b.iIdDiario = a.iIdDiario And a.sIdTurno = :Turno) ' +
-        'inner join personal p on (b.sContrato = p.sContrato And b.sIdPersonal = p.sIdPersonal And p.lImprime = "Si" and p.sIdTipoPersonal <> "PE-A" and p.sIdTipoPersonal <> "PEP" ) ' +
-        'inner join pernoctan p2 on (b.sIdPernocta = p2.sIdPernocta) ' +
-        'inner join tiposdepersonal tp on (tp.sIdTipoPersonal = b.sTipoObra and tp.lPersonalEQ = "Si") '+
-        'where a.sContrato = :contrato and a.dIdFecha = :fecha and a.sNumeroOrden = :Orden and b.sTipoObra <> "ADM" Group By ' +
-        'b.sTipoObra, p2.sIdPernocta, p.sIdPersonal order by b.sTipoObra, p2.sIdPernocta, p.iItemOrden asc');
-      rptPersonal.Params.ParamByName('contrato').DataType := ftString;
-      rptPersonal.Params.ParamByName('contrato').Value := sParamContrato;
-      rptPersonal.Params.ParamByName('orden').DataType := ftString;
-      rptPersonal.Params.ParamByName('orden').Value := sParamOrden;
-      rptPersonal.Params.ParamByName('fecha').DataType := ftDate;
-      rptPersonal.Params.ParamByName('fecha').Value := dParamFecha;
-      rptPersonal.Params.ParamByName('Turno').DataType := ftString;
-      rptPersonal.Params.ParamByName('Turno').Value := sParamTurno;
-      rptPersonal.Open;
-    end
-    else
-    begin
-      rptPersonal.SQL.Add('select b.sTipoObra, tp.sDescripcion as TipoPersonal, b.sIdPersonal, b.sContrato, p2.sDescripcion as sPernocta, b.sDescripcion as sPersonal, Sum(b.dCantidad) as dCantidad from bitacoradepersonal b ' +
-        'inner join bitacoradeactividades a on (b.sContrato = a.sContrato And b.dIdFecha = a.dIdFecha And b.iIdDiario = a.iIdDiario And a.sIdTurno = :Turno) ' +
-        'inner join personal p on (b.sContrato = p.sContrato And b.sIdPersonal = p.sIdPersonal  and p.sDescripcion not like "%TIEMPO%EXTRA%" And  p.lImprime = "Si" and p.sIdTipoPersonal <> "PE-A" and p.sIdTipoPersonal <> "PEP") ' +
-        'inner join plataformas p2 on (b.sIdPlataforma = p2.sIdPlataforma) ' +
-        'inner join tiposdepersonal tp on (tp.sIdTipoPersonal = b.sTipoObra and tp.lPersonalEQ = "Si") '+
-        'where a.sContrato = :contrato and a.dIdFecha = :fecha and a.sNumeroOrden = :Orden and b.sTipoObra <> "PU" Group By ' +
-        'b.sTipoObra, p2.sIdPlataforma, p.sIdPersonal order by b.sTipoObra, p2.sIdPlataforma, p.iItemOrden asc');
-      rptPersonal.Params.ParamByName('contrato').DataType := ftString;
-      rptPersonal.Params.ParamByName('contrato').Value := sParamContrato;
-      rptPersonal.Params.ParamByName('orden').DataType := ftString;
-      rptPersonal.Params.ParamByName('orden').Value := sParamOrden;
-      rptPersonal.Params.ParamByName('fecha').DataType := ftDate;
-      rptPersonal.Params.ParamByName('fecha').Value := dParamFecha;
-      rptPersonal.Params.ParamByName('Turno').DataType := ftString;
-      rptPersonal.Params.ParamByName('Turno').Value := sParamTurno;
-      rptPersonal.Open;
-    end;
-
-    rptEquipos.SQL.Add('select b.sTipoObra, tp.sDescripcion as TipoEquipo, b.sIdEquipo, b.sContrato, p2.sDescripcion as sPernocta, b.sDescripcion as sEquipo, Sum(b.dCantidad) as dCantidad  from bitacoradeequipos b ' +
-      'inner join bitacoradeactividades a on (b.sContrato = a.sContrato And b.dIdFecha = a.dIdFecha And b.iIdDiario = a.iIdDiario And a.sIdTurno = :Turno) ' +
-      'inner join equipos p on (b.sContrato = p.sContrato And b.sIdEquipo = p.sIdEquipo) ' +
-      'inner join pernoctan p2 on (b.sIdPernocta = p2.sIdPernocta) ' +
-      'inner join tiposdeequipo tp on (tp.sIdTipoEquipo = b.sTipoObra and tp.lPersonalEQ = "Si") '+
-      'where a.sContrato = :contrato and a.dIdFecha = :fecha and a.sNumeroOrden = :Orden And p.sIdTipoEquipo <> :Equipo ' +
-      'Group By b.sTipoObra, p2.sIdPernocta, p.sIdEquipo order by b.sTipoObra, p2.sIdPernocta, p.iItemOrden asc');
-    rptEquipos.Params.ParamByName('contrato').DataType := ftString;
-    rptEquipos.Params.ParamByName('contrato').Value := sParamContrato;
-    rptEquipos.Params.ParamByName('orden').DataType := ftString;
-    rptEquipos.Params.ParamByName('orden').Value := sParamOrden;
-    rptEquipos.Params.ParamByName('fecha').DataType := ftDate;
-    rptEquipos.Params.ParamByName('fecha').Value := dParamFecha;
-    rptEquipos.Params.ParamByName('equipo').DataType := ftString;
-    rptEquipos.Params.ParamByName('equipo').Value := QryConfiguracion.FieldValues['sClaveSeguridad'];
-    rptEquipos.Params.ParamByName('Turno').DataType := ftString;
-    rptEquipos.Params.ParamByName('Turno').Value := sParamTurno;
-    rptEquipos.Open;
-  end
-  else
-  begin
-    rptPersonal.SQL.Add('select b.sIdEquipo, b.sContrato, "" as sPernocta, b.sDescripcion as sPersonal, Sum(b.dCantidad) as dCantidad from bitacoradepersonal b ' +
-      'inner join bitacoradeactividades a on (b.sContrato = a.sContrato And b.dIdFecha = a.dIdFecha And b.iIdDiario = a.iIdDiario And a.sIdTurno = :Turno) ' +
-      'inner join personal p on (b.sContrato = p.sContrato And b.sIdPersonal = p.sIdPersonal And p.lImprime = "Si" and p.sIdTipoPersonal <> "PE-A" and p.sIdTipoPersonal <> "PEP") ' +
-      'where a.sContrato = :contrato and a.dIdFecha = :fecha and a.sNumeroOrden = :Orden and p.sDescripcion not like "%TIEMPO%EXTRA%"  Group By ' +
-      'p.sIdPersonal order by p.iItemOrden asc');
-    rptPersonal.Params.ParamByName('contrato').DataType := ftString;
-    rptPersonal.Params.ParamByName('contrato').Value := sParamContrato;
-    rptPersonal.Params.ParamByName('orden').DataType := ftString;
-    rptPersonal.Params.ParamByName('orden').Value := sParamOrden;
-    rptPersonal.Params.ParamByName('fecha').DataType := ftDate;
-    rptPersonal.Params.ParamByName('fecha').Value := dParamFecha;
-    rptPersonal.Params.ParamByName('Turno').DataType := ftString;
-    rptPersonal.Params.ParamByName('Turno').Value := sParamTurno;
-    rptPersonal.Open;
-
-    rptEquipos.SQL.Add('select b.sTipoObra, tp.sDescripcion as TipoEquipo, b.sContrato, "" as sPernocta, b.sDescripcion as sEquipo, Sum(b.dCantidad) as dCantidad  from bitacoradeequipos b ' +
-      'inner join bitacoradeactividades a on (b.sContrato = a.sContrato And b.dIdFecha = a.dIdFecha And b.iIdDiario = a.iIdDiario And a.sIdTurno = :Turno) ' +
-      'inner join equipos p on (b.sContrato = p.sContrato And b.sIdEquipo = p.sIdEquipo And p.lImprime = "Si") ' +
-      'inner join tiposdeequipo tp on (tp.sIdTipoEquipo = b.sTipoObra and tp.lPersonalEQ = "Si") '+
-      'where a.sContrato = :contrato and a.dIdFecha = :fecha and a.sNumeroOrden = :Orden And p.sIdTipoEquipo <> :Equipo ' +
-      'Group By b.sTipoObra, p.sIdEquipo order by b.sTipoObra, p2.sIdPernocta, p.iItemOrden asc');
-    rptEquipos.Params.ParamByName('contrato').DataType := ftString;
-    rptEquipos.Params.ParamByName('contrato').Value := sParamContrato;
-    rptEquipos.Params.ParamByName('orden').DataType := ftString;
-    rptEquipos.Params.ParamByName('orden').Value := sParamOrden;
-    rptEquipos.Params.ParamByName('fecha').DataType := ftDate;
-    rptEquipos.Params.ParamByName('fecha').Value := dParamFecha;
-    rptEquipos.Params.ParamByName('equipo').DataType := ftString;
-    rptEquipos.Params.ParamByName('equipo').Value := QryConfiguracion.FieldValues['sClaveSeguridad'];
-    rptEquipos.Params.ParamByName('Turno').DataType := ftString;
-    rptEquipos.Params.ParamByName('Turno').Value := sParamTurno;
-    rptEquipos.Open;
-  end;
-
-  //Horas Extras
-  rptTiempoExtra.SQL.Add('select p.sIdPersonal,b.sContrato,  b.sDescripcion, Sum(b.dCantidad) as dCantidad from bitacoradepersonal b ' +
-    'inner join bitacoradeactividades a on (b.sContrato = a.sContrato And b.dIdFecha = a.dIdFecha And b.iIdDiario = a.iIdDiario And a.sIdTurno = :Turno) ' +
-    'inner join personal p on (b.sContrato = p.sContrato And b.sIdPersonal = p.sIdPersonal And p.lImprime = "Si" and p.sIdTipoPersonal <> "PE-A" and p.sIdTipoPersonal <> "PEP") ' +
-    'where a.sContrato = :contrato and a.dIdFecha = :fecha and a.sNumeroOrden = :Orden and p.sDescripcion like "%TIEMPO%EXTRA%" ' +
-    ' Group By p.sIdPersonal order by p.iItemOrden asc');
-  rptTiempoExtra.Params.ParamByName('contrato').DataType := ftString;
-  rptTiempoExtra.Params.ParamByName('contrato').Value := sParamContrato;
-  rptTiempoExtra.Params.ParamByName('orden').DataType := ftString;
-  rptTiempoExtra.Params.ParamByName('orden').Value := sParamOrden;
-  rptTiempoExtra.Params.ParamByName('fecha').DataType := ftDate;
-  rptTiempoExtra.Params.ParamByName('fecha').Value := dParamFecha;
-  rptTiempoExtra.Params.ParamByName('Turno').DataType := ftString;
-  rptTiempoExtra.Params.ParamByName('Turno').Value := sParamTurno;
-  rptTiempoExtra.Open;
-
-  //Equipos de seguirdad..
-  rptEquiposSeguridad.SQL.Add('select b.sContrato, b.sNumeroActividad, "" as sPernocta, m.sIdMaterial, sum(m.dCantidad) as dCantidad, ' +
-    'm.sDescripcion as sEquipo from bitacoradeactividades b ' +
-    'inner join bitacorademateriales m ' +
-    'on (m.sContrato = b.sContrato and m.dIdFecha = b.dIdFecha and m.iIdDiario = b.iIdDiario and m.sWbs = b.sWbs) ' +
-    'where b.sContrato = :contrato and b.sNumeroOrden = :orden ' +
-    'and b.dIdFecha = :fecha and b.sIdTurno = :Turno group by m.sIdMaterial order by m.sDescripcion');
-  rptEquiposSeguridad.Params.ParamByName('contrato').DataType := ftString;
-  rptEquiposSeguridad.Params.ParamByName('contrato').Value := sParamContrato;
-  rptEquiposSeguridad.Params.ParamByName('orden').DataType := ftString;
-  rptEquiposSeguridad.Params.ParamByName('orden').Value := sParamOrden;
-  rptEquiposSeguridad.Params.ParamByName('fecha').DataType := ftDate;
-  rptEquiposSeguridad.Params.ParamByName('fecha').Value := dParamFecha;
-  rptEquiposSeguridad.Params.ParamByName('Turno').DataType := ftString;
-  rptEquiposSeguridad.Params.ParamByName('Turno').Value := sParamTurno;
-  rptEquiposSeguridad.Open;
-
-   {#### REQUERIMIENTO DE AGREGAR PERNOCTAS AL SISTEMA... Febrero 2011 ###}
-  Connection.QryBusca.Active := False;
-  Connection.QryBusca.SQL.Clear;
-  Connection.QryBusca.SQL.Add('Select sIdEmbarcacion from embarcaciones where sContrato =:Contrato and sTipo = "Principal" ');
-  Connection.QryBusca.ParamByName('Contrato').AsString := Global_Contrato_Barco;
-  Connection.QryBusca.Open;
-
-  if connection.QryBusca.RecordCount > 0 then
-    Embarcacion := connection.QryBusca.FieldValues['sIdEmbarcacion']
-  else
-    Embarcacion := '';
-
-  QryReporteFotografico.Active := False;
-  QryReporteFotografico.SQL.Clear;
-  QryReporteFotografico.SQL.Add('Select sContrato, sNumeroReporte, iImagen, bImagen, sDescripcion From reportefotografico ' +
-    'Where sContrato = :Contrato And sNumeroReporte = :Reporte And lIncluye = "Si" Order By iImagen');
-  QryReporteFotografico.Params.ParamByName('contrato').DataType := ftString;
-  QryReporteFotografico.Params.ParamByName('contrato').Value := sParamContrato;
-  QryReporteFotografico.Params.ParamByName('Reporte').DataType := ftString;
-  QryReporteFotografico.Params.ParamByName('Reporte').Value := sParamReporte;
-  QryReporteFotografico.Open;
-
-  QryPernoctas.Close;
-  QryPernoctas.Sql.Text := 'select b.sContrato, c.sIdPernocta, p2.sDescripcion as sPernocta, Sum(b.dCantidad) as dCantidad, b.sTipoPernocta, c.sDescripcion as DescribePernocta from bitacoradepersonal b ' +
-      'inner join bitacoradeactividades a on (b.sContrato = a.sContrato And b.dIdFecha = a.dIdFecha And b.iIdDiario = a.iIdDiario And a.sIdTurno = :Turno) ' +
-      'inner join personal p on (b.sContrato = p.sContrato And b.sIdPersonal = p.sIdPersonal and p.lPernocta = "Si" and p.sIdTipoPersonal <> "PE-A") ' +
-      'inner join pernoctan p2 on (b.sIdPernocta = p2.sIdPernocta) ' +
-      'inner join cuentas c on (c.sIdCuenta = b.sTipoPernocta )' +
-      'where a.sContrato = :contrato and b.lAplicaPernocta = "Si" and p.lTotalizarPernocta ="Si" and a.dIdFecha = :fecha and a.sNumeroOrden = :Orden and b.sIdPernocta =:Barco ' +
-      'Group By b.sTipoPernocta order by b.sTipoPernocta asc';
-  QryPernoctas.ParamByName('contrato').AsString := sParamContrato;
-  QryPernoctas.ParamByName('Barco').AsString := Embarcacion;
-  QryPernoctas.ParamByName('orden').AsString := sParamOrden;
-  QryPernoctas.ParamByName('fecha').AsDate := dParamFecha;
-  QryPernoctas.ParamByName('Turno').AsString := sParamTurno;
-  QryPernoctas.Open;
-
-   {LLenamos la memoria con los datos del personal con Pernoctas..}
-  while not QryPernoctas.Eof do
-  begin
-      mPernocta.Append;
-      mPernocta.FieldValues['sContrato']        := QryPernoctas.FieldValues['sContrato'];
-      mPernocta.FieldValues['sIdPernocta']      := QryPernoctas.FieldValues['sIdPernocta'];
-      mPernocta.FieldValues['sPernocta']        := QryPernoctas.FieldValues['sPernocta'];
-      mPernocta.FieldValues['dCantidad']        := QryPernoctas.FieldValues['dCantidad'];
-      mPernocta.FieldValues['sTipoPernocta']    := QryPernoctas.FieldValues['sTipoPernocta'];
-      mPernocta.FieldValues['DescribePernocta'] := QryPernoctas.FieldValues['DescribePernocta'];
-      mPernocta.Post;
-      QryPernoctas.Next;
-  end;
-
-   {Ahora consultamos las pernoctas asignadas directamente..}
-  QryPernoctas.Close;
-  QryPernoctas.Sql.Text := 'select b.sContrato, c.sIdPernocta, Sum(b.dCantidad) as dCantidad, b.sIdCuenta, c.sDescripcion as DescribePernocta from bitacoradepernocta_aux b ' +
-    'inner join bitacoradeactividades a on (b.sContrato = a.sContrato And b.dIdFecha = a.dIdFecha And b.iIdDiario = a.iIdDiario And a.sIdTurno = :Turno) ' +
-    'inner join cuentas c on (c.sIdCuenta = b.sIdCuenta )' +
-    'where a.sContrato = :contrato and a.dIdFecha = :fecha and a.sNumeroOrden = :Orden ' +
-    'Group By b.sIdCuenta order by b.sIdCuenta asc';
-  QryPernoctas.ParamByName('contrato').AsString := sParamContrato;
-  QryPernoctas.ParamByName('orden').AsString := sParamOrden;
-  QryPernoctas.ParamByName('fecha').AsDate := dParamFecha;
-  QryPernoctas.ParamByName('Turno').AsString := sParamTurno;
-  QryPernoctas.Open;
-
-   {Ahora recorremos la memoria para sumar las Pernoctas..}
-  if Qrypernoctas.RecordCount > 0 then
-  begin
-      {Si no se encntraron pernoctas de personal se ingresan como nuevos..}
-    while not QryPernoctas.Eof do
-    begin
-      mPernocta.First;
-      lContinua := True;
-          {Verificamos si ya existe la Pernocta..}
-      while not mPernocta.Eof do
-      begin
-        if mPernocta.FieldValues['sTipoPernocta'] = QryPernoctas.FieldValues['sIdCuenta'] then
-        begin
-          mPernocta.Edit;
-          mPernocta.FieldValues['dCantidad'] := mPernocta.FieldValues['dCantidad'] + QryPernoctas.FieldValues['dCantidad'];
-          mPernocta.Post;
-          lContinua := False;
-        end;
-        mPernocta.Next;
-      end;
-
-      if lContinua then
-      begin
-              {En caso contrario se da de alta..}
-        mPernocta.Append;
-        mPernocta.FieldValues['sContrato'] := QryPernoctas.FieldValues['sContrato'];
-        mPernocta.FieldValues['sIdPernocta'] := QryPernoctas.FieldValues['sIdPernocta'];
-        mPernocta.FieldValues['sPernocta'] := Embarcacion;
-        mPernocta.FieldValues['dCantidad'] := QryPernoctas.FieldValues['dCantidad'];
-        mPernocta.FieldValues['sTipoPernocta'] := QryPernoctas.FieldValues['sIdCuenta'];
-        mPernocta.FieldValues['DescribePernocta'] := QryPernoctas.FieldValues['DescribePernocta'];
-        mPernocta.Post;
-      end;
-      QryPernoctas.Next;
-    end;
-  end;
-   {Termina modificacion de pernoctas ivan- Febrero-2011}
-
-   {Personal de administracion 22 Febrero de 2011..}
-  QryAdmon.Close;
-  QryAdmon.Sql.Text := 'select tp.sDescripcion as TipoPersonal, b.sContrato, b.sIdPernocta, p2.sDescripcion as sPernocta, b.sDescripcion as sPersonal, Sum(b.dCantidad) as dCantidad, b.sIdPersonal, '+
-    '(select sum(bp.dCantidad) as cantidad from bitacoradepersonal bp '+
-    'inner join bitacoradeactividades ba on (bp.sContrato = ba.sContrato And bp.dIdFecha = ba.dIdFecha And bp.iIdDiario = ba.iIdDiario And ba.sIdTurno =:turno) '+
-    'inner join personal pe on (bp.sContrato = pe.sContrato And bp.sIdPersonal = pe.sIdPersonal And pe.lImprime = "Si" and pe.sIdTipoPersonal = "EXT") '+
-    'where ba.sContrato =:contrato and ba.dIdFecha =:fecha and ba.sNumeroOrden =:orden group by bp.sContrato) as TiempoExtra '+
-    'from bitacoradepersonal b ' +
-    'inner join bitacoradeactividades a on (b.sContrato = a.sContrato And b.dIdFecha = a.dIdFecha And b.iIdDiario = a.iIdDiario And a.sIdTurno = :Turno) ' +
-    'inner join personal p on (b.sContrato = p.sContrato And b.sIdPersonal = p.sIdPersonal And p.lImprime = "Si" and (p.sIdTipoPersonal = "PE-A" or p.sIdTipoPersonal = "PE-C" or p.sIdTipoPersonal = "EXT")) '+
-    'inner join pernoctan p2 on (b.sIdPernocta = p2.sIdPernocta) '+
-    'inner join tiposdepersonal tp on (tp.sIdTipoPersonal = b.sTipoObra and tp.lPersonalEQ = "Si") '+
-    'where a.sContrato = :contrato and a.dIdFecha = :fecha and a.sNumeroOrden = :Orden and b.sTipoObra = "ADM" ' +
-    'Group By b.sIdPernocta, p.sIdPersonal order by b.sIdPernocta, p.iItemOrden asc';
-  QryAdmon.ParamByName('contrato').AsString := sParamContrato;
-  QryAdmon.ParamByName('orden').AsString := sParamOrden;
-  QryAdmon.ParamByName('fecha').AsDate := dParamFecha;
-  QryAdmon.ParamByName('Turno').AsString := sParamTurno;
-  QryAdmon.Open;
-   {Termina consulta de personal de administracion...}
-
-  if lCheckReporte() then
-  begin
-      Permisos.Active := False;
-      Permisos.SQL.Clear;
-      Permisos.SQL.Add('select t.sContrato, t.sFolios, t2.sDescripcion from tramitedepermisos t ' +
-        'INNER JOIN tiposdepermiso t2 ON (t.sIdTipoPermiso = t2.sIdTipoPermiso) ' +
-        'where t.sContrato = :contrato and t.dIdFecha = :fecha and ' +
-        't.sNumeroOrden = :orden And t.sIdTurno = :Turno Order By t.sIdTipoPermiso');
-      Permisos.Params.ParamByName('Contrato').DataType := ftString;
-      Permisos.Params.ParamByName('contrato').Value := sParamContrato;
-      Permisos.Params.ParamByName('fecha').DataType := ftDate;
-      Permisos.Params.ParamByName('fecha').Value := dParamFecha;
-      Permisos.Params.ParamByName('Orden').DataType := ftString;
-      Permisos.Params.ParamByName('Orden').Value := sParamOrden;
-      Permisos.Params.ParamByName('Turno').DataType := ftString;
-      Permisos.Params.ParamByName('Turno').Value := sParamTurno;
-      Permisos.Open;
-  end;
-
-  // Variables Generales del Reporte
-  global_imprime := 'Si';
-
-  QryBuscar.Active := False;
-  QryBuscar.SQL.Clear;
-  QryBuscar.SQL.Add('Select r.sContrato From reportediario r inner join ordenesdetrabajo o on ' +
-    '(r.sContrato = o.sContrato and r.sNumeroOrden = o.sNumeroOrden and o.sIdTipoOrden <> :tipo) ' +
-    'Where r.sContrato = :Contrato And r.dIdFecha = :Fecha And r.lStatus <> "Autorizado" ');
-  QryBuscar.Params.ParamByName('Contrato').DataType := ftString;
-  QryBuscar.Params.ParamByName('Contrato').Value    := sParamContrato;
-  QryBuscar.Params.ParamByName('Fecha').DataType    := ftDate;
-  QryBuscar.Params.ParamByName('Fecha').Value       := dParamFecha;
-  QryBuscar.Params.ParamByName('tipo').DataType     := ftString;
-  QryBuscar.Params.ParamByName('tipo').Value        := QryConfiguracion.FieldValues['sOrdenExtraordinaria'];
-  QryBuscar.Open;
-
-  if QryBuscar.RecordCount > 0 then
-    global_imprime := 'No';
-
-  if lCheckReporte() then
-  begin
-    // Programadas
-    if QryReporteDiario.FieldValues['sOrigenTierra'] = 'Si' then
-      sDiarioDescripcionCorta := 'OFICINAS ADMINISTRATIVAS'
-    else
-      sDiarioDescripcionCorta := QryReporteDiario.FieldValues['sIdFolio'];
-  end
-  else
-    sDiarioDescripcionCorta := QryReporteDiario.FieldValues['sDescripcionCorta'];
-
-  sDiarioComentario := '';
-  if global_imprime = 'No' then
-    sDiarioComentario := 'EXISTEN REPORTES DIARIOS DE OTRAS ORDENES DE TRABAJO SIN VALIDAR/AUTORIZAR EN EL DIA, POR TAL NO SE PUEDE REFLEJAR EL AVANCE REAL Y LOS TIEMPOS MUERTOS REALES DEL CONTRATO.';
-
-  sDiarioTitulo := '';
-  if global_imprime = 'No' then
-    sDiarioTitulo := 'OBSERVACIONES';
-
-  sDiarioPeriodo := datetostr(QryConfiguracion.FieldValues['dFechaInicio']) + ' AL ' + datetostr(QryConfiguracion.FieldValues['dFechaFinal']);
-  QryBuscar.Destroy;
-  QryBuscarAux.Destroy;
-
-  if lCheckReporte() then
-  begin
-    // Avances Fisico/Programados ...
-    sTipoOrden := qryConfiguracionOrden.FieldValues['sIdTipoOrden'];
-
-    QryOrdenesdeTrabajo.Active := False;
-    QryOrdenesdeTrabajo.SQL.Clear;
-    QryOrdenesdeTrabajo.SQL.Add('Select sNumeroOrden, sIdTipoOrden from ordenesdetrabajo where sContrato = :Contrato and sIdTipoOrden <> :Tipo');
-    QryOrdenesdeTrabajo.Params.ParamByName('Contrato').DataType := ftString;
-    QryOrdenesdeTrabajo.Params.ParamByName('Contrato').Value    := sParamContrato;
-    QryOrdenesdeTrabajo.Params.ParamByName('Tipo').DataType     := ftString;
-    QryOrdenesdeTrabajo.Params.ParamByName('Tipo').Value        := QryConfiguracion.FieldValues['sOrdenExtraordinaria'];
-    QryOrdenesdeTrabajo.Open;
-
-    {08/marzo/2012 : adal,calcular los avances aunque sea solo un frente}
-    if QryOrdenesdeTrabajo.RecordCount >= 1 then
-      procAvances(sParamContrato, sParamOrden, QryReporteDiario.FieldValues['sIdConvenio'], QryReporteDiario.FieldValues['sIdTurno'], dParamFecha, True, tOrigen)
-    else
-      procAvances(sParamContrato, sParamOrden, QryReporteDiario.FieldValues['sIdConvenio'], QryReporteDiario.FieldValues['sIdTurno'], dParamFecha, False, tOrigen);
-
-    if QryReporteDiario.FieldValues['lStatus'] <> 'Autorizado' then
-    begin
-      dRealGlobalAnterior := 0;
-      dRealGlobalActual := 0;
-      dRealGlobalAcumulado := 0;
-      dRealOrdenAnterior := 0;
-      dRealOrdenActual := 0;
-      dRealOrdenAcumulado := 0;
-    end;
-
-    global_miReporte := QryConfiguracion.FieldValues['sReportesCIA'];
-
-     //Existencia de fotografias en el reporte -Roberto
-    QryExisteFoto.Active := false;
-    QryExisteFoto.SQL.Clear;
-    QryExisteFoto.SQL.Add('SELECT sContrato FROM contratos WHERE sContrato = :contrato AND 1 = :uno');
-    QryExisteFoto.ParamByName('contrato').Value := global_contrato;
-
-    if QryReporteFotografico.RecordCount > 0 then
-      QryExisteFoto.ParamByName('uno').Value := 1 //hacemos que el query devuelva un registro
-    else
-      QryExisteFoto.ParamByName('uno').Value := 0; //hacemos que el query devuelva cero registros
-
-    QryExisteFoto.Open;
-
-    if qryConfiguracionOrden.FieldValues['bCostaFuera'] = 'Si' then
-    begin
-        connection.QryBusca.Active := False;
-        connection.QryBusca.SQL.Clear;
-        connection.QryBusca.SQL.Add('select * from embarcaciones  where sContrato =:contrato and sTipo = "Principal" ');
-        connection.QryBusca.ParamByName('Contrato').AsString := global_contrato_barco;
-        connection.QryBusca.Open;
-
-        if connection.QryBusca.RecordCount = 1 then
-          global_barco := connection.QryBusca.FieldValues['sIdEmbarcacion'];
-
-        //Cargar el query de prorrateos
-        Prorrateos.Active := False;
-        Prorrateos.Sql.Clear;
-        Prorrateos.Sql.Add('select me.sContrato, me.sClasificacion, me.sIdFase, me.sTipo, '+
-            'me.mDescripcion,  me.sHoraInicio,  me.sHoraFinal, me.dIdFecha  from movimientosdeembarcacion me '+
-            'Where me.sContrato=:contrato and me.dIdFecha=:fecha and me.sIdEmbarcacion =:embarcacion order by me.sHoraInicio, sContrato');
-        Prorrateos.ParamByName('Contrato').DataType := ftString;
-        Prorrateos.ParamByName('Contrato').Value    := global_contrato_barco;
-        Prorrateos.ParamByName('Fecha').DataType    := ftDate;
-        Prorrateos.ParamByName('Fecha').Value       := dParamFecha;
-        Prorrateos.ParamByName('Embarcacion').Value := global_barco;
-        Prorrateos.Open;
-
-        //Cargar el query de arribos
-        qryArribos.Active := False;
-        qryArribos.SQL.Clear;
-        qryArribos.SQL.Add('Select m.sContrato, m.dIdFecha, m.sHoraInicio, m.sHoraFinal, mDescripcion, ' +
-          'e.sIdTipoEmbarcacion from movimientosdeembarcacion m ' +
-          'inner join embarcaciones e On ( m.sContrato=e.sContrato And m.sIdEmbarcacion=e.sIdEmbarcacion) ' +
-          'Where m.dIdFecha= :fecha And m.sContrato= :contrato And m.sTipo = "ARRIBO" and sIdTipoEmbarcacion <> "AE" order by sHoraInicio');
-        qryArribos.ParamByName('Contrato').DataType := ftString;
-        qryArribos.ParamByName('Contrato').Value := global_contrato_barco;
-        qryArribos.ParamByName('Fecha').DataType := ftDate;
-        qryArribos.ParamByName('Fecha').Value := dParamFecha;
-        qryArribos.Open;
-
-        //Cargar el query de arribos
-        qryArribosVuelo.Active := False;
-        qryArribosVuelo.SQL.Clear;
-        qryArribosVuelo.SQL.Add('Select m.sContrato, m.dIdFecha, m.sHoraInicio, m.sHoraFinal, mDescripcion, ' +
-          'e.sIdTipoEmbarcacion from movimientosdeembarcacion m ' +
-          'inner join embarcaciones e On ( m.sContrato=e.sContrato And m.sIdEmbarcacion=e.sIdEmbarcacion) ' +
-          'Where m.dIdFecha= :fecha And m.sContrato= :contrato And m.sTipo = "ARRIBO" and sIdTipoEmbarcacion = "AE" order by sHoraInicio');
-        qryArribosVuelo.ParamByName('Contrato').DataType := ftString;
-        qryArribosVuelo.ParamByName('Contrato').Value := global_contrato_barco;
-        qryArribosVuelo.ParamByName('Fecha').DataType := ftDate;
-        qryArribosVuelo.ParamByName('Fecha').Value := dParamFecha;
-        qryArribosVuelo.Open;
-
-        //Cargar el query de Condiciones Climatologicas
-        qryClimaReporte.Active := False;
-        qryClimareporte.Sql.Clear;
-        qryClimaReporte.Sql.Add('select max(cm.dCantidad) as maximo, cm.sCantidad, c.sDescripcion as sDescripcionTiempo, ' +
-          'd.sDescripcion as Direccion ,c.sMedida from condicionesclimatologicas cm ' +
-          'inner join condiciones c on (cm.iIdCondicion=c.iIdCondicion) ' +
-          'inner join direcciones d on (cm.iIdDireccion=d.iIdDireccion) ' +
-          'where cm.dIdFecha=:Fecha and cm.sContrato=:Contrato Group By sDescripcionTiempo');
-        qryClimaReporte.ParamByName('Contrato').DataType := ftString;
-        qryClimaReporte.ParamByName('Contrato').Value := global_contrato_barco;  //se coloca a 24:00 para que no se mezclez con el gerencial.
-        qryClimaReporte.ParamByName('Fecha').DataType := ftDate;
-        qryClimaReporte.ParamByName('Fecha').Value := dParamFecha;
-        qryClimaReporte.Open;
-
-        //Cargar el query de Recursos o mezclas embarcacion..
-        qryRecursosReporte.Active := False;
-        qryRecursosReporte.Sql.Clear;
-        qryRecursosReporte.Sql.Add('select r.*, e.sTipo, re.sMedida, re.sDescripcion as concepto, e.sDescripcion from recursos r ' +
-          'inner join recursosdeexistencias re on (r.iIdRecursoExistencia=re.iIdRecursoExistencia) ' +
-          'inner join embarcaciones e on (e.sContrato = r.sContrato and e.sIdEmbarcacion = r.sIdEmbarcacion and e.sTipo = "Principal") ' +
-          'where r.dIdFecha=:Fecha and r.sContrato=:Contrato and r.sIdEmbarcacion =:Embarcacion ');
-        qryRecursosReporte.ParamByName('Contrato').DataType := ftString;
-        qryRecursosReporte.ParamByName('Contrato').Value := global_contrato_barco;
-        qryRecursosReporte.ParamByName('Fecha').DataType := ftDate;
-        qryRecursosReporte.ParamByName('Fecha').Value := dParamFecha;
-        qryRecursosReporte.ParamByName('Embarcacion').DataType := ftString;
-        qryRecursosReporte.ParamByName('Embarcacion').Value := global_barco;
-        qryRecursosReporte.Open;
-
-        //Cargar el query de Notas Generales
-        qryNotasGenerales.Active := False;
-        qryNotasGenerales.Sql.Clear;
-        qryNotasGenerales.Sql.Add('select mDescripcion from bitacoradeactividades ' +
-          'where sContrato=:Contrato and dIdFecha=:Fecha and sIdTipoMovimiento="B" and sIdTurno =:Turno ');
-        qryNotasGenerales.ParamByName('Contrato').DataType := ftString;
-        qryNotasGenerales.ParamByName('Contrato').Value := global_contrato_barco;
-        qryNotasGenerales.ParamByName('Turno').DataType := ftString;
-        qryNotasGenerales.ParamByName('Turno').Value := sParamTurno;
-        qryNotasGenerales.ParamByName('Fecha').DataType := ftDate;
-        qryNotasGenerales.ParamByName('Fecha').Value := dParamFecha;
-        qryNotasGenerales.Open;
-    end;
-
-    if not FileExists(global_files + global_miReporte + '_rDiarioMultipleGral.fr3') then
-    begin
-        showmessage('El archivo de reporte '+global_Mireporte+'_rDiarioMultipleGral.fr3 no existe, notifique al administrador del sistema');
-        exit;
-    end;
-
-   // rDiario.LoadFromFile(global_files + global_miReporte + '_rDiarioMultipleGral_detalle.fr3') ;
-   // rDiario.LoadFromFile(global_files + global_miReporte + '_rDiarioMultipleGral.fr3') ;
-    rDiario.LoadFromFile(global_files + global_miReporte + '_rDiarioNormalGral.fr3') ;
-   //   rDiario.LoadFromFile(global_files + global_miReporte + '_rDiarioNormalGral_detalle.fr3');
-
-     //Llamar el reporte
-     {Esta modificacion es con base a una slicitud de sede 400, de unificar los reportes diarios en un solo archivo..}
-    (*if QryOrdenesdeTrabajo.RecordCount > 1 then
-    begin
-        if not FileExists(global_files + global_miReporte + '_rDiarioMultipleGral_detalle.fr3') then
-        begin
-            showmessage('El archivo de reporte '+global_Mireporte+'_rDiarioMultipleGral_detalle.fr3 no existe, notifique al administrador del sistema');
-            exit;
-        end;
-
-        if not FileExists(global_files + global_miReporte + '_rDiarioMultipleGral.fr3') then
-        begin
-            showmessage('El archivo de reporte '+global_Mireporte+'_rDiarioMultipleGral.fr3 no existe, notifique al administrador del sistema');
-            exit;
-        end;
-
-        if qryConfiguracionOrden.FieldValues['lImprimeFases'] = 'Si' then
-           rDiario.LoadFromFile(global_files + global_miReporte + '_rDiarioMultipleGral_detalle.fr3')
-        else
-           rDiario.LoadFromFile(global_files + global_miReporte + '_rDiarioMultipleGral.fr3');
-    end
-    else
-    begin
-      //  if not FileExists(global_files + global_miReporte + '_rDiarioNormalGral_detalle.fr3') then
-      //  begin
-      //      showmessage('El archivo de reporte '+global_Mireporte+'_rDiarioNormalGral_detalle.fr3 no existe, notifique al administrador del sistema');
-      //      exit;
-     //   end;
-
-        if not FileExists(global_files + global_miReporte + '_rDiarioNormalGral.fr3') then
-        begin
-            showmessage('El archivo de reporte '+global_Mireporte+'_rDiarioNormalGral.fr3 no existe, notifique al administrador del sistema');
-            exit;
-        end;
-
-        if qryConfiguracionOrden.FieldValues['lImprimeFases'] = 'Si' then
-           rDiario.LoadFromFile(global_files + global_miReporte + '_rDiarioNormalGral_detalle.fr3')
-        else
-           rDiario.LoadFromFile(global_files + global_miReporte + '_rDiarioNormalGral.fr3');
-    end;*)
-  end;
-
-  {Continua impreison de reporte,, Proceso de Enviar Mail..}
-  mDescripcionOrden := qryConfiguracionOrden.FieldValues['mDescripcion'];
-  sFolio            := qryConfiguracionOrden.FieldValues['sIdFolio'];
-  sPlataformaOrden  := qryConfiguracionOrden.FieldValues['sIdPlataforma'];
-
-  if QryConfiguracion.FieldValues['lLicencia'] = 'No' then
-    rDiario.PreviewOptions.Buttons := [pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator]
-  else
-    rDiario.PreviewOptions.Buttons := [pbPrint, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator, pbExportQuick];
-
-  rDiarioFirmas(sParamContrato, sParamOrden, sParamTurno, dParamFecha, tOrigen);
-
-  //Verificamos si solo se enviara el mail o solo se imprimira el reporte diario..
-  if tOrigen.Name = 'frmValida' then
-  begin
-    if connection.configuracion.FieldValues['lEnviaCorreo'] = 'Si' then
-    begin
-      connection.zCommand.Active := False;
-      connection.zCommand.SQL.Clear;
-      connection.zCommand.SQL.Add('select * from usuarios where sIdUsuario =:Usuario and lEnviaCorreo = "Si" ');
-      connection.zCommand.Params.ParamByName('Usuario').AsString := global_usuario;
-      connection.zCommand.Open;
-
-      if connection.zCommand.RecordCount > 0 then
-      begin
-        connection.frxPDFExport1.ShowProgress := False;
-        connection.frxPDFExport1.ShowDialog := False;
-        rDiario.PrepareReport(true);
-        GetTempPath(SizeOf(global_TempPath), global_TempPath);
-        connection.frxPDFExport1.DefaultPath := global_TempPath; // se extrae la ruta de la carpeta temporal
-        sNombreFrente := sParamOrden;
-        sNombreFrente := AnsireplaceStr(sNombreFrente, '\', '');
-        sNombreFrente := AnsireplaceStr(sNombreFrente, '/', '');
-        sNombreFrente := AnsireplaceStr(sNombreFrente, '.', '');
-        connection.frxPDFExport1.FileName := 'ReporteDiario ' + sNombreFrente + ' ' + formatdatetime('dd-mm-yyyy hhnnss', now) + '.pdf';
-        if rDiario.Export(connection.frxPDFExport1) then
-        begin
-          SendMail(connection.QryBusca2.FieldValues['sMailPrincipal'],
-            connection.QryBusca2.FieldValues['clave'],
-            connection.QryBusca2.FieldValues['sDestino'],
-            connection.QryBusca2.FieldValues['sCC'],
-            connection.QryBusca2.FieldValues['sCCO'],
-            connection.QryBusca2.FieldValues['sAsunto'],
-            connection.frxPDFExport1.FileName,
-            connection.QryBusca2.FieldValues['sContenido']);
-        end;
-      end
-    end;
-  end
-  else
-  begin
-    if global_reportes_fecha then
-    begin
-      connection.frxPDFExport1.ShowProgress := False;
-      connection.frxPDFExport1.ShowDialog := False;
-      rDiario.PrepareReport(true);
-      connection.frxPDFExport1.DefaultPath := global_directorio; // se extrae la ruta de la carpeta temporal
-      sNombreFrente := sParamOrden;
-      sNombreFrente := AnsireplaceStr(sNombreFrente, '\', '');
-      sNombreFrente := AnsireplaceStr(sNombreFrente, '/', '');
-      sNombreFrente := AnsireplaceStr(sNombreFrente, '.', '');
-      connection.frxPDFExport1.FileName := 'Reporte Diario ' + sParamContrato + ' ' + sNombreFrente + ' ' + formatdatetime('dd-mm-yyyy', dParamFecha) + '.pdf';
-      rDiario.Export(connection.frxPDFExport1);
-    end
-    else
-    begin
-      if sParamDestino = 'Printer' then
-        rDiario.Print
-      else
-        rDiario.ShowReport;
-    end;
-  end;
-
-  procLimpia()
-end;
-
 
 //Procedimiento del Reporte Diario para CMT
 
@@ -15983,7 +10936,7 @@ begin
   if sParamDestino = 'Printer' then
     rDiario.Print
   else
-    rDiario.ShowReport;
+    rDiario.ShowReport(True);
   procLimpia()
 
 end;
@@ -16791,7 +11744,7 @@ begin
                   QryAcumulados.Params.ParamByName('Wbs').Value          := QryBuscar.FieldValues['sWbs'];
                   QryAcumulados.Params.ParamByName('Actividad').DataType := ftString;
                   QryAcumulados.Params.ParamByName('Actividad').Value    := QryBuscar.FieldValues['sNumeroActividad'];
-                  QryAcumulados.Open;    
+                  QryAcumulados.Open;
 
                   if QryAcumulados.RecordCount > 0 then
                      mBitacora1.FieldValues['dAvanceAnterior'] := QryAcumulados.FieldValues['dAvance']
@@ -17815,6 +12768,11 @@ begin
    else
       rDiario.LoadFromFile(global_files + global_miReporte + '_rDiarioOptativasGral.fr3');
 
+//   If (Global_PuJor='No') and (Global_Personal='Si') Then
+//     rDiario.LoadFromFile(global_files + global_miReporte + '_rDiarioOptativasGral.fr3');
+
+   //If (Global_PuJor='No') and (Global_Personal='No') Then
+
   if QryConfiguracion.FieldValues['lLicencia'] = 'No' then
     rDiario.PreviewOptions.Buttons := [pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator]
   else
@@ -17880,7 +12838,7 @@ begin
       if sParamDestino = 'Printer' then
         rDiario.Print
       else
-        rDiario.ShowReport;
+        rDiario.ShowReport(True);
     end;
   end;
   procLimpia()
@@ -18061,11 +13019,6 @@ begin
   QryExisteFoto.Open;
 
   //Llamar el reporte
-  if not FileExists(global_files + global_miReporte + '_rDiarioVisitaCampo.fr3') then
-  begin
-      showmessage('El archivo de reporte '+global_Mireporte+'_rDiarioVisitaCampo.fr3 no existe, notifique al administrador del sistema');
-      exit;
-  end;
   rDiario.LoadFromFile(global_files + global_miReporte + '_rDiarioVisitaCampo.fr3');
 
   if QryConfiguracion.FieldValues['lLicencia'] = 'No' then
@@ -19009,7 +13962,7 @@ begin
   begin
     rDiario.LoadFromFile(Global_Files + 'ConsolidadoPersonalEquipo.fr3');
     rDiarioFirmas(sParamContrato, sParamOrden, 'A', dParamFecha, tOrigen);
-    rDiario.ShowReport;
+    rDiario.ShowReport(True);
   end;
 
   Consolidado.Destroy;
@@ -20359,7 +15312,7 @@ begin
     rCaratula.PreviewOptions.Buttons := [pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator]
   else
     rCaratula.PreviewOptions.Buttons := [pbPrint, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator, pbExportQuick];
-  rCaratula.ShowReport;
+  rCaratula.ShowReport(True);
 
   rCaratula.Destroy;
   QryGenerador.Destroy;
@@ -20495,666 +15448,6 @@ begin
   end;
   QryBuscarFirmas.Destroy;
 end;
-procedure clearEdit(formulario: TForm);
-(*Para limpiar los texbox de un formulario*)
-var
-  i, tamano:integer;
-begin
-  tamano := formulario.ComponentCount;
-  for i:=0 to tamano - 1 do
-    if (formulario.Components[i] is TEdit) then
-       TEdit(formulario.Components[i]).Clear;
-end;
 
-procedure procCaratulaGeneradorMod(iParamNivel :integer; sParamContrato, sParamEstimacion, sParamOrden, sParamGenerador, sParamConvenio: string; tOrigen: TComponent; tProcedure: tfrxGETvalueEvent; lParamMultiple: Boolean; FormatosExp: string = ''; PermisosExp: string = '');
-var
-  rCaratula: TfrxReport;
-  rxGenerador: TrxMemoryData;
-  dsGenerador: TfrxDBDataSet;
-  sNumeroActividad, WbsAnterior, WbsAnteriorPaquete, WbsActual: string;
-  dCantidadOrden,
-  dAcumuladoOrden,
-  dAcumuladoAnexo: Currency;
-  mOrdenCambio: WideString;
-  x, num, iNivel: integer;
-  ArrayPaquetes: array[1..10, 1..4] of string;
-begin
-  //Revisado por <ivan> ... 16 Sept 2010..
-  QryConfiguracion := TZReadOnlyQuery.Create(tOrigen);
-  QryConfiguracion.Connection := connection.zconnection;
-
-  dsConfiguracion := TfrxDBDataSet.Create(tOrigen);
-  dsConfiguracion.DataSet := QryConfiguracion;
-  dsConfiguracion.UserName := 'dsConfiguracion';
-
-  QryConfiguracion.Active := False;
-  QryConfiguracion.SQL.Clear;
-  QryConfiguracion.SQL.Add('select dac.descripcion, c2.sLicitacion, c2.sCodigo, c2.sTitulo, c.sOrdenPerEq, c.sTipoPartida, c.sImprimePEP, ' +
-    'c.sClaveSeguridad, c.cStatusProceso, c.sOrdenExtraordinaria, c.lLicencia, c.sLeyenda1, c.sLeyenda2, c.sLeyenda3, ' +
-    'c.bImagen, c.sContrato, c.sNombre, c.sNombreCorto, c.sPiePagina, c.sEmail, c.sWeb, c.sSlogan, c.iFirmas, c.sReportesCIA, ' +
-    'c2.mDescripcion, c2.mCliente, c2.bImagen as bImagenPEP, c2.sCentroGestor, ' +
-    'c2.sCentroBeneficio, c2.sPosicionFinanciera, c2.sElementoPEP,  c2.sCentroCosto, c2.sFondo, c2.sCuentaMayor, c2.sTipoObra ' +
-    'From contratos c2 INNER JOIN configuracion c ON (c.sContrato = c2.sContrato) INNER JOIN ( select (mDescripcion)AS descripcion from contratos c2 where c2.sContrato = c2.scodigo ) as dac Where c2.sContrato = :Contrato');
-  QryConfiguracion.Params.ParamByName('contrato').DataType := ftString;
-  QryConfiguracion.Params.ParamByName('contrato').Value := sParamContrato;
-  QryConfiguracion.Open;
-
-  if QryConfiguracion.RecordCount > 0 then
-    global_MiReporte := QryConfiguracion.FieldValues['sReportesCIA'];
-
-  QryGenerador := TZReadOnlyQuery.Create(tOrigen);
-  QryGenerador.Connection := connection.zconnection;
-
-  QryAcumulados := TZReadOnlyQuery.Create(tOrigen);
-  QryAcumulados.Connection := connection.zconnection;
-
-  QryAuxiliar := TZReadOnlyQuery.Create(tOrigen);
-  QryAuxiliar.Connection := connection.zconnection;
-
-  rCaratula := TfrxReport.Create(tOrigen);
-  rCaratula.PreviewOptions.MDIChild := False;
-  rCaratula.PreviewOptions.Modal := True;
-  rCaratula.PreviewOptions.Maximized := lCheckMaximized();
-  rCaratula.PreviewOptions.ShowCaptions := False;
-  rCaratula.Previewoptions.ZoomMode := zmPageWidth;
-  rCaratula.OnGetValue := tProcedure;
-
-  rxGenerador := TrxMemoryData.Create(tOrigen);
-  rxGenerador.Active := False;
-  rxGenerador.FieldDefs.Add('sContrato', ftString, 15, True);
-  rxGenerador.FieldDefs.Add('sTipoActividad', ftString, 15, True);
-  rxGenerador.FieldDefs.Add('sIdFolio', ftString, 35, True);
-  rxGenerador.FieldDefs.Add('sDescripcionCorta', ftString, 50, True);
-  rxGenerador.FieldDefs.Add('sNumeroOrden', ftString, 35, True);
-  rxGenerador.FieldDefs.Add('iSemana', ftInteger, 0, True);
-  rxGenerador.FieldDefs.Add('sWbs', ftString, 75, True);
-  rxGenerador.FieldDefs.Add('sNumeroGenerador', ftString, 10, True);
-  rxGenerador.FieldDefs.Add('sNumeroActividad', ftString, 10, True);
-  rxGenerador.FieldDefs.Add('mDescripcion', ftMemo, 0, True);
-  rxGenerador.FieldDefs.Add('sMedida', ftString, 8, True);
-  rxGenerador.FieldDefs.Add('dCantidadAnexo', ftFloat, 0, True);
-  rxGenerador.FieldDefs.Add('dCantidadOrden', ftFloat, 0, True);
-  rxGenerador.FieldDefs.Add('sIsometrico', ftString, 35, True);
-  rxGenerador.FieldDefs.Add('sNumeroAnexo', ftString, 10, True);
-  rxGenerador.FieldDefs.Add('sIsometricoReferencia', ftString, 35, True);
-  rxGenerador.FieldDefs.Add('sPrefijo', ftString, 4, True);
-  rxGenerador.FieldDefs.Add('dCantidad', ftFloat, 0, True);
-
-  rxGenerador.FieldDefs.Add('anterior', ftFloat, 0, True);
-
-  rxGenerador.FieldDefs.Add('mProblematica', ftMemo, 0, True);
-  rxGenerador.FieldDefs.Add('dAcumuladoOrden', ftFloat, 0, True);
-  rxGenerador.FieldDefs.Add('dAcumuladoAnexo', ftFloat, 0, True);
-  rxGenerador.FieldDefs.Add('iNumeroEstimacion', ftString, 10, True);
-  rxGenerador.FieldDefs.Add('dFechaInicio', ftDate, 0, True);
-  rxGenerador.FieldDefs.Add('dFechaFinal', ftDate, 0, True);
-  rxGenerador.FieldDefs.Add('sMoneda', ftString, 15, True);
-  rxGenerador.FieldDefs.Add('dFechaInicioG', ftDate, 0, True);
-  rxGenerador.FieldDefs.Add('dFechaFinalG', ftDate, 0, True);
-  rxGenerador.FieldDefs.Add('mComentarios', ftMemo, 0, True);
-  rxGenerador.FieldDefs.Add('lValida', ftBoolean, 0, True);
-  rxGenerador.FieldDefs.Add('lAutoriza', ftBoolean, 0, True);
-  rxGenerador.FieldDefs.Add('sSimbolo', ftString, 20, True);
-  rxGenerador.FieldDefs.Add('sValorConversion1', ftString, 20, True);
-  rxGenerador.FieldDefs.Add('sValorConversion2', ftString, 20, True);
-  rxGenerador.FieldDefs.Add('sValorConversion3', ftString, 20, True);
-  rxGenerador.FieldDefs.Add('dConstante', ftFloat, 0, True);
-  rxGenerador.FieldDefs.Add('dAlto', ftFloat, 0, True);
-  rxGenerador.FieldDefs.Add('dLargo', ftFloat, 0, True);
-  rxGenerador.FieldDefs.Add('dAncho', ftFloat, 0, True);
-  rxGenerador.FieldDefs.Add('dSubtotal', ftFloat, 0, True);
-  rxGenerador.FieldDefs.Add('dTotal', ftFloat, 0, True);
-  rxGenerador.FieldDefs.Add('sAnexo', ftString, 5, True);
-  rxGenerador.Active := True;
-
-  dsGenerador := TfrxDBDataSet.Create(tOrigen);
-  dsGenerador.FieldAliases.Clear;
-  dsGenerador.DataSet := rxGenerador;
-  dsGenerador.UserName := 'dsGenerador';
-
-  rCaratula.DataSets.Add(dsConfiguracion);
-  rCaratula.DataSets.Add(dsGenerador);
-
-
-
-  QryGenerador.Active := False;
-  QryGenerador.SQL.Clear;
-  QryGenerador.SQL.Add('Select o.sDescripcionCorta, o.sIdFolio, a.sNumeroActividad, e1.sWbsContrato, e1.sWbs, a.sMedida, a.dCantidadAnexo, a.mDescripcion, a.sWbsAnterior, ' +
-    'e2.sContrato, e2.sNumeroOrden,e2.sNumeroAnexo, e2.sNumeroGenerador, e2.iConsecutivo, e2.dFechaInicio, e2.dFechaFinal, e2.mComentarios, e2.iSemana, e2.sIdUsuarioValida, e2.sIdUsuarioAutoriza, ' +
-    'e1.sIsometrico, e1.sPrefijo, e1.dCantidad, e1.iOrdenCambio,  e1.sIsometricoReferencia, e1.iidGrupo, e1.iidPerimetro, e1.dConstante, e1.dAlto, e1.dAncho, e1.dLargo, e1.dSubtotal, a.sAnexo, ' +
-    'e3.iNumeroEstimacion, e3.sMoneda, e3.dFechaInicio as dFechaInicioEst, e3.dFechaFinal as dFechaFinalEst, (( select ifnull(sum(ep.dCantidad), 0)from estimacionxpartida ep ' +
-    'inner join estimaciones es on (ep.sContrato = es.sContrato And ep.sNumeroOrden = es.sNumeroOrden And ep.sNumeroGenerador = es.sNumeroGenerador) inner join estimacionperiodo ed  ' +
-    'on (es.sContrato =  ed.sContrato And es.iNumeroEstimacion = ed.iNumeroEstimacion)where ep.scontrato = e1.scontrato And  ep.sNumeroOrden =e1.sNumeroOrden  ' +
-    'AND ep.sWbs = e1.sWbs and ep.sNumeroActividad =e1.sNumeroActividad and es.dFechaInicio <= e2.dFechaFinal) - e1.dCantidad )as Anterior from actividadesxanexo a inner join estimaciones e2 ' +
-    'on (a.sContrato = e2.sContrato And e2.sNumeroOrden = :Orden And e2.sNumeroGenerador = :Generador) INNER JOIN estimacionxpartida e1 ON (e1.sContrato = e2.sContrato And e1.sNumeroOrden = e2.sNumeroOrden And ' +
-    'e1.sNumeroGenerador = e2.sNumeroGenerador and   replace(a.sWbs," ","") =replace(e1.sWbsContrato ," ","") AND    replace(a.sNumeroActividad," ","")=replace(e1.sNumeroActividad ," ","") ) ' +
-    'inner join estimacionperiodo e3 on (e2.sContrato =  e3.sContrato And e2.iNumeroEstimacion = e3.iNumeroEstimacion) inner Join ordenesdetrabajo o on (o.sContrato=e2.sContrato And o.sNumeroOrden=e2.sNumeroOrden) ' +
-    'where a.sContrato = :Contrato And a.sMedida<>"ACTIVIDAD" And a.sIdConvenio = :Convenio And a.sTipoActividad = "Actividad" Order By a.sWbs, a.iItemOrden, e1.sIsometrico, e1.sPrefijo ');
-
-  QryGenerador.Params.ParamByName('Contrato').DataType := ftString;
-  QryGenerador.Params.ParamByName('Contrato').Value := sParamContrato;
-  QryGenerador.Params.ParamByName('Convenio').DataType := ftString;
-  QryGenerador.Params.ParamByName('Convenio').Value := sParamConvenio;
-  QryGenerador.Params.ParamByName('Orden').DataType := ftString;
-  QryGenerador.Params.ParamByName('Orden').Value := sParamOrden;
-  QryGenerador.Params.ParamByName('Generador').DataType := ftString;
-  QryGenerador.Params.ParamByName('Generador').Value := sParamGenerador;
-  QryGenerador.Open;
-
-
-  if QryGenerador.RecordCount > 0 then
-  begin
-    sNumeroActividad := '';
-    WbsAnterior := 'iv@n';
-    WbsActual   := 'iv@n';
-    WbsAnteriorPaquete := 'iv@an';
-    while not QryGenerador.Eof do
-    begin
-        WbsAnterior := QryGenerador.FieldValues['sWbsAnterior'];
-        num    := 1;
-        iNivel := iParamNivel;
-       //Insertamos los paquetes de las partidas si aplican
-       if WbsAnteriorPaquete <> WbsAnterior then
-       begin
-          WbsAnteriorPaquete := WbsAnterior;
-          while iNivel > 0 do
-          begin
-              //Consultamos los paquetes que le corresponden a cada partida.
-              connection.QryBusca.Active;
-              connection.QryBusca.SQL.Clear;
-              connection.QryBusca.SQL.Add('select sWbs, sWbsAnterior, sNumeroActividad, mDescripcion, dPonderado '+
-                                          'from actividadesxorden where sContrato =:Contrato and sIdConvenio =:Convenio and sNumeroOrden =:Orden and sWbs =:Wbs and sTipoActividad = "Paquete" ');
-              connection.QryBusca.ParamByName('Contrato').AsString  := sParamContrato;
-              connection.QryBusca.ParamByName('Convenio').AsString  := sParamConvenio;
-              connection.QryBusca.ParamByName('Orden').AsString     := sParamOrden;
-              connection.QryBusca.ParamByName('Wbs').AsString       := WbsAnterior;
-              connection.QryBusca.Open;
-
-              if connection.QryBusca.RecordCount > 0 then
-              begin
-                  WbsAnterior          := connection.QryBusca.FieldValues['sWbsAnterior'];
-                  ArrayPaquetes[num,1] := connection.QryBusca.FieldValues['sNumeroActividad'];
-                  ArrayPaquetes[num,2] := connection.QryBusca.FieldValues['mDescripcion'];
-                  ArrayPaquetes[num,3] := 'Paquete';
-                  inc(num);
-               end;
-              iNivel := iNivel - 1;
-          end;
-      end;
-
-      dec(num);
-      while num > 0 do
-      begin
-          //Insertamos las partidas y paquetes..
-          rxGenerador.Append;
-          rxGenerador.FieldValues['sContrato']          := QryGenerador.FieldValues['sContrato'];
-          rxGenerador.FieldValues['sIdFolio']           := QryGenerador.FieldValues['sIdFolio'];
-          rxGenerador.FieldValues['sDescripcionCorta']  := QryGenerador.FieldValues['sDescripcionCorta'];
-
-          rxGenerador.FieldValues['sNumeroOrden'] := QryGenerador.FieldValues['sNumeroOrden'];
-          rxGenerador.FieldValues['iSemana'] := QryGenerador.FieldValues['iSemana'];
-          rxGenerador.FieldValues['sNumeroGenerador'] := QryGenerador.FieldValues['sNumeroGenerador'];
-
-          if QryGenerador.FieldValues['sIdUsuarioValida'] <> '' then
-            rxGenerador.FieldValues['lValida'] := True
-          else
-            rxGenerador.FieldValues['lValida'] := False;
-
-          if QryGenerador.FieldValues['sIdUsuarioAutoriza'] <> '' then
-            rxGenerador.FieldValues['lAutoriza'] := True
-          else
-            rxGenerador.FieldValues['lAutoriza'] := False;
-
-          rxGenerador.FieldValues['sTipoActividad']   := 'Paquete';
-          rxGenerador.FieldValues['sWbs']             := QryGenerador.FieldValues['sWbs'];
-          rxGenerador.FieldValues['sNumeroActividad'] := ArrayPaquetes[num,1];
-          rxGenerador.FieldValues['mDescripcion']     := ArrayPaquetes[num,2];
-          dec(num);
-      end;
-
-      rxGenerador.Append;
-      rxGenerador.FieldValues['sContrato']          := QryGenerador.FieldValues['sContrato'];
-      rxGenerador.FieldValues['sIdFolio']           := QryGenerador.FieldValues['sIdFolio'];
-      rxGenerador.FieldValues['sDescripcionCorta']  := QryGenerador.FieldValues['sDescripcionCorta'];
-
-      rxGenerador.FieldValues['sNumeroOrden'] := QryGenerador.FieldValues['sNumeroOrden'];
-      rxGenerador.FieldValues['iSemana'] := QryGenerador.FieldValues['iSemana'];
-      rxGenerador.FieldValues['sNumeroGenerador'] := QryGenerador.FieldValues['sNumeroGenerador'];
-
-      if QryGenerador.FieldValues['sIdUsuarioValida'] <> '' then
-        rxGenerador.FieldValues['lValida'] := True
-      else
-        rxGenerador.FieldValues['lValida'] := False;
-
-      if QryGenerador.FieldValues['sIdUsuarioAutoriza'] <> '' then
-        rxGenerador.FieldValues['lAutoriza'] := True
-      else
-        rxGenerador.FieldValues['lAutoriza'] := False;
-
-      rxGenerador.FieldValues['sTipoActividad']   := 'Actividad';
-      rxGenerador.FieldValues['sWbs']             := QryGenerador.FieldValues['sWbs'];
-
-      if iParamNivel > 0 then
-      begin
-          if WbsActual <> QryGenerador.FieldValues['sWbs'] then
-          begin
-              rxGenerador.FieldValues['sMedida']          := QryGenerador.FieldValues['sMedida'];
-              rxGenerador.FieldValues['dConstante']       := QryGenerador.FieldValues['dCantidadAnexo'];
-              rxGenerador.FieldValues['sNumeroActividad'] := QryGenerador.FieldValues['sNumeroActividad'];
-              rxGenerador.FieldValues['mDescripcion']     := QryGenerador.FieldValues['mDescripcion'];
-              rxGenerador.FieldValues['sAnexo']           := QryGenerador.FieldValues['sAnexo'];
-              WbsActual := QryGenerador.FieldValues['sWbs'];
-          end;
-      end
-      else
-      begin
-          rxGenerador.FieldValues['sMedida']          := QryGenerador.FieldValues['sMedida'];
-          rxGenerador.FieldValues['dConstante']       := QryGenerador.FieldValues['dCantidadAnexo'];
-          rxGenerador.FieldValues['sNumeroActividad'] := QryGenerador.FieldValues['sNumeroActividad'];
-          rxGenerador.FieldValues['mDescripcion']     := QryGenerador.FieldValues['mDescripcion'];
-          rxGenerador.FieldValues['sAnexo']           := QryGenerador.FieldValues['sAnexo'];
-          WbsActual := QryGenerador.FieldValues['sWbs'];
-      end;
-
-      //Obtenemos la cantidad de Anexo de las partidas dentro del programa principal..
-      QryAcumulados.Active := False;
-      QryAcumulados.SQL.Clear;
-//      QryAcumulados.SQL.Add('Select sum(dCantidadAnexo) as dCantidadAnexo From actividadesxanexo Where sContrato = :Contrato And ' +
-//        'sIdConvenio = :Convenio And sWbs = :Wbs And sTipoActividad = "Actividad"');
-      QryAcumulados.SQL.Add('Select sum(dCantidadAnexo) as dCantidadAnexo From actividadesxanexo Where sContrato = :Contrato And ' +
-                            'sIdConvenio = :Convenio And sNumeroActividad= :Actividad And sTipoActividad = "Actividad"');
-      QryAcumulados.Params.ParamByName('Contrato').DataType := ftString;
-      QryAcumulados.Params.ParamByName('Contrato').Value := global_contrato;
-      QryAcumulados.Params.ParamByName('Convenio').DataType := ftString;
-      QryAcumulados.Params.ParamByName('Convenio').Value := sParamConvenio;
-
-      QryAcumulados.Params.ParamByName('Actividad').DataType := ftString;
-      QryAcumulados.Params.ParamByName('Actividad').Value    := QryGenerador.FieldValues['sNumeroActividad'];
-
-      QryAcumulados.Open;
-
-      if QryAcumulados.RecordCount > 0 then
-        rxGenerador.FieldValues['dCantidadAnexo'] := QryAcumulados.FieldValues['dCantidadAnexo']
-      else
-        rxGenerador.FieldValues['dCantidadAnexo'] := QryGenerador.FieldValues['dCantidadAnexo'];
-
-      if QryGenerador.FieldValues['sNumeroActividad'] <> sNumeroActividad then
-      begin
-        sNumeroActividad := QryGenerador.FieldValues['sNumeroActividad'];
-        if lParamMultiple then
-        begin
-          QryAcumulados.Active := False;
-          QryAcumulados.SQL.Clear;
-          QryAcumulados.SQL.Add('Select dCantidad From actividadesxorden Where sContrato = :Contrato And sNumeroOrden = :Orden And ' +
-            'sIdConvenio = :Convenio And sNumeroActividad = :Actividad and sWbsContrato = :Wbs And sTipoActividad = "Actividad"');
-          QryAcumulados.Params.ParamByName('Contrato').DataType  := ftString;
-          QryAcumulados.Params.ParamByName('Contrato').Value     := global_contrato;
-          QryAcumulados.Params.ParamByName('orden').DataType     := ftString;
-          QryAcumulados.Params.ParamByName('orden').Value        := sParamOrden;
-          QryAcumulados.Params.ParamByName('Convenio').DataType  := ftString;
-          QryAcumulados.Params.ParamByName('Convenio').Value     := sParamConvenio;
-          QryAcumulados.Params.ParamByName('Actividad').DataType := ftString;
-          QryAcumulados.Params.ParamByName('Actividad').Value    := QryGenerador.FieldValues['sNumeroActividad'];
-          QryAcumulados.Params.ParamByName('Wbs').DataType       := ftString;
-          QryAcumulados.Params.ParamByName('Wbs').Value          := QryGenerador.FieldValues['sWbsContrato'];
-          QryAcumulados.Open;
-
-          dCantidadOrden := 0;
-          while not QryAcumulados.Eof do
-          begin
-            dCantidadOrden := dCantidadOrden + QryAcumulados.FieldValues['dCantidad'];
-            QryAcumulados.Next
-          end;
-
-          QryAcumulados.Active := False;
-          QryAcumulados.SQL.Clear;
-          QryAcumulados.SQL.Add('Select Sum(e.dCantidad) as dAcumulado From estimaciones e1 ' +
-            'INNER JOIN estimacionxpartida e ON (e.sContrato = e1.sContrato And e.sNumeroOrden = e1.sNumeroOrden And ' +
-            'e.sNumeroGenerador = e1.sNumeroGenerador And replace(e.sWbsContrato ," ","")= :Wbs And replace(e.sNumeroActividad ," ","")= :Actividad) ' +
-            'Where e1.sContrato = :Contrato And e1.sNumeroOrden = :Orden And e1.iConsecutivo <= :Consecutivo ' +
-            'Group By e.sNumeroActividad');
-          QryAcumulados.Params.ParamByName('Contrato').DataType := ftString;
-          QryAcumulados.Params.ParamByName('Contrato').Value := global_contrato;
-          QryAcumulados.Params.ParamByName('orden').DataType := ftString;
-          QryAcumulados.Params.ParamByName('orden').Value := sParamOrden;
-          QryAcumulados.Params.ParamByName('Consecutivo').DataType := ftInteger;
-          QryAcumulados.Params.ParamByName('Consecutivo').Value := QryGenerador.FieldValues['iConsecutivo'];
-          QryAcumulados.Params.ParamByName('Actividad').DataType := ftString;
-          QryAcumulados.Params.ParamByName('Actividad').Value := QryGenerador.FieldValues['sNumeroActividad'];
-          QryAcumulados.Params.ParamByName('Wbs').DataType := ftString;
-          QryAcumulados.Params.ParamByName('Wbs').Value := QryGenerador.FieldValues['sWbsContrato'];
-          QryAcumulados.Open;
-
-          dAcumuladoOrden := 0;
-          if QryAcumulados.RecordCount > 0 then
-            dAcumuladoOrden := QryAcumulados.FieldValues['dAcumulado'];
-        end;
-
-        QryAcumulados.Active := False;
-        QryAcumulados.SQL.Clear;
-        QryAcumulados.SQL.Add('Select Sum(e.dCantidad) as dAcumulado From estimaciones e1 ' +
-          'INNER JOIN estimacionxpartida e ON (e.sContrato = e1.sContrato And e.sNumeroOrden = e1.sNumeroOrden And ' +
-          'e.sNumeroGenerador = e1.sNumeroGenerador And replace(e.sWbsContrato ," ","") = :Wbs And replace(e.sNumeroActividad ," ","") = :Actividad) ' +
-          'Where e1.sContrato = :Contrato And e1.iConsecutivo <= :Consecutivo ' +
-          'Group By e.sNumeroActividad');
-        QryAcumulados.Params.ParamByName('Contrato').DataType := ftString;
-        QryAcumulados.Params.ParamByName('Contrato').Value := global_contrato;
-        QryAcumulados.Params.ParamByName('Consecutivo').DataType := ftInteger;
-        QryAcumulados.Params.ParamByName('Consecutivo').Value := QryGenerador.FieldValues['iConsecutivo'];
-        QryAcumulados.Params.ParamByName('Wbs').DataType := ftString;
-        QryAcumulados.Params.ParamByName('Wbs').Value := QryGenerador.FieldValues['sWbsContrato'];
-        QryAcumulados.Params.ParamByName('Actividad').DataType := ftString;
-        QryAcumulados.Params.ParamByName('Actividad').Value := QryGenerador.FieldValues['sNumeroActividad'];
-        QryAcumulados.Open;
-
-        dAcumuladoAnexo := 0;
-        if QryAcumulados.RecordCount > 0 then
-          dAcumuladoAnexo := QryAcumulados.FieldValues['dAcumulado'];
-      end;
-
-      //coigo comentado, codigo eliminado,
-
-      rxGenerador.FieldValues['dCantidadOrden'] := dCantidadOrden;
-      rxGenerador.FieldValues['dAcumuladoOrden'] := dAcumuladoOrden;
-      rxGenerador.FieldValues['dAcumuladoAnexo'] := dAcumuladoAnexo;
-      rxGenerador.FieldValues['sIsometrico'] := QryGenerador.FieldValues['sIsometrico'];
-      rxGenerador.FieldValues['sIsometricoReferencia'] := QryGenerador.FieldValues['sIsometricoReferencia'];
-      rxGenerador.FieldValues['sPrefijo'] := QryGenerador.FieldValues['sPrefijo'];
-      rxGenerador.FieldValues['dCantidad'] := QryGenerador.FieldValues['dCantidad'];
-      rxGenerador.FieldValues['iNumeroEstimacion'] := QryGenerador.FieldValues['iNumeroEstimacion'];
-      rxGenerador.FieldValues['dFechaInicioG'] := QryGenerador.FieldValues['dFechaInicio'];
-      rxGenerador.FieldValues['dFechaFinalG'] := QryGenerador.FieldValues['dFechaFinal'];
-      rxGenerador.FieldValues['sMoneda'] := QryGenerador.FieldValues['sMoneda'];
-      rxGenerador.FieldValues['dFechaInicio'] := QryGenerador.FieldValues['dFechaInicioEst'];
-      rxGenerador.FieldValues['dFechaFinal'] := QryGenerador.FieldValues['dFechaFinalEst'];
-      rxGenerador.FieldValues['mComentarios'] := QryGenerador.FieldValues['mComentarios'];
-      rxGenerador.FieldValues['sNumeroAnexo'] := QryGenerador.FieldValues['sNumeroAnexo'];
-      rxGenerador.FieldValues['anterior'] := QryGenerador.FieldValues['Anterior'];
-
-      if QryGenerador.FieldValues['iOrdenCambio'] > 0 then
-      begin
-        QryAuxiliar.Active := False;
-        QryAuxiliar.SQL.Clear;
-        QryAuxiliar.SQL.Add('Select iCedulaProcedencia, sNotificacionOficio, mCedulaMotivo From ordendecambio Where sContrato = :Contrato And iCedulaProcedencia = :Orden');
-        QryAuxiliar.Params.ParamByName('Contrato').DataType := ftString;
-        QryAuxiliar.Params.ParamByName('Contrato').Value := global_contrato;
-        QryAuxiliar.Params.ParamByName('orden').DataType := ftInteger;
-        QryAuxiliar.Params.ParamByName('orden').Value := QryGenerador.FieldValues['iOrdenCambio'];
-        QryAuxiliar.Open;
-        mOrdenCambio := '';
-        if QryAuxiliar.RecordCount > 0 then
-          mOrdenCambio := 'CEDULA DE PROCEDENCIA DE LA NOTIFICACIÓN DE CAMBIO No. : ' + IntToStr(QryAuxiliar.FieldValues['iCedulaProcedencia']) +
-            chr(13) + 'OFICIO DEL CONTRATISTA No. : ' + QryAuxiliar.FieldValues['sNotificacionOficio'] +
-            chr(13) + 'MOTIVO DEL CAMBIO : ' + QryAuxiliar.FieldValues['mCedulaMotivo'];
-        rxGenerador.FieldValues['mProblematica'] := mOrdenCambio;
-
-      end;
-      QryGenerador.Next
-    end
-  end
-  else
-  begin
-    QryGenerador.Active := False;
-    QryGenerador.SQL.Clear;
-    QryGenerador.SQL.Add('Select e2.sContrato, e2.sNumeroOrden, e2.sNumeroGenerador, e2.dFechaInicio, e2.dFechaFinal, e2.mComentarios, e2.iSemana, e2.sIdUsuarioValida, e2.sIdUsuarioAutoriza, ' +
-      'e3.iNumeroEstimacion, e3.sMoneda, e3.dFechaInicio as dFechaInicioEst, e3.dFechaFinal as dFechaFinalEst from estimaciones e2 ' +
-      'inner join estimacionperiodo e3 on (e2.sContrato =  e3.sContrato And e2.iNumeroEstimacion = e3.iNumeroEstimacion) ' +
-      'Where e2.sContrato = :Contrato And e2.sNumeroOrden = :Orden And e2.sNumeroGenerador = :Generador');
-    QryGenerador.Params.ParamByName('Contrato').DataType := ftString;
-    QryGenerador.Params.ParamByName('Contrato').Value := sParamContrato;
-    QryGenerador.Params.ParamByName('Orden').DataType := ftString;
-    QryGenerador.Params.ParamByName('Orden').Value := sParamOrden;
-    QryGenerador.Params.ParamByName('Generador').DataType := ftString;
-    QryGenerador.Params.ParamByName('Generador').Value := sParamGenerador;
-    QryGenerador.Open;
-    if QryGenerador.RecordCount > 0 then
-    begin
-      rxGenerador.Append;
-      rxGenerador.FieldValues['sContrato'] := QryGenerador.FieldValues['sContrato'];
-      rxGenerador.FieldValues['sNumeroOrden'] := QryGenerador.FieldValues['sNumeroOrden'];
-      rxGenerador.FieldValues['iSemana'] := QryGenerador.FieldValues['iSemana'];
-      rxGenerador.FieldValues['sNumeroGenerador'] := QryGenerador.FieldValues['sNumeroGenerador'];
-
-      if QryGenerador.FieldValues['sIdUsuarioValida'] <> '' then
-        rxGenerador.FieldValues['lValida'] := True
-      else
-        rxGenerador.FieldValues['lValida'] := False;
-
-      if QryGenerador.FieldValues['sIdUsuarioAutoriza'] <> '' then
-        rxGenerador.FieldValues['lAutoriza'] := True
-      else
-        rxGenerador.FieldValues['lAutoriza'] := False;
-
-      rxGenerador.FieldValues['iNumeroEstimacion'] := QryGenerador.FieldValues['iNumeroEstimacion'];
-      rxGenerador.FieldValues['dFechaIniciog'] := QryGenerador.FieldValues['dFechaInicio'];
-      rxGenerador.FieldValues['dFechaFinalg'] := QryGenerador.FieldValues['dFechaFinal'];
-      rxGenerador.FieldValues['sMoneda'] := QryGenerador.FieldValues['sMoneda'];
-      rxGenerador.FieldValues['dFechaInicio'] := QryGenerador.FieldValues['dFechaInicioEst'];
-      rxGenerador.FieldValues['dFechaFinal'] := QryGenerador.FieldValues['dFechaFinalEst'];
-      rxGenerador.FieldValues['mComentarios'] := QryGenerador.FieldValues['mComentarios'];
-      rxGenerador.Post;
-    end
-  end;
-  rDiarioFirmas(sParamContrato, sParamOrden, 'A', QryGenerador.FieldValues['dFechaFinal'], tOrigen);
-
-  if iParamNivel = 0 then
-  begin
-      if lParamMultiple then
-          if not FileExists(global_files + global_miReporte + '_CaratulaGeneradorMultiple.fr3') then
-              showmessage('El archivo de reporte '+global_Mireporte+'_CaratulaGeneradorMultiple.fr3 no existe, notifique al administrador del sistema')
-          else
-              rCaratula.LoadFromFile(global_files + global_MiReporte + '_CaratulaGeneradorMultiple.fr3')
-       else
-          if not FileExists(global_files + global_miReporte + '_CaratulaGenerador.fr3') then
-              showmessage('El archivo de reporte '+global_Mireporte+'_CaratulaGenerador.fr3 no existe, notifique al administrador del sistema')
-          else
-              rCaratula.LoadFromFile(global_files + global_MiReporte + '_CaratulaGenerador.fr3');
-  end;
-
-  if iParamNivel > 0 then
-  begin
-      if lParamMultiple then
-         if not FileExists(global_files + global_miReporte + '_CaratulaGeneradorPaquetePEP.fr3') then
-            showmessage('El archivo de reporte '+global_Mireporte+'_CaratulaGeneradorPaquetePEP.fr3 no existe, notifique al administrador del sistema')
-         else
-            rCaratula.LoadFromFile(global_files + global_MiReporte + '_CaratulaGeneradorPaquetePEP.fr3')
-
-  end;
-
-  if QryConfiguracion.FieldValues['lLicencia'] = 'No' then
-    rCaratula.PreviewOptions.Buttons := [pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator]
-  else
-    rCaratula.PreviewOptions.Buttons := [pbPrint, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbNavigator, pbExportQuick];
-//  rCaratula.ShowReport(FormatosExp, PermisosExp);
-    rCaratula.ShowReport();
-
-  rCaratula.Destroy;
-  QryGenerador.Destroy;
-  QryAcumulados.Destroy;
-  QryAuxiliar.Destroy;
-  rxGenerador.Destroy;
-  dsGenerador.Destroy;
-  QryConfiguracion.Destroy;
-  dsConfiguracion.Destroy;
-end;
-
-procedure Crear_Form(panel:TPanel;Formlario:Tform; Titulo:String;arriba,Derecha,Ancho,Largo:Integer; Botones:TBorderIcons);
-{Creada: 23/12/2013, Creo: Rafael Ramirez Tadeo
-Descripcion: Procedimiento para crear un formulario en tiempo de ejecucion}
-begin
-  panel.Visible         := True;
-  panel.Top             := arriba;
-  panel.left            := Derecha;
-  panel.Width           := Largo;
-  panel.Height          := Ancho;
-  Formlario             := TForm.Create(nil);
-  Formlario.Caption     := Titulo;
-  panel.Parent          := Formlario;
-  Formlario.Top         := panel.top;
-  Formlario.Left        := panel.Left;
-  Formlario.Width       := panel.Width+10;
-  Formlario.Height      := panel.Height+30;
-  Formlario.BorderStyle := bsSingle;
-  Formlario.Position    := poMainFormCenter;
-  Formlario.ShowHint    := True;
-  panel.Align           := alClient;
-  Formlario.AutoSize    := True;
-  Formlario.BorderIcons := botones;
-  Formlario.ShowModal;
-end;
-
-
-function LetrasNumeros(Valor: Real; Prefijo: String; Sufijo: String; NumDec: Integer): String;
-const
-  vecNum: Array[1..15] of string = ('un', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve', 'diez', 'once', 'doce', 'trece', 'catorce', 'quince');
-  vecDec: Array[1..9] of string = ('diez', 'veinti', 'treinta', 'cuarenta', 'cincuenta', 'sesenta', 'setenta', 'ochenta', 'noventa');
-  vecCen: Array[1..9] of string = ('ciento', 'doscientos', 'trescientos', 'cuatrocientos', 'quinientos', 'seiscientos', 'setecientos', 'ochocientos', 'novecientos');
-  vecLey: Array[1..7] of String = ('', 'mil', 'millon', 'mil', 'billon', 'mil', 'trillon');
-var
-  CadValor,Decimales: String;
-  i: Integer;
-  vNum,
-  vDec,
-  vCen,
-  Segmento: Integer;
-  SubResult,
-  Resultado,
-  Agrega, OldResult: String;
-begin
-  Resultado := '';
-  Agrega := '';
-  OldResult := '';
-  CadValor := FloatToStrF(Trunc(Valor),ffGeneral,16,2);
-  Decimales := FloatToStr(Valor);
-     ////////////////////////DECIMALES/////////////////////////////////////
-    //buscando el los decimales....
-  if Pos('.', Decimales) > 0 then
-   Decimales := Copy(Decimales, Pos('.', Decimales) + 1, Length(Decimales))
-  else
-   Decimales := '';
-  //llenando con ceros o truncando, los decimales, este es un valor por parametro
-  while Length(Decimales) < NumDec do
-   Decimales := Decimales + '0';
-   Decimales := Copy(Decimales,1,Numdec);
-
-  while Length(CadValor) mod 3 <> 0 do
-   CadValor := '0' + CadValor;
-
-  for i := 1 to Trunc(Length(CadValor) / 3) do
-  begin
-    // Descomponer en dos elementos
-    Segmento := StrToInt(Copy(CadValor, Length(CadValor) - ((i * 3) - 1), 3));
-    SubResult := '';
-
-    // Obtener el primer elemento de la izquierda
-    vCen := Trunc((Segmento - (Segmento Mod 100)) / 100);
-    vNum := Segmento - (vCen * 100);
-    vDec := 0;
-
-    if (vNum > High(vecNum)) then
-    begin
-      vDec := Trunc((vNum - (vNum Mod 10)) / 10);
-      vNum := vNum Mod 10;
-    end;
-
-    if (vNum > 0) and (vNum <= High(VecNum)) then
-      if SubResult <> '' then
-        SubResult := SubResult + ' ' + VecNum[vNum]
-      else
-        SubResult := VecNum[vNum];
-
-    if vDec > 0 then
-    begin
-      if SubResult <> '' then SubResult := ' ' + SubResult;
-      if vDec = 2 then
-        if vNum = 0 then
-          SubResult := 'veinte'
-        else
-          SubResult := VecDec[vDec] + Copy(SubResult,2,length(SubResult))
-      else
-      begin
-        if vNum <> 0 then SubResult := ' y' + SubResult;
-        SubResult := VecDec[vDec] + SubResult
-      end;
-    end;
-
-    if vCen > 0 then
-    begin
-      if SubResult <> '' then SubResult := ' ' + SubResult;
-      if vCen = 1 then
-        if vDec + vNum = 0 then
-          SubResult := 'cien'
-        else
-          SubResult := VecCen[vCen] + SubResult
-      else
-        SubResult := VecCen[vCen] + SubResult
-    end;
-
-    if SubResult <> '' then
-    begin
-      if i > 1 then
-      begin
-        SubResult := SubResult + ' ' + VecLey[i];
-        if Agrega <> '' then
-          SubResult := SubResult + ' ' + Agrega;
-        if ((i = 3) or (i = 5) or (i = 7)) and (Segmento > 1) then
-          SubResult := SubResult + 'es';
-      end;
-      if Resultado <> '' then
-        Resultado := SubResult + ' ' + Resultado
-      else
-        Resultado := SubResult;
-    end
-    else
-      if ((i = 3) or (i = 5) or (i = 7)) then
-      begin
-        if (i +1 <= Trunc(Length(CadValor) / 3)) and (StrToInt(Copy(CadValor, Length(CadValor) - (((i + 1) * 3) - 1), 3)) > 0) then
-        begin
-          SubResult := SubResult + VecLey[i] + 'es';
-          if Resultado <> '' then
-            Resultado := SubResult + ' ' + Resultado
-          else
-            Resultado := SubResult;
-        end;
-      end;
-    OldResult := SubResult;
-  end;
-
-  if Prefijo + Decimales + Sufijo <> '' then
-    if Decimales + Sufijo <> '' then
-      Result := Resultado + ' ' + Prefijo + ' ' + Decimales + Sufijo
-    else
-      Result := Resultado + ' ' + Prefijo;
-  //Result := Resultado;                          
-end;
-
-//function MSG_YN(msg:string):boolean;
-////Funcion para mortrar mensaje de si o no
-//begin
-//   Result := application.MessageBox(PChar(msg), 'Confirmación', mb_ICONQUESTION+mb_YESNO)=idYES;
-//end;
-//
-//procedure MSG_ER(msg:string);
-////Mensaje de error
-//begin
-//   application.MessageBox(PChar(msg), 'Error detectado', mb_ICONERROR+mb_OK);
-//end;
-//procedure MSG_OK(msg:string);overload;
-////Notificacion
-//begin
-//   application.MessageBox(PChar(msg), 'Notificación', MB_ICONINFORMATION+mb_OK);
-//end;
-//
-//procedure MSG_OK(msg, caption:string);overload;
-////Notificacion
-//begin
-//   application.MessageBox(PChar(msg), PChar(caption), MB_ICONINFORMATION+mb_OK);
-//end;
-//
-//procedure MSG_W(msg:string);
-////Advertencia
-//begin
-//   application.MessageBox(PChar(msg), 'Advertencia', mb_ICONWARNING+mb_OK);
-//end;
 end.
 

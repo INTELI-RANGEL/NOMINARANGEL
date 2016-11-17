@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<TfrxReport Version="4.10.3" DotMatrixReport="False" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Zoom="1" PrintOptions.Printer="Por defecto" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42651.2871561806" ReportOptions.Description.Text="" ReportOptions.LastChange="42651.3052686343" ScriptLanguage="PascalScript" ScriptText.Text="&#13;&#10;begin&#13;&#10;&#13;&#10;end." OnReportPrint="no " PropData="044C65667403700103546F7002080844617461736574730101063720446174615365743D22666473496E6173697374656E6369612220446174615365744E616D653D226473496E6173697374656E636961220001063020446174615365743D22666473506572736F6E616C2220446174615365744E616D653D22666473506572736F6E616C220001065320446174615365743D2246726D436174616C6F676F506572736F6E616C4445582E66727844424F7267616E697A6163696F6E2220446174615365744E616D653D2266727844424F7267616E697A6163696F6E220000095661726961626C65730100055374796C650100">
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
+  <TfrxReportPage Name="Page1" PaperWidth="216" PaperHeight="279" PaperSize="119" LeftMargin="10" RightMargin="10" TopMargin="10" BottomMargin="10" ColumnWidth="0" ColumnPositions.Text="" HGuides.Text="" VGuides.Text="">
+    <TfrxMasterData Name="MasterData1" Height="22.67718" Left="0" Top="136.06308" Width="740.78788" ColumnWidth="0" ColumnGap="0" DataSet="fdsInasistencia" DataSetName="dsInasistencia" RowCount="0">
+      <TfrxMemoView Name="Memo3" Left="11.33859" Top="0" Width="94.48825" Height="18.89765" ShowHint="False" DataField="Inicio" DataSet="fdsInasistencia" DataSetName="dsInasistencia" Font.Charset="1" Font.Color="-16777208" Font.Height="-13" Font.Name="Arial" Font.Style="0" HAlign="haCenter" ParentFont="False" Text="[dsInasistencia.&#34;Inicio&#34;]"/>
+    </TfrxMasterData>
+    <TfrxPageFooter Name="PageFooter1" Height="22.67718" Left="0" Top="219.21274" Width="740.78788">
+      <TfrxMemoView Name="Memo1" Left="642.5201" Top="0" Width="75.5906" Height="18.89765" ShowHint="False" HAlign="haRight" Text="[Page#]"/>
+    </TfrxPageFooter>
+    <TfrxHeader Name="Header1" Height="94.48825" Left="0" Top="18.89765" Width="740.78788">
+      <TfrxPictureView Name="Picture1" Left="3.77953" Top="3.77953" Width="94.48825" Height="56.69295" ShowHint="False" DataField="Imagen" DataSet="FrmCatalogoPersonalDEX.frxDBOrganizacion" DataSetName="frxDBOrganizacion" HightQuality="False" Transparent="False" TransparentColor="16777215"/>
+      <TfrxMemoView Name="Memo2" Left="105.82684" Top="3.77953" Width="631.18151" Height="18.89765" ShowHint="False" Font.Charset="1" Font.Color="-16777208" Font.Height="-13" Font.Name="Arial" Font.Style="0" HAlign="haCenter" ParentFont="False" Text="[frxDBOrganizacion.&#34;nombreorganizacion&#34;]"/>
+    </TfrxHeader>
+  </TfrxReportPage>
+</TfrxReport>

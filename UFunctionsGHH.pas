@@ -1,36 +1,11 @@
 unit UFunctionsGHH;
 
 interface
-Uses ZConnection, Classes, ZDataSet, SysUtils,DB,StdCtrls, Variants, Windows,global, frm_connection,utilerias,
-      Controls,Jpeg,Graphics,ExtCtrls,Clipbrd,ShellApi,Messages,Dialogs,axctrls,WinInet;
 
-type
-  IData=class
-    Private
-
-    Public
-      IdDb:Integer;
-      sNameFile:String;
-      sTypeFile:String;
-
-
-  end;
-
-  IDataPlus=class
-    Private
-
-    Public
-      dFecha:TDate;
-      IdFolio:Integer;
-      sIdEgreso:String;
-      sIdProveedor:String;
-      sIdFactura:String;
-      sNameFile:String;
-      sTypeFile:String;
-
-
-  end;
-
+Uses
+  ZConnection, Classes, ZDataSet, SysUtils,DB,StdCtrls, Variants, Windows,
+  global, frm_connection,{utilerias,} Controls, Jpeg, Graphics, ExtCtrls,
+  Clipbrd, ShellApi, Messages, Dialogs, axctrls, ClientModuleUnit1;
 
 Function Conectar(var conexion:TzConnection;Server,DataBase:string;Port:integer):boolean;
 Function CompressImage(ArchOrig:TFilename;Porcentaje:Integer):TFilename;
@@ -40,295 +15,10 @@ Function ImagePasteFromClipBoard:TFilename;
 Procedure MessageError(CAdena:WideString);
 Function PermisosExportar(conexion:TzConnection;Grupo,Programa:string):String;
 Function SwbsPrincipal(psContrato,psConvenio,psTipo,psItemO:String;ptconexion:TzConnection):string;
-Function GenerarTmpName(sNombre:String;sExt:String=''):String;
-function obtenerDirectorioTemporal : TFileName;
-function obtenerDirectorioWindows : TFileName;
-function BlobToStream(Field: TField): TMemoryStream;
-FUNCTION emailValido(CONST Value: String): boolean;
-function DeleteAllDir(Carpeta:TFilename):Boolean;
-function ValidarCorreos(Cadena:string;Separador:Char):Boolean;
-function IsOnline():Boolean;
-function GetNextIdAlmacen(ParamContrato,ParamTipo:String):Integer;
-Procedure SetNextIdAlmacen(ParamContrato,ParamTipo:String;iSgte:Integer);
 type
   TeFilter = (prNinguno,prIgual,prDiferente,prMayor,prMayorIgual,prMenor,prMenorIgual);
 
-  vsMode=(vsLectura,vsEdicion,vsInsercion);
-  smFile=(smPdf,smJpeg,smXml);
-
 implementation
-
-uses masUtilerias;
-
-var
-   InetIsOffline : function(dwFlags: DWORD): BOOL; stdcall;
-
-Procedure SetNextIdAlmacen(ParamContrato,ParamTipo:String;iSgte:Integer);
-var
-  QrNext:TZQuery;
-  QrExiste:TZReadOnlyQuery;
-  iNext:Integer;
-  Existe:Boolean;
-begin
-  iNext:=iSgte + 1;
-  QrNext:=TZQuery.Create(nil);
-  QrExiste:=TZReadOnlyQuery.Create(nil);
-  try
-    QrExiste.Connection:=connection.zConnection;
-    if ParamTipo='ENTRADA' then
-      QrExiste.SQL.Text:='select * from almacen_entrada where sContrato=:Contrato and iFolioEntrada=:Folio';
-    if ParamTipo='SALIDA' then
-      QrExiste.SQL.Text:='select * from almacen_salida where sContrato=:Contrato and iFolioSalida=:Folio';
-    QrExiste.ParamByName('contrato').AsString:=ParamContrato;
-
-    QrNext.Connection:=connection.zConnection;
-    QrNext.SQL.Text:='select * from mascaras where scontrato=:Contrato and eTipo=:Tipo';
-    QrNext.ParamByName('Contrato').AsString:=ParamContrato;
-    QrNext.ParamByName('Tipo').AsString:=ParamTipo;
-    QrNext.Open;
-    if QrNext.RecordCount=1 then
-    begin
-      repeat
-        QrExiste.Active:=False;
-        QrExiste.ParamByName('Folio').AsInteger:=iNext;
-        QrExiste.Open;
-        if QrExiste.RecordCount=0 then
-          Existe:=False
-        else
-        begin
-          Existe:=True;
-          Inc(iNext)
-        end;
-      until not Existe;
-
-      QrNext.Edit;
-      QrNext.FieldByName('iConsecutivo').AsInteger:=iNext;
-      QrNext.Post;
-    end;
-  finally
-    QrNext.Destroy;
-    QrExiste.Destroy;
-  end;
-end;
-
-function GetNextIdAlmacen(ParamContrato,ParamTipo:String):Integer;
-var
-  QrNext,QrExiste:TZReadOnlyQuery;
-  iNext:Integer;
-  Existe:Boolean;
-begin
-  iNext:=1;
-  QrNext:=TZReadOnlyQuery.Create(nil);
-  QrExiste:=TZReadOnlyQuery.Create(nil);
-  try
-    QrExiste.Connection:=connection.zConnection;
-    if ParamTipo='ENTRADA' then
-      QrExiste.SQL.Text:='select * from almacen_entrada where sContrato=:Contrato and iFolioEntrada=:Folio';
-    if ParamTipo='SALIDA' then
-      QrExiste.SQL.Text:='select * from almacen_salida where sContrato=:Contrato and iFolioSalida=:Folio';
-    QrExiste.ParamByName('contrato').AsString:=ParamContrato;
-
-    QrNext.Connection:=connection.zConnection;
-    QrNext.SQL.Text:='select * from mascaras where scontrato=:Contrato and eTipo=:Tipo';
-    QrNext.ParamByName('Contrato').AsString:=ParamContrato;
-    QrNext.ParamByName('Tipo').AsString:=ParamTipo;
-    QrNext.Open;
-    if QrNext.RecordCount=1 then
-    begin
-      iNext:=QrNext.FieldByName('iConsecutivo').AsInteger;
-
-      repeat
-        QrExiste.Active:=False;
-        QrExiste.ParamByName('Folio').AsInteger:=iNext;
-        QrExiste.Open;
-        if QrExiste.RecordCount=0 then
-          Existe:=False
-        else
-        begin
-          Existe:=True;
-          Inc(iNext)
-        end;
-      until not Existe;
-    end;
-  finally
-    QrNext.Destroy;
-    QrExiste.Destroy;
-  end;
-  Result:=iNext;
-end;
-
-
-function FuncAvail(_dllname, _funcname: string; var _p: pointer): boolean;
-   {
-   Devuelve true si la funcion _funcname esta disponible en la DLL _dllname.
-   Si es asi, almacena en _p la direccion de la función.
-   }
-var _lib: tHandle;
-begin
- Result := false;
- if LoadLibrary(PChar(_dllname)) = 0 then exit;
- _lib := GetModuleHandle(PChar(_dllname));
- if _lib <> 0 then
-   begin
-     _p := GetProcAddress(_lib, PChar(_funcname));
-     if _p <> NIL then Result := true;
-   end;
-end;
-
-
-function IsOnline:Boolean;
-var
-  isConect:Boolean;
-begin
-  isConect:=False;
-  if FuncAvail('URL.DLL', 'InetIsOffline', @InetIsOffline) = true then
-     if InetIsOffLine(0) = true
-       then isConect:=false
-         else isConect:=true;
-  Result:=isConect;
-
-end;
-
-
-function DeleteAllDir(Carpeta:TFilename):Boolean;
-var
-  DirInfo: TSearchRec;
-  r : Integer;
-begin
-  r := FindFirst(Carpeta+'\*.*', FaAnyfile, DirInfo);
-  while r = 0 do
-  begin
-    if  ((DirInfo.Attr and FaDirectory <> FaDirectory) and
-        (DirInfo.Attr and FaVolumeId <> FaVolumeID)) then
-      if DeleteFile(pChar(Carpeta+'\' + DirInfo.Name))= false then
-  {Si no puede borrar el fichero}
-        ShowMessage('No se pudo borrar el fichero: ' + Carpeta+'\' + DirInfo.Name);
-    r := FindNext(DirInfo);
-  end;
-  SysUtils.FindClose(DirInfo);
-
-  Result:=RemoveDirectory(PChar(Carpeta));
-end;
-
-function ValidarCorreos(Cadena:string;Separador:Char):Boolean;
-var
-  i,nReg:Integer;
-  esCorreo:Boolean;
-  CadTmp:string;
-begin
-  esCorreo:=False;
-  if Cadena<>'' then
-  begin
-    nReg:=NumItems(Cadena,Separador);
-    for I := 1 to nReg do
-    begin
-      CadTmp:=TraerItem(Cadena,Separador,i);
-      if emailValido(CadTmp) then
-        esCorreo:=True
-      else
-      begin
-        esCorreo:=False;
-        Break;
-      end;
-    end;
-  end;
-  Result:=esCorreo;
-end;
-
-
-
-FUNCTION emailValido(CONST Value: String): boolean;
-  FUNCTION CheckAllowed(CONST s: String): boolean;
-  VAR i: Integer; 
-  BEGIN 
-    Result:= False;
-    FOR i:= 1 TO Length(s) DO // illegal char in s -> no valid address
-      IF NOT (s[i] IN ['a'..'z','A'..'Z','0'..'9','_','-','.']) THEN Exit;
-    Result:= true;
-  END; 
-VAR
-  i,len: Integer; 
-  namePart, serverPart: String; 
-BEGIN // of IsValidEmail 
-  Result:= False; 
-  i:= Pos('@', Value); 
-  IF (i=0) OR (Pos('..',Value) > 0) THEN Exit; 
-  namePart:= Copy(Value, 1, i - 1); 
-  serverPart:= Copy(Value,i+1,Length(Value)); 
-  len:=Length(serverPart); 
-  // must have dot and at least 3 places from end, 2 places from begin 
-  IF (len<4) OR 
-     (Pos('.',serverPart)=0) OR 
-     (serverPart[1]='.') OR 
-     (serverPart[len]='.') OR 
-     (serverPart[len-1]='.') THEN Exit; 
-  Result:= CheckAllowed(namePart) AND CheckAllowed(serverPart); 
-END;
-
-Function GenerarTmpName(sNombre:String;sExt:String=''):String;
-var
-  sTimeFile:String;
-begin
-  sTimeFile:=formatdatetime('ddmmyyhhnnss',now);
-  if sExt<>'' then
-    Result:=sNombre+'ftempAby'+sTimeFile+sExt
-  else
-    Result:=sNombre+'ftempAby'+sTimeFile;
-end;
-
-
-function obtenerDirectorioTemporal : TFileName;
-var
-  TmpDir: array [0..MAX_PATH-1] of char;
-begin
- try
-  SetString(Result, TmpDir, GetTempPath(MAX_PATH, TmpDir));
-  if not DirectoryExists(Result) then
-   if not CreateDirectory(PChar(Result), nil) then begin
-    Result := IncludeTrailingBackslash(obtenerDirectorioWindows) + 'TEMP';
-    if not DirectoryExists(Result) then
-     if not CreateDirectory(Pointer(Result), nil) then begin
-      Result := ExtractFileDrive(Result) + '\TEMP';
-      if not DirectoryExists(Result) then
-       if not CreateDirectory(Pointer(Result), nil) then begin
-        Result := ExtractFileDrive(Result) + '\TMP';
-        if not DirectoryExists(Result) then
-         if not CreateDirectory(Pointer(Result), nil) then begin
-          raise Exception.Create(SysErrorMessage(GetLastError));
-         end;
-       end;
-     end;
-   end;
-  except
-    Result := '';
-    raise;
-  end;
-end;
-
-
-function obtenerDirectorioWindows : TFileName;
-var
-  WinDir: array [0..MAX_PATH-1] of char;
-begin
-  SetString(Result, WinDir, GetWindowsDirectory(WinDir, MAX_PATH));
-  if Result = '' then
-    raise Exception.Create(SysErrorMessage(GetLastError));
-end;
-
-function BlobToStream(Field: TField): TMemoryStream;
-begin
-  Result := nil;
-  if Field.IsBlob then
-  begin
-    Result := TMemoryStream.Create;
-    try
-      TBlobField(Field).SaveToStream(Result);
-    except
-      FreeAndNil(Result);
-    end;
-  end;
-end;
-
 
 Function SwbsPrincipal(psContrato,psConvenio,psTipo,psItemO:String;ptconexion:TzConnection):string;
 var
@@ -759,9 +449,9 @@ begin
   Conexion.HostName:=Global_ServAcceso;
   Conexion.Database:='';
   Conexion.Catalog:='';
-  Conexion.Port:=Global_PortAcceso;
-  Conexion.User:=IntelUser;
-  Conexion.Password:=IntelPass;
+  Conexion.Port := Global_PortAcceso;
+  Conexion.User := Globales.Elemento('IntelUser').AsString;
+  Conexion.Password := Globales.Elemento('IntelPass').AsString;
   conexion.Protocol:=connection.zConnection.Protocol;
   try
     Conexion.Connect;
@@ -771,12 +461,12 @@ begin
       if pos('Access denied',e.message)>0 then
       begin
         Conexion.Disconnect;
-        Conexion.User :=IntelUser;
-        Conexion.Password :=IntelPass ;
-        conexion.HostName:=server;
+        Conexion.User := Globales.Elemento('IntelUser').AsString;
+        Conexion.Password := Globales.Elemento('IntelPass').AsString;
+        conexion.HostName := server;
         Conexion.Database := '' ;
         Conexion.Catalog := '' ;
-        conexion.Port:=port;
+        conexion.Port := port;
         conexion.Protocol:=connection.zConnection.Protocol;
         Try
           Conexion.Connect ;
@@ -787,7 +477,7 @@ begin
             begin
               Conexion.Disconnect;
               Conexion.User :='root';
-              Conexion.Password :=IntelPass ;
+              Conexion.Password := Globales.Elemento('IntelPass').AsString;
               conexion.HostName:=server;
               Conexion.Database := database ;
               Conexion.Catalog := database ;
@@ -840,11 +530,11 @@ begin
         if not error then
         begin
           try
-            if QrAcceso.RecordCount=1 then
+            {if QrAcceso.RecordCount=1 then
               local_Pass:=desencripta(QrAcceso.FieldByName('password').AsString)
             else
-              local_Pass:=IntelPass;
-
+              local_Pass := Globales.Elemento('IntelPass').AsString;
+                            }
           finally
             freeandnil(QrAcceso);
           end;

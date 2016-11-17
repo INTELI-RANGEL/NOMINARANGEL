@@ -58,11 +58,6 @@ Const
   xlEdgeRight = 10;
   xlInsideVertical = 11;
   xlInsideHorizontal = 12;
-  xlValidateList = 3;
-  xlValidAlertStop = 1;
-  xlBetween = 1;
-  xlDash = -4115;
-  xlNone = -4142;
 
   Function ColumnaNombre(Numero: Integer): String;
   Function NombreArchivoTemporal: String;

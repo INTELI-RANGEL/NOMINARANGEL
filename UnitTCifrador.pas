@@ -11,6 +11,9 @@ type
     mensaje: string;//El mensaje es el texto sin cifrar
     cifra: string;//El resultado de cifrar el texto plano
     KeyPointer:byte;//apunta a uno de los digitos de la clave para cifrar un caracter del texto plano
+    //**********Version 6**********
+    divisor: integer;//Divisor usado en el algoritmo para calcular el par cifrado
+    //**********Version 6**********
 
     constructor crear(m:string);
 
@@ -46,6 +49,9 @@ begin
   cifra:='';
   KeyPointer:=0;
   randomize;
+  //**********Version 5**********
+  divisor := 89;
+  //**********Version 5**********
 end;
 
 function TCifrador.getClave: string;//Devuelve la clave
@@ -69,9 +75,9 @@ end;
 
 function TCifrador.letraAnum(c:char):byte;//da el equivalente numerico de una letra
 begin
-  result:=0;//**********Version 5**********modificacion
+  result:=0;//**********Version 6**********modificacion
   case c of
-    'a':result:=1;//**********Version 5**********
+    'a':result:=1;//**********Version 6**********
     'b':result:=2;
     'c':result:=3;
     'd':result:=4;
@@ -97,15 +103,80 @@ begin
     'x':result:=24;
     'y':result:=25;
     'z':result:=26;
-    ' ':result:=27;
+
+    'A':result:=27;
+    'B':result:=28;
+    'C':result:=29;
+    'D':result:=30;
+    'E':result:=31;
+    'F':result:=32;
+    'G':result:=33;
+    'H':result:=34;
+    'I':result:=35;
+    'J':result:=36;
+    'K':result:=37;
+    'L':result:=38;
+    'M':result:=39;
+    'N':result:=40;
+    'O':result:=41;
+    'P':result:=42;
+    'Q':result:=43;
+    'R':result:=44;
+    'S':result:=45;
+    'T':result:=46;
+    'U':result:=47;
+    'V':result:=48;
+    'W':result:=49;
+    'X':result:=50;
+    'Y':result:=51;
+    'Z':result:=52;
+
+    ' ':result:=53;
+    '-':result:=54;
+    '+':result:=55;
+    '*':result:=56;
+    '/':result:=57;
+    '.':result:=58;
+    ',':result:=59;
+    '%':result:=60;
+    '$':result:=61;
+    '#':result:=62;
+    '(':result:=63;
+    ')':result:=64;
+    '?':result:=65;
+    '&':result:=66;
+    '@':result:=67;
+    '"':result:=68;
+    '!':result:=69;
+    '=':result:=70;
+    '<':result:=71;
+    '>':result:=72;
+    '[':result:=73;
+    ']':result:=74;
+    '{':result:=75;
+    '}':result:=76;
+    '_':result:=77;
+    ';':result:=78;
+    '''':result:=79;
+
+    '0':result:=80;
+    '1':result:=81;
+    '2':result:=82;
+    '3':result:=83;
+    '4':result:=84;
+    '5':result:=85;
+    '6':result:=86;
+    '7':result:=87;
+    '8':result:=88;
+    '9':result:=89;
   end;
 end;
 
 function TCifrador.numAletra(b:byte):char;//da la letra equivalente a un numero
 begin
-  result:='?';//**********Version 5**********modificacion
+  result:='¿';//**********Version 6**********modificacion
   case b of
-    1:result:='a';//**********Version 5**********
+    1:result:='a';//**********Version 6**********
     2:result:='b';
     3:result:='c';
     4:result:='d';
@@ -131,7 +202,72 @@ begin
     24:result:='x';
     25:result:='y';
     26:result:='z';
-    27:result:=' ';
+
+    27:result:='A';
+    28:result:='B';
+    29:result:='C';
+    30:result:='D';
+    31:result:='E';
+    32:result:='F';
+    33:result:='G';
+    34:result:='H';
+    35:result:='I';
+    36:result:='J';
+    37:result:='K';
+    38:result:='L';
+    39:result:='M';
+    40:result:='N';
+    41:result:='O';
+    42:result:='P';
+    43:result:='Q';
+    44:result:='R';
+    45:result:='S';
+    46:result:='T';
+    47:result:='U';
+    48:result:='V';
+    49:result:='W';
+    50:result:='X';
+    51:result:='Y';
+    52:result:='Z';
+
+    53:result:=' ';
+    54:result:='-';
+    55:result:='+';
+    56:result:='*';
+    57:result:='/';
+    58:result:='.';
+    59:result:=',';
+    60:result:='%';
+    61:result:='$';
+    62:result:='#';
+    63:result:='(';
+    64:result:=')';
+    65:result:='?';
+    66:result:='&';
+    67:result:='@';
+    68:result:='"';
+    69:result:='!';
+    70:result:='=';
+    71:result:='<';
+    72:result:='>';
+    73:result:='[';
+    74:result:=']';
+    75:result:='{';
+    76:result:='}';
+    77:result:='_';
+    78:result:=';';
+    79:result:='''';
+
+    80:result:='0';
+    81:result:='1';
+    82:result:='2';
+    83:result:='3';
+    84:result:='4';
+    85:result:='5';
+    86:result:='6';
+    87:result:='7';
+    88:result:='8';
+    89:result:='9';
   end;
 end;
 
@@ -181,7 +317,7 @@ begin
   //el numero indica la cantidad de saltos sobre los 26 caracteres
   //y la letra la cantidad que se le debe sumar a esa cantidad de saltos
   //Esta funcion devuelve un numero listo para descifrar con la funcion de descifrado
-  result:=(nv5Anum(numero)*26)+letraAnum(letra);//**********Version 5**********modificado
+  result:=(nv5Anum(numero)*divisor)+letraAnum(letra);//**********Version 5**********modificado
 end;
 
 function TCifrador.cifrado(x,a:integer):integer;
@@ -264,11 +400,11 @@ begin
   if length(s)<>10 then
     result:=false
   else begin
-    for i:=0 to 9 do begin
+    for i:=1 to 10 do begin
       if ( (s[i]<>'1')and(s[i]<>'2')and(s[i]<>'3')and(s[i]<>'4')and(s[i]<>'5')
         and(s[i]<>'6')and(s[i]<>'7')and(s[i]<>'8')and(s[i]<>'9')and(s[i]<>'0')  ) then
         result:=false;
-      claveAux[i]:=s[i];
+      claveAux[i-1]:=s[i];
     end;
   end;
   if result then
@@ -281,11 +417,13 @@ var
   i,valor:integer;//es un numero cifrado el cual se convertira en el par cifrado
   par:string;//es un par cifrado que compone el mensaje cifrado(compuesto por un digito y una letra)
 begin
+  KeyPointer := 0;
+  cifra:='';
   for i:=1 to length(mensaje) do begin
     valor:=cifrado(letraAnum(mensaje[i]), clave[KeyPointer]);
     incrementarPointer;
-    par:=numAnv5(valor div 26);//**********Version 5**********modificado
-    par:=par+numAletra(valor mod 26);
+    par:=numAnv5(valor div divisor);//**********Version 5**********modificado
+    par:=par+numAletra(valor mod divisor);
     cifra:=cifra+par;
   end;
 end;

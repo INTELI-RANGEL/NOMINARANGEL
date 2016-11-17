@@ -3,34 +3,21 @@ unit frm_setup;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, utilerias,
-  Dialogs, ComCtrls, StdCtrls, Mask, DBCtrls, frm_connection, DB, global, frm_ActividadesAnexo2,
-  Buttons, ImgList, ExtCtrls, ExtDlgs, Jpeg, ZDataset,
-  ZAbstractRODataset, ZAbstractDataset, sScrollBar, sLabel,UnitExcepciones,
-  sPanel,UnitTIniTracer, NxPageControl, AdvGroupBox, AdvListV, sListView, UnitValidacion,
-  AdvSmoothButton, AdvPanel, AdvGlowButton, JvExMask, JvToolEdit, JvCombobox,
-  AdvOfficeButtons, DBAdvOfficeButtons,Menus,StrUtils, frxClass, frxDBSet,
-  FormAutoScaler, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
-  cxContainer, cxEdit, dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinBlueprint,
-  dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
-  dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle, dxSkinFoggy,
-  dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary, dxSkinLilian,
-  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis,
-  dxSkinMetropolisDark, dxSkinMoneyTwins, dxSkinOffice2007Black,
-  dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink,
-  dxSkinOffice2007Silver, dxSkinOffice2010Black, dxSkinOffice2010Blue,
-  dxSkinOffice2010Silver, dxSkinOffice2013DarkGray, dxSkinOffice2013LightGray,
-  dxSkinOffice2013White, dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic,
-  dxSkinSharp, dxSkinSharpPlus, dxSkinSilver, dxSkinSpringTime, dxSkinStardust,
-  dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinsDefaultPainters,
-  dxSkinValentine, dxSkinVS2010, dxSkinWhiteprint, dxSkinXmas2008Blue,
-  cxTextEdit, cxCurrencyEdit, cxDBEdit, cxMaskEdit, cxDropDownEdit, cxCalc,
-  dxSkinsdxBarPainter, dxBar, cxClasses, dxGDIPlusClasses;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  {utilerias,} Dialogs, ComCtrls, StdCtrls, Mask, DBCtrls, frm_connection, DB,
+  global, {frm_ActividadesAnexo2,} Buttons, ImgList, ExtCtrls, ExtDlgs, Jpeg,
+  ZDataset, ZAbstractRODataset, ZAbstractDataset,
+  UnitExcepciones, UnitTIniTracer, NxPageControl, AdvGroupBox, AdvListV,
+   UnitValidacion, AdvSmoothButton, AdvPanel, AdvGlowButton, JvExMask,
+  JvToolEdit, JvCombobox, AdvOfficeButtons, DBAdvOfficeButtons, Menus, StrUtils,
+  frxClass, frxDBSet, ClientModuleUnit1;
+
 type
   TfrmSetup = class(TForm)
     btnOk: TBitBtn;
     BtnCancel: TBitBtn;
     ds_configuracion: TDataSource;
+    Panel: TImageList;
     Label73: TLabel;
     OpenPicture: TOpenPictureDialog;
     ds_convenios: TDataSource;
@@ -39,6 +26,49 @@ type
     Panel1: TPanel;
     NxPCSetUp: TNxPageControl;
     NxTabSheet1: TNxTabSheet;
+    AdvGroupBox1: TAdvGroupBox;
+    Label9: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label86: TLabel;
+    Label14: TLabel;
+    Label17: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    tsEmail: TDBEdit;
+    tsWeb: TDBEdit;
+    tsFax: TDBEdit;
+    tsTelefono: TDBEdit;
+    tsPiePagina: TDBEdit;
+    tsSlogan: TDBEdit;
+    tsDireccion3: TDBEdit;
+    tsDireccion2: TDBEdit;
+    tsDireccion1: TDBEdit;
+    tsRfc: TDBEdit;
+    tsNombreCorto: TDBEdit;
+    tsNombre: TDBEdit;
+    GroupBox12: TGroupBox;
+    tsReportesCIA: TDBEdit;
+    AdvGroupBox2: TAdvGroupBox;
+    bImagen: TImage;
+    NxTabSheet2: TNxTabSheet;
+    AdvGroupBox3: TAdvGroupBox;
+    AdvGroupBox4: TAdvGroupBox;
+    Label110: TLabel;
+    Label61: TLabel;
+    Label38: TLabel;
+    Label36: TLabel;
+    Label32: TLabel;
+    Label34: TLabel;
+    Label33: TLabel;
+    dbExplosion: TDBComboBox;
+    tsIdAnexo: TDBEdit;
+    ttxtMaterialAutomatico: TDBEdit;
+    ttxtValidaMaterial: TDBEdit;
+    tsDevolucion: TDBEdit;
+    tsMedida: TDBEdit;
+    tsClaveDevolucion: TDBEdit;
     NxTabSheet3: TNxTabSheet;
     AdvGroupBox6: TAdvGroupBox;
     NxTabSheet4: TNxTabSheet;
@@ -262,12 +292,30 @@ type
     AdvGroupBox34: TAdvGroupBox;
     Label52: TLabel;
     ChkCmbFormatos: TJvCheckedComboBox;
+    Label62: TLabel;
     AdvGroupBox35: TAdvGroupBox;
     Label64: TLabel;
     tsAplicaPassword: TDBComboBox;
     tsPasswordPdf: TDBEdit;
+    AdvGroupBox33: TAdvGroupBox;
+    Label103: TLabel;
+    Label104: TLabel;
+    Label105: TLabel;
+    Label106: TLabel;
+    Label107: TLabel;
+    Label109: TLabel;
+    sSimbolo: TDBEdit;
+    dbCargo2: TDBEdit;
+    dbCargo1: TDBEdit;
+    dbUtilidad: TDBEdit;
+    dbFinanciamiento: TDBEdit;
+    dbIndirecto: TDBEdit;
+    Label97: TLabel;
+    sCiudad: TDBEdit;
     ds_cliente: TDataSource;
     zClientes: TZQuery;
+    Label113: TLabel;
+    tsRepresentante: TDBEdit;
     dbRbtnG1: TDBAdvOfficeRadioGroup;
     AdvGroupBox5: TAdvGroupBox;
     Label116: TLabel;
@@ -276,55 +324,183 @@ type
     Button1: TButton;
     AdvGroupBox36: TAdvGroupBox;
     cmdRecargarMenu: TButton;
+    Label119: TLabel;
+    DBComboBox3: TDBComboBox;
     Label120: TLabel;
     tsValidaAvisos: TDBComboBox;
     Label121: TLabel;
     tsValidaAvisosGen: TDBComboBox;
+    Label122: TLabel;
+    tsGalon: TDBEdit;
     frConfiguracion: TfrxDBDataset;
-    fsc_setup: TFormAutoScaler;
-    AdvGroupBox1: TAdvGroupBox;
-    lbl1: TLabel;
-    lbl2: TLabel;
-    lbl3: TLabel;
-    lbl4: TLabel;
-    lbl5: TLabel;
-    lbl6: TLabel;
-    lbl7: TLabel;
-    lbl8: TLabel;
-    lbl9: TLabel;
-    lbl10: TLabel;
-    lbl11: TLabel;
-    grp1: TGroupBox;
-    lbl12: TLabel;
-    AdvGroupBox2: TAdvGroupBox;
-    bImagen: TImage;
-    TSNombreCorto: TcxDBTextEdit;
-    TSNombre: TcxDBTextEdit;
-    TSRFC: TcxDBTextEdit;
-    TSDireccion1: TcxDBTextEdit;
-    TSDireccion2: TcxDBTextEdit;
-    TSCiudad: TcxDBTextEdit;
-    TSslogan: TcxDBTextEdit;
-    TSPiePagina: TcxDBTextEdit;
-    TStelefonos: TcxDBTextEdit;
-    TSFax: TcxDBTextEdit;
-    TSWeb: TcxDBTextEdit;
-    TSEmail: TcxDBTextEdit;
-    TSRepresentanteObra: TcxDBTextEdit;
-    TSReportescia: TcxDBTextEdit;
-    ilPanel: TImageList;
+    configuracionsContrato: TStringField;
+    configuracionsNombre: TStringField;
+    configuracionsNombreCorto: TStringField;
+    configuracionsRfc: TStringField;
+    configuracionsDireccion1: TStringField;
+    configuracionsDireccion2: TStringField;
+    configuracionsDireccion3: TStringField;
+    configuracionsCiudad: TStringField;
+    configuracionsSlogan: TStringField;
+    configuracionsPiePagina: TStringField;
+    configuracionbImagen: TBlobField;
+    configuracionsTelefono: TStringField;
+    configuracionsFax: TStringField;
+    configuracionsEmail: TStringField;
+    configuracionsRepresentanteObra: TStringField;
+    configuracionsWeb: TStringField;
+    configuracionlLicencia: TStringField;
+    configuracioncStatusProceso: TStringField;
+    configuracioncStatusSuspendida: TStringField;
+    configuracioncStatusTerminada: TStringField;
+    configuracionsIdDepartamento: TStringField;
+    configuracionsIdEmbarcacion: TStringField;
+    configuracioniRedondeoMaterial: TIntegerField;
+    configuracioniRedondeoEquipo: TIntegerField;
+    configuracioniRedondeoPersonal: TIntegerField;
+    configuracioniRedondeoEmbarcacion: TIntegerField;
+    configuracionsRangoAjusteMenor: TStringField;
+    configuracionsRangoAjusteMayor: TStringField;
+    configuracionsTipoContrato: TStringField;
+    configuracionsRangoEstimacion: TStringField;
+    configuracionsTipoPartida: TStringField;
+    configuracionlCalculaFecha: TStringField;
+    configuracionsTipoOperacion: TStringField;
+    configuracionsTipoAlcance: TStringField;
+    configuracionsTipoCIA: TStringField;
+    configuracionlAutomatico: TStringField;
+    configuracioniIncremento: TIntegerField;
+    configuracionsDuracion: TStringField;
+    configuracionsReporteDiario: TStringField;
+    configuracionsGerencial: TStringField;
+    configuracionsIsometricos: TStringField;
+    configuracionsHost: TStringField;
+    configuracionsFolder: TStringField;
+    configuracionsViewIsometrico: TStringField;
+    configuracioniFirmas: TStringField;
+    configuracionlExporta: TStringField;
+    configuracionsTipoSeguridad: TStringField;
+    configuracionsFirmasElectronicas: TStringField;
+    configuracionsTipsInicial: TStringField;
+    configuracionlComentariosReporte: TStringField;
+    configuracionsFotografias: TStringField;
+    configuracionlIncluyeGrafica: TStringField;
+    configuracionlIncluyeAvanceOrdenes: TStringField;
+    configuracionlIncluyeAvanceContrato: TStringField;
+    configuracioniMeses: TIntegerField;
+    configuracionlDistribucion: TStringField;
+    configuracionsFasePrincipal: TStringField;
+    configuraciondRetencion: TFloatField;
+    configuraciondPenaConvencional: TFloatField;
+    configuracionsBaseCalculo: TStringField;
+    configuracionsImporteRetencion: TStringField;
+    configuracionsTipoAjusteCosto: TStringField;
+    configuracionsAvanceInicial: TStringField;
+    configuracionsAvanceAnterior: TStringField;
+    configuracionsFormato: TStringField;
+    configuracioniConsecutivo: TIntegerField;
+    configuracionlImprimeExtraordinario: TStringField;
+    configuracionsAvanceBitacora: TStringField;
+    configuracionsClaveTierra: TStringField;
+    configuracionsClaveSeguridad: TStringField;
+    configuracionsIdPernocta: TStringField;
+    configuracionsImprimePEP: TStringField;
+    configuracionsImpresionPaquetes: TStringField;
+    configuracionsOrdenExtraordinaria: TStringField;
+    configuracionsIdFase: TStringField;
+    configuracioniLongActividad: TIntegerField;
+    configuracionlCalculoPonderado: TStringField;
+    configuracionsBaseGeneracion: TStringField;
+    configuracionsTipoGeneracion: TStringField;
+    configuracionsSeguridadGenerador: TStringField;
+    configuracionsTipoEstimacion: TStringField;
+    configuracionsTerminoPenalizacion: TStringField;
+    configuracionsIdConvenio: TStringField;
+    configuracionsPartidaEfectiva: TStringField;
+    configuracionsOrdenPerEq: TStringField;
+    configuracioniReportesSinValid: TIntegerField;
+    configuracionsClaveDevolucion: TStringField;
+    configuracionsDevolucion: TStringField;
+    configuracionsMedida: TStringField;
+    configuraciontxtValidaMaterial: TStringField;
+    configuraciontxtMaterialAutomatico: TStringField;
+    configuracionsIdAnexo: TStringField;
+    configuracionsPaquete: TStringField;
+    configuracionsProteccion: TStringField;
+    configuracioniJLunes: TFloatField;
+    configuracioniJMartes: TFloatField;
+    configuracioniJMiercoles: TFloatField;
+    configuracioniJJueves: TFloatField;
+    configuracioniJViernes: TFloatField;
+    configuracioniJSabado: TFloatField;
+    configuracioniJDomingo: TFloatField;
+    configuracionlAsistencia: TStringField;
+    configuracionsIdGuardia: TStringField;
+    configuracionsFalta: TStringField;
+    configuracionsEquipoSeguridad: TStringField;
+    configuracionsPersonalIndependiente: TStringField;
+    configuracionsCampPerf: TStringField;
+    configuracionsMostrarAvances: TStringField;
+    configuracionlProrrateo: TStringField;
+    configuracionsGenDesp: TStringField;
+    configuracionsAnexos: TStringField;
+    configuracionsFormatoCliente: TStringField;
+    configuracioniFirmasReportes: TStringField;
+    configuracioniFirmasGeneradores: TStringField;
+    configuracioniFirmasBarco: TStringField;
+    configuracioniFirmasEstimaciones: TStringField;
+    configuracionsLeyenda1: TStringField;
+    configuracionsLeyenda2: TStringField;
+    configuracionsLeyenda3: TStringField;
+    configuraciondCostoDirecto: TFloatField;
+    configuraciondCostoIndirectos: TFloatField;
+    configuraciondFinanciamiento: TFloatField;
+    configuraciondUtilidad: TFloatField;
+    configuraciondCargosAdicionales: TFloatField;
+    configuraciondCargosAdicionales2: TFloatField;
+    configuraciondCargosAdicionales3: TFloatField;
+    configuracionlCalculaPU: TStringField;
+    configuracionsSimbolo: TStringField;
+    configuracionsExplosion: TStringField;
+    configuracionsReportesCIA: TStringField;
+    configuracionlEnviaCorreo: TStringField;
+    configuracionlValidaBarco: TStringField;
+    configuracionlTiempoMuertoTurnos: TStringField;
+    configuracionlHistorialPartidas: TStringField;
+    configuracionlBaseRelacional: TStringField;
+    configuracionsFormatos: TStringField;
+    configuracionsPasswordPdf: TStringField;
+    configuracionsAplicaPassword: TStringField;
+    configuracionlAplicaPu: TStringField;
+    configuraciondPorcentajeHerramienta: TFloatField;
+    configuracionsRepresentante: TStringField;
+    configuracionsAux1: TStringField;
+    configuracionsAux2: TStringField;
+    configuracionlOrdenaItem: TStringField;
+    configuracionlSeguridadVigencia: TStringField;
+    configuracionlImprimeNotasGerenciales: TStringField;
+    configuracionlAplicaAvisos: TStringField;
+    configuracionlAplicaAvisosGen: TStringField;
+    configuraciondGalones: TFloatField;
+    configuracioniEjercicio: TIntegerField;
+    configuracionlCompanias: TStringField;
+    configuracioneIva: TStringField;
+    configuracionsPresidente: TStringField;
+    configuracionsTitPresidente: TStringField;
+    configuracionsTesorerom: TStringField;
+    configuracionsTitTesorerom: TStringField;
     //AdvGroupBox5: TAdvGroupBox;
     //Label116: TLabel;
     //DBComboBox2: TDBComboBox;
     procedure tsNombreKeyPress(Sender: TObject; var Key: Char);
-    procedure MsRfcKeyPress(Sender: TObject; var Key: Char);
-    procedure TSDireccion1KeyPress(Sender: TObject; var Key: Char);
-    procedure TSDireccion2KeyPress(Sender: TObject; var Key: Char);
-    procedure TSDireccion3KeyPress(Sender: TObject; var Key: Char);
-    procedure TSSloganKeyPress(Sender: TObject; var Key: Char);
+    procedure tsRfcKeyPress(Sender: TObject; var Key: Char);
+    procedure tsDireccion1KeyPress(Sender: TObject; var Key: Char);
+    procedure tsDireccion2KeyPress(Sender: TObject; var Key: Char);
+    procedure tsDireccion3KeyPress(Sender: TObject; var Key: Char);
+    procedure tsSloganKeyPress(Sender: TObject; var Key: Char);
     procedure tsTelefonosKeyPress(Sender: TObject; var Key: Char);
-    procedure TSFaxKeyPress(Sender: TObject; var Key: Char);
-    procedure TSWebKeyPress(Sender: TObject; var Key: Char);
+    procedure tsFaxKeyPress(Sender: TObject; var Key: Char);
+    procedure tsWebKeyPress(Sender: TObject; var Key: Char);
     procedure FormShow(Sender: TObject);
     procedure btnOkClick(Sender: TObject);
     procedure BtnCancelClick(Sender: TObject);
@@ -343,13 +519,16 @@ type
     procedure tiConsecutivoKeyPress(Sender: TObject; var Key: Char);
     procedure tsClaveTierraKeyPress(Sender: TObject; var Key: Char);
     procedure tsClaveSeguridadKeyPress(Sender: TObject; var Key: Char);
-
+    procedure tsClaveDevolucionKeyPress(Sender: TObject; var Key: Char);
+    procedure tsDevolucionKeyPress(Sender: TObject; var Key: Char);
+    procedure tsMedidaKeyPress(Sender: TObject; var Key: Char);
     procedure tlCalculoPonderadoKeyPress(Sender: TObject; var Key: Char);
-
+    procedure ttxtValidaMaterialKeyPress(Sender: TObject; var Key: Char);
     procedure tsRangoEstimacionKeyPress(Sender: TObject; var Key: Char);
     procedure tsIdDepartamentoKeyPress(Sender: TObject; var Key: Char);
-
-
+    procedure tlTopeKeyPress(Sender: TObject; var Key: Char);
+    procedure ttxtMaterialAutomaticoKeyPress(Sender: TObject;
+      var Key: Char);
     procedure tsTipoContratoExit(Sender: TObject);
     procedure tsTiempoCIAKeyPress(Sender: TObject; var Key: Char);
     procedure tsArchivoKeyPress(Sender: TObject; var Key: Char);
@@ -373,11 +552,13 @@ type
     procedure tsFaltaKeyPress(Sender: TObject; var Key: Char);
     procedure tlAsistenciaKeyPress(Sender: TObject; var Key: Char);
     procedure tsTipoReporteKeyPress(Sender: TObject; var Key: Char);
+    procedure tsNombreCortoKeyPress(Sender: TObject; var Key: Char);
     procedure tsEquipoSeguridadKeyPress(Sender: TObject; var Key: Char);
     procedure tsFinancieroKeyPress(Sender: TObject; var Key: Char);
     procedure tiMesesKeyPress(Sender: TObject; var Key: Char);
     procedure tlDistribucionKeyPress(Sender: TObject; var Key: Char);
-
+    procedure tsIdAlmacenKeyPress(Sender: TObject; var Key: Char);
+    procedure tsIdAnexoKeyPress(Sender: TObject; var Key: Char);
     procedure tsIdPernoctaKeyPress(Sender: TObject; var Key: Char);
     procedure tlAsistenciaEnter(Sender: TObject);
     procedure tsTipoContratoEnter(Sender: TObject);
@@ -429,7 +610,7 @@ type
     procedure tsPartidaEfectivaEnter(Sender: TObject);
     procedure tsPartidaEfectivaExit(Sender: TObject);
     procedure tsIsometricosKeyPress(Sender: TObject; var Key: Char);
-    procedure TSPiePaginaKeyPress(Sender: TObject; var Key: Char);
+    procedure tsPiePaginaKeyPress(Sender: TObject; var Key: Char);
     procedure tsImprimePEPKeyPress(Sender: TObject; var Key: Char);
     procedure tsImprimePEPEnter(Sender: TObject);
     procedure tsImprimePEPExit(Sender: TObject);
@@ -456,6 +637,8 @@ type
     procedure tsBaseGeneracionEnter(Sender: TObject);
     procedure tsBaseGeneracionExit(Sender: TObject);
     procedure tsBaseGeneracionKeyPress(Sender: TObject; var Key: Char);
+    procedure ColorEntrada(Sender: TObject);
+    procedure ColorSalida(Sender: TObject);
     procedure tsTipoSeguridadKeyPress(Sender: TObject; var Key: Char);
     procedure tsTipoSeguridadEnter(Sender: TObject);
     procedure tsTipoSeguridadExit(Sender: TObject);
@@ -504,20 +687,42 @@ type
     procedure tsSeguridadGeneradorKeyPress(Sender: TObject; var Key: Char);
     procedure tsSeguridadGeneradorEnter(Sender: TObject);
     procedure tsSeguridadGeneradorExit(Sender: TObject);
-
+//    procedure sScrollBar1Change(Sender: TObject);
+//    procedure sScrollBar2Change(Sender: TObject);
+//    procedure sScrollBar1KeyUp(Sender: TObject; var Key: Word;
+//      Shift: TShiftState);
+//    procedure sScrollBar1MouseUp(Sender: TObject; Button: TMouseButton;
+//      Shift: TShiftState; X, Y: Integer);
+//    procedure sScrollBar2MouseUp(Sender: TObject; Button: TMouseButton;
+//     Shift: TShiftState; X, Y: Integer);
+//    procedure sScrollBar2KeyUp(Sender: TObject; var Key: Word;
+//     Shift: TShiftState);
     procedure dbPerforacionExit(Sender: TObject);
     procedure dbPerforacionEnter(Sender: TObject);
     procedure dbMostrarEnter(Sender: TObject);
     procedure dbMostrarExit(Sender: TObject);
     procedure ListSkinClick(Sender: TObject);
     procedure chkSkinClick(Sender: TObject);
-
+    procedure tsFasesMaterialKeyPress(Sender: TObject; var Key: Char);
     procedure dbMostrarKeyPress(Sender: TObject; var Key: Char);
     procedure tsImpresionPaquetesEnter(Sender: TObject);
     procedure tsImpresionPaquetesExit(Sender: TObject);
     procedure tsImpresionPaquetesKeyPress(Sender: TObject; var Key: Char);
-
-
+    procedure dbCostoDirectoKeyPress(Sender: TObject; var Key: Char);
+    procedure dbIndirectoExit(Sender: TObject);
+    procedure dbIndirectoEnter(Sender: TObject);
+    procedure dbFinanciamientoEnter(Sender: TObject);
+    procedure dbFinanciamientoExit(Sender: TObject);
+    procedure dbUtilidadExit(Sender: TObject);
+    procedure dbUtilidadEnter(Sender: TObject);
+    procedure dbCargo1Enter(Sender: TObject);
+    procedure dbCargo1Exit(Sender: TObject);
+    procedure dbCargo2Enter(Sender: TObject);
+    procedure dbCargo2Exit(Sender: TObject);
+    procedure dbIndirectoKeyPress(Sender: TObject; var Key: Char);
+    procedure dbFinanciamientoKeyPress(Sender: TObject; var Key: Char);
+    procedure dbUtilidadKeyPress(Sender: TObject; var Key: Char);
+    procedure dbCargo1KeyPress(Sender: TObject; var Key: Char);
     procedure chkFirma1Click(Sender: TObject);
     procedure chkFirma2Click(Sender: TObject);
     procedure chkFirma3Click(Sender: TObject);
@@ -535,14 +740,16 @@ type
     procedure tsReporteBarcoExit(Sender: TObject);
     procedure tsPersonalIndependienteKeyPress(Sender: TObject; var Key: Char);
     procedure cmbFormatoCKeyPress(Sender: TObject; var Key: Char);
-    procedure TSReportesCIAKeyPress(Sender: TObject; var Key: Char);
+    procedure tsReportesCIAKeyPress(Sender: TObject; var Key: Char);
     procedure DBComboBox1KeyPress(Sender: TObject; var Key: Char);
     procedure DBComboBox1Enter(Sender: TObject);
     procedure DBComboBox1Exit(Sender: TObject);
     procedure CmbCalculaTMKeyPress(Sender: TObject; var Key: Char);
     procedure CmbCalculaTMEnter(Sender: TObject);
     procedure CmbCalculaTMExit(Sender: TObject);
-
+    procedure dbExplosionKeyPress(Sender: TObject; var Key: Char);
+    procedure dbExplosionEnter(Sender: TObject);
+    procedure dbExplosionExit(Sender: TObject);
     procedure tsEstimacionesGeneralesEnter(Sender: TObject);
     procedure tsEstimacionesGeneralesExit(Sender: TObject);
     procedure mFirma3Enter(Sender: TObject);
@@ -559,7 +766,10 @@ type
     procedure chkFirma3KeyPress(Sender: TObject; var Key: Char);
     procedure mFirma3KeyPress(Sender: TObject; var Key: Char);
     procedure chkFirma1KeyPress(Sender: TObject; var Key: Char);
-
+    procedure dbCargo2KeyPress(Sender: TObject; var Key: Char);
+    procedure sSimboloKeyPress(Sender: TObject; var Key: Char);
+    procedure sSimboloEnter(Sender: TObject);
+    procedure sSimboloExit(Sender: TObject);
     procedure dbPerforacionKeyPress(Sender: TObject; var Key: Char);
     procedure FormCreate(Sender: TObject);
     procedure BtnCambiarIniClick(Sender: TObject);
@@ -587,15 +797,16 @@ type
     procedure configuracioniJLunesSetText(Sender: TField; const Text: string);
     procedure configuraciondRetencionValidate(Sender: TField);
     procedure configuracionBeforePost(DataSet: TDataSet);
-
+    procedure dbIndirectoChange(Sender: TObject);
     procedure configuraciondCostoIndirectosSetText(Sender: TField;
       const Text: string);
-
+    procedure dbFinanciamientoChange(Sender: TObject);
+    procedure dbUtilidadChange(Sender: TObject);
     procedure configuraciondFinanciamientoSetText(Sender: TField;
       const Text: string);
     procedure configuraciondUtilidadSetText(Sender: TField; const Text: string);
-
-
+    procedure dbCargo1Change(Sender: TObject);
+    procedure dbCargo2Change(Sender: TObject);
     procedure configuraciondCargosAdicionalesSetText(Sender: TField;
       const Text: string);
     procedure configuraciondCargosAdicionales2SetText(Sender: TField;
@@ -619,44 +830,18 @@ type
     procedure tiJDomingoChange(Sender: TObject);
     procedure configuracioniJDomingoSetText(Sender: TField; const Text: string);
     procedure tiLongActividadChange(Sender: TObject);
-    procedure TSCiudadEnter(Sender: TObject);
-    procedure TSCiudadExit(Sender: TObject);
-    procedure TSCiudadKeyPress(Sender: TObject; var Key: Char);
-    procedure TSEmailKeyPress(Sender: TObject; var Key: Char);
-    procedure TSRepresentanteObraEnter(Sender: TObject);
-    procedure TSRepresentanteObraExit(Sender: TObject);
+    procedure sCiudadEnter(Sender: TObject);
+    procedure sCiudadExit(Sender: TObject);
+    procedure sCiudadKeyPress(Sender: TObject; var Key: Char);
+    procedure tsEmailKeyPress(Sender: TObject; var Key: Char);
+    procedure tsRepresentanteEnter(Sender: TObject);
+    procedure tsRepresentanteExit(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure cmdRecargarMenuClick(Sender: TObject);
     procedure VerificaMenu(Menu: TMenuItem; Nod: TTreeNode; guardar: Boolean);
     procedure tsValidaAvisosKeyPress(Sender: TObject; var Key: Char);
     procedure tsValidaAvisosEnter(Sender: TObject);
     procedure tsValidaAvisosExit(Sender: TObject);
-    procedure TSRepresentanteObraKeyPress(Sender: TObject; var Key: Char);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure tsNombreCortoKeyPress(Sender: TObject; var Key: Char);
-    procedure tsNombreCortoEnter(Sender: TObject);
-    procedure tsNombreCortoExit(Sender: TObject);
-    procedure TSNombreEnter(Sender: TObject);
-    procedure TSNombreExit(Sender: TObject);
-    procedure TSRFCEnter(Sender: TObject);
-    procedure TSRFCExit(Sender: TObject);
-    procedure TSsloganExit(Sender: TObject);
-    procedure TSsloganEnter(Sender: TObject);
-    procedure TSDireccion1Enter(Sender: TObject);
-    procedure TSDireccion1Exit(Sender: TObject);
-    procedure TSDireccion2Enter(Sender: TObject);
-    procedure TSDireccion2Exit(Sender: TObject);
-    procedure TSPiePaginaExit(Sender: TObject);
-    procedure TStelefonosEnter(Sender: TObject);
-    procedure TStelefonosExit(Sender: TObject);
-    procedure TSFaxEnter(Sender: TObject);
-    procedure TSFaxExit(Sender: TObject);
-    procedure TSWebEnter(Sender: TObject);
-    procedure TSWebExit(Sender: TObject);
-    procedure TSEmailEnter(Sender: TObject);
-    procedure TSEmailExit(Sender: TObject);
-    procedure TSPiePaginaEnter(Sender: TObject);
-    procedure TSRFCKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -676,7 +861,7 @@ var
   PasswordPdf: String;
 implementation
 
-uses frxDsgnIntf, frm_inteligent;
+uses frxDsgnIntf;
 
 {$R *.dfm}
 
@@ -788,118 +973,61 @@ end;
 procedure TfrmSetup.tsNombreKeyPress(Sender: TObject; var Key: Char);
 begin
   if key = #13 then
-      tsrfc.SetFocus
+    tsrfc.SetFocus
 end;
 
-procedure TfrmSetup.MsRfcKeyPress(Sender: TObject; var Key: Char);
+procedure TfrmSetup.tsRfcKeyPress(Sender: TObject; var Key: Char);
 begin
   if key = #13 then
     tsdireccion1.SetFocus
 end;
 
-procedure TfrmSetup.TSDireccion1Enter(Sender: TObject);
-begin
-  tsDireccion1.Style.Color := Global_Color_EntradaERP ;
-end;
-
-procedure TfrmSetup.TSDireccion1Exit(Sender: TObject);
-begin
-  tsDireccion1.Style.Color := Global_Color_SalidaERP ;
-end;
-
-procedure TfrmSetup.TSDireccion1KeyPress(Sender: TObject;
+procedure TfrmSetup.tsDireccion1KeyPress(Sender: TObject;
   var Key: Char);
 begin
   if key = #13 then
     tsdireccion2.SetFocus
 end;
 
-procedure TfrmSetup.TSDireccion2Enter(Sender: TObject);
-begin
-  tsDireccion2.Style.Color := Global_Color_EntradaERP ;
-end;
-
-procedure TfrmSetup.TSDireccion2Exit(Sender: TObject);
-begin
-  tsDireccion2.Style.Color := Global_Color_SalidaERP ;
-end;
-
-procedure TfrmSetup.TSDireccion2KeyPress(Sender: TObject;
+procedure TfrmSetup.tsDireccion2KeyPress(Sender: TObject;
   var Key: Char);
 begin
   if key = #13 then
-    tsCiudad.SetFocus
+    tsdireccion3.SetFocus
 end;
 
-procedure TfrmSetup.TSDireccion3KeyPress(Sender: TObject;
+procedure TfrmSetup.tsDireccion3KeyPress(Sender: TObject;
   var Key: Char);
 begin
   if key = #13 then
-    TSCiudad.SetFocus
+    sCiudad.SetFocus
 end;
 
-procedure TfrmSetup.TSsloganEnter(Sender: TObject);
-begin
-  tsSlogan.Style.Color := Global_Color_EntradaERP;
-end;
-
-procedure TfrmSetup.TSsloganExit(Sender: TObject);
-begin
-  tsSlogan.Style.Color := Global_Color_SalidaERP ;
-end;
-
-procedure TfrmSetup.TSSloganKeyPress(Sender: TObject; var Key: Char);
+procedure TfrmSetup.tsSloganKeyPress(Sender: TObject; var Key: Char);
 begin
   if key = #13 then
     tsPiePagina.SetFocus
 end;
 
-procedure TfrmSetup.TStelefonosEnter(Sender: TObject);
-begin
-  tsTelefonos.Style.Color := Global_Color_EntradaERP ;
-end;
-
-procedure TfrmSetup.TStelefonosExit(Sender: TObject);
-begin
- tsTelefonos.Style.Color := Global_Color_SalidaERP ;
-end;
-
 procedure TfrmSetup.tsTelefonosKeyPress(Sender: TObject;
   var Key: Char);
 begin
+  if not keyFiltroTdbedit(tsTelefono,key) then
+   key:=#0;
 
   if key = #13 then
     tsfax.SetFocus
 end;
 
-procedure TfrmSetup.TSFaxEnter(Sender: TObject);
+procedure TfrmSetup.tsFaxKeyPress(Sender: TObject; var Key: Char);
 begin
- tsFax.Style.Color := Global_Color_EntradaERP ;
-end;
-
-procedure TfrmSetup.TSFaxExit(Sender: TObject);
-begin
-  tsFax.Style.Color := Global_Color_SalidaERP ;
-end;
-
-procedure TfrmSetup.TSFaxKeyPress(Sender: TObject; var Key: Char);
-begin
-
+if not keyFiltroTdbedit(tsFax,key) then
+   key:=#0;
   if key = #13 then
     tsweb.SetFocus
 end;
 
-procedure TfrmSetup.TSWebEnter(Sender: TObject);
-begin
-  tsWeb.Style.Color := Global_Color_EntradaERP ;
-end;
-
-procedure TfrmSetup.TSWebExit(Sender: TObject);
-begin
-   tsWeb.Style.Color := Global_Color_EntradaERP ;
-end;
-
-procedure TfrmSetup.TSWebKeyPress(Sender: TObject; var Key: Char);
+procedure TfrmSetup.tsWebKeyPress(Sender: TObject; var Key: Char);
 begin
   if key = #13 then
     tsemail.SetFocus
@@ -984,7 +1112,6 @@ begin
     end
   end;
   //PanelPrincipal.Items[0].Selected := True;
-
  (* Almacen.Visible := False;
   Archivos.Visible := False;
   Formatos.Visible := False;
@@ -1039,12 +1166,12 @@ end;
 
 procedure TfrmSetup.mFirma3Enter(Sender: TObject);
 begin
-  mfirma3.color:=global_color_entrada
+  mfirma3.color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.mFirma3Exit(Sender: TObject);
 begin
-  mfirma3.color:=global_color_salida
+  mfirma3.color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.mFirma3KeyPress(Sender: TObject; var Key: Char);
@@ -1096,23 +1223,6 @@ begin
     Except
     end;
     configuracion.Post;
-
-    //Verificar si cambiaron los indirectos..
-    if (Costo_directo <> configuracion.FieldValues['dCostoDirecto']) or (Costo_Indirecto <> configuracion.FieldValues['dCostoIndirectos']) or
-       (Costo_financiamiento <> configuracion.FieldValues['dFinanciamiento']) or (Costo_utilidad <> configuracion.FieldValues['dUtilidad']) or
-       (Costo_CargoAdic <> configuracion.FieldValues['dCargosAdicionales']) or  (Costo_CargoAdic2 <> configuracion.FieldValues['dCargosAdicionales2']) or
-       (Costo_CargoAdic3 <> configuracion.FieldValues['dCargosAdicionales3']) then
-       begin
-            try
-               CalculoIndirectos(configuracion.FieldValues['dCostoDirecto'], configuracion.FieldValues['dCostoIndirectos'], configuracion.FieldValues['dFinanciamiento'], configuracion.FieldValues['dUtilidad'], configuracion.FieldValues['dCargosAdicionales'], configuracion.FieldValues['dCargosAdicionales2'], configuracion.FieldValues['dCargosAdicionales3'], configuracion.FieldValues['sExplosion']);
-               frm_ActividadesAnexo2.frmActividadesAnexo2.ActividadesxAnexo.Refresh;
-            except
-//               on e : exception do begin
-//                  UnitExcepciones.manejarExcep(E.Message, E.ClassName, 'Configuracion del sistema', 'Al Salvar Configuracion', 0);
-//               end;
-            end;
-       end;
-            {////////////////////////////////////////////////////////////////////}
 
   end;
   global_afectacion := configuracion.FieldValues['sPartidaEfectiva'];
@@ -1221,12 +1331,12 @@ end;
 
 procedure TfrmSetup.CmbCalculaTMEnter(Sender: TObject);
 begin
-  cmbcalculatm.Color:=global_color_entradaERP
+  cmbcalculatm.Color:=Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.CmbCalculaTMExit(Sender: TObject);
 begin
-  cmbcalculatm.color:=global_color_salidaPU
+  cmbcalculatm.color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.CmbCalculaTMKeyPress(Sender: TObject; var Key: Char);
@@ -1247,9 +1357,7 @@ begin
     'Realmente desea continuar?', mtInformation, [mbOk, mbCancel], 0) = mrOk then
   begin
     try
-      //VerificaMenu(frmInteligent.mInteligent, nil, true);
-      if Connection.zConnection.InTransaction then
-      Connection.zConnection.Commit;
+      VerificaMenu(frmInteligent.mInteligent.Items, nil, true);
       MessageDlg('Carga de menu terminada con exito!', mtInformation, [mbOk], 0)
     except
       on e: Exception do
@@ -1300,7 +1408,6 @@ begin
           qry.ExecSQL;
 
         end;
-        Menu.Items[i].Enabled := true;
       end;
     end
     else begin
@@ -1328,14 +1435,7 @@ begin
           qry.ExecSQL;
           
         end;
-        Menu.Items[i].Enabled := true;
       end;
-    end;
-
-      if Connection.zConnection.InTransaction then
-    begin
-      Connection.zConnection.Commit;
-      Connection.zConnection.AutoCommit := true;
     end;
       // Llamada recursiva para los submenus
     if Menu.Items[i].Count > 0 then begin
@@ -1349,13 +1449,7 @@ end;
 
 procedure TfrmSetup.BtnAceptarClick(Sender: TObject);
 begin
-     btnOkClick(Sender);
-     try
-         frmActividadesAnexo2.ActualizaSentencias;
-         frmActividadesAnexo2.WindowState := wsMaximized;            
-     Except
-     end;
-     Close;
+  btnOkClick(Sender);
 end;
 
 procedure TfrmSetup.BtnCambiarIniClick(Sender: TObject);
@@ -1375,7 +1469,6 @@ end;
 procedure TfrmSetup.BtnCancelarClick(Sender: TObject);
 begin
   BtnCancelClick(Sender);
-  Close;
 end;
 
 procedure TfrmSetup.BtnCancelClick(Sender: TObject);
@@ -1491,8 +1584,23 @@ begin
     tsEquipoSeguridad.SetFocus
 end;
 
+procedure TfrmSetup.tsClaveDevolucionKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+    tsDevolucion.SetFocus
+end;
 
+procedure TfrmSetup.tsDevolucionKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+    tsmedida.SetFocus
+end;
 
+procedure TfrmSetup.tsMedidaKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+    ttxtValidaMaterial.SetFocus
+end;
 
 procedure TfrmSetup.tlCalculoPonderadoKeyPress(Sender: TObject;
   var Key: Char);
@@ -1501,6 +1609,12 @@ begin
     DBPERFORACION.SetFocus
 end;
 
+procedure TfrmSetup.ttxtValidaMaterialKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = #13 then
+    ttxtMaterialAutomatico.SetFocus
+end;
 
 procedure TfrmSetup.tsRangoEstimacionKeyPress(Sender: TObject;
   var Key: Char);
@@ -1516,10 +1630,22 @@ begin
     tsIdEmbarcacion.SetFocus
 end;
 
+procedure TfrmSetup.tlTopeKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+    tsClaveDevolucion.SetFocus
+end;
+
+procedure TfrmSetup.ttxtMaterialAutomaticoKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = #13 then
+    tsIdAnexo.SetFocus
+end;
 
 procedure TfrmSetup.tsTipoContratoExit(Sender: TObject);
 begin
-  tsTipoContrato.Color := global_color_salidaPU;
+  tsTipoContrato.Color := Globales.Elemento('Color_Salida').AsInteger;
   if tsTipoContrato.Text = 'Tarifa Diaria' then
   begin
 //        Configuracion.FieldValues ['sHoraInicio'] := '00:00' ;
@@ -1567,12 +1693,12 @@ end;
 
 procedure TfrmSetup.tsReporteBarcoEnter(Sender: TObject);
 begin
-      tsReporteBarco.Color := global_color_entradaERP
+      tsReporteBarco.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsReporteBarcoExit(Sender: TObject);
 begin
-      tsReporteBarco.Color := global_color_salidaPU
+      tsReporteBarco.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsReporteBarcoKeyPress(Sender: TObject; var Key: Char);
@@ -1588,42 +1714,20 @@ begin
     tsGerencial.SetFocus
 end;
 
-procedure TfrmSetup.TSRFCEnter(Sender: TObject);
-begin
-   tsRfc.Style.Color := global_color_entradaERP ;
-end;
-
-procedure TfrmSetup.TSRFCExit(Sender: TObject);
-begin
-  tsRFC.Style.Color := global_color_salidaERP ;
-end;
-
-procedure TfrmSetup.TSRFCKeyPress(Sender: TObject; var Key: Char);
-begin
-   if Key = #13 then
-     TSDireccion1.SetFocus
-end;
-
-procedure TfrmSetup.TSReportesCIAKeyPress(Sender: TObject; var Key: Char);
+procedure TfrmSetup.tsReportesCIAKeyPress(Sender: TObject; var Key: Char);
 begin
     if Key = #13 then
     tsnombrecorto.SetFocus
 end;
 
-procedure TfrmSetup.TSRepresentanteObraEnter(Sender: TObject);
+procedure TfrmSetup.tsRepresentanteEnter(Sender: TObject);
 begin
-    tsRepresentanteObra.Style.Color := global_Color_entradaERP;
+    tsRepresentante.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
-procedure TfrmSetup.TSRepresentanteObraExit(Sender: TObject);
+procedure TfrmSetup.tsRepresentanteExit(Sender: TObject);
 begin
-    tsRepresentanteObra.Style.Color := global_Color_salidaERP;
-end;
-
-procedure TfrmSetup.TSRepresentanteObraKeyPress(Sender: TObject; var Key: Char);
-begin
-    if key =  #13 then
-      tsNombreCorto.SetFocus;
+    tsRepresentante.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.PanelPrincipalClick(Sender: TObject);
@@ -1738,11 +1842,6 @@ begin
     end
 end;
 
-procedure TfrmSetup.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-    frmInteligent.Status.Panels.Items[9].Text  := global_convenio;
-end;
-
 procedure TfrmSetup.FormCreate(Sender: TObject);
 var
   C: HCURSOR;
@@ -1767,12 +1866,12 @@ end;
 
 procedure TfrmSetup.tsAnexoEnter(Sender: TObject);
 begin
-    tsAnexo.Color := global_color_entradaERP
+    tsAnexo.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsAnexoExit(Sender: TObject);
 begin
-    tsAnexo.Color := global_color_salidaPU
+    tsAnexo.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsAnexoKeyPress(Sender: TObject; var Key: Char);
@@ -1886,7 +1985,7 @@ end;
 
 procedure TfrmSetup.tlAsistenciaExit(Sender: TObject);
 begin
-  tlAsistencia.Color := global_color_salidaPU;
+  tlAsistencia.Color := Globales.Elemento('Color_Salida').AsInteger;
   if tlAsistencia.Text = 'Guardias' then
     tsIdGuardia.ReadOnly := False
   else
@@ -1908,6 +2007,11 @@ begin
     tsClaveTierra.SetFocus
 end;
 
+procedure TfrmSetup.tsFasesMaterialKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+    tsClaveDevolucion.SetFocus
+end;
 
 procedure TfrmSetup.tlAsistenciaKeyPress(Sender: TObject; var Key: Char);
 begin
@@ -1921,46 +2025,16 @@ begin
     tiConsecutivo.SetFocus
 end;
 
-procedure TfrmSetup.tsNombreCortoEnter(Sender: TObject);
-begin
-   tsNombreCorto.Style.Color := global_color_entradaERP
-end;
-
-procedure TfrmSetup.tsNombreCortoExit(Sender: TObject);
-begin
-   tsNombreCorto.Style.Color := global_color_salidaERP;
-end;
-
 procedure TfrmSetup.tsNombreCortoKeyPress(Sender: TObject; var Key: Char);
 begin
-if Key = #13 then
+  if Key = #13 then
     tsnombre.SetFocus
 end;
 
-procedure TfrmSetup.TSNombreEnter(Sender: TObject);
-begin
-  tsNombre.Style.Color := global_color_entradaERP
-end;
-
-procedure TfrmSetup.TSNombreExit(Sender: TObject);
-begin
-   tsNombre.Style.Color := global_color_salidaERP
-end;
-
-procedure TfrmSetup.TSEmailEnter(Sender: TObject);
-begin
-  tsEmail.Style.Color := Global_Color_EntradaERP ;
-end;
-
-procedure TfrmSetup.TSEmailExit(Sender: TObject);
-begin
- tsEmail.Style.Color := Global_Color_SalidaERP;
-end;
-
-procedure TfrmSetup.TSEmailKeyPress(Sender: TObject; var Key: Char);
+procedure TfrmSetup.tsEmailKeyPress(Sender: TObject; var Key: Char);
 begin
     if key = #13 then
-       tsRepresentanteObra.SetFocus;
+       tsRepresentante.SetFocus;
 end;
 
 procedure TfrmSetup.tsEquipoSeguridadKeyPress(Sender: TObject;
@@ -1972,12 +2046,12 @@ end;
 
 procedure TfrmSetup.tsEstimacionesGeneralesEnter(Sender: TObject);
 begin
-  tsestimacionesgenerales.color:=global_color_entradaERP
+  tsestimacionesgenerales.color:=Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsEstimacionesGeneralesExit(Sender: TObject);
 begin
-  tsestimacionesgenerales.color:=global_color_salidaPU
+  tsestimacionesgenerales.color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsEstimacionesGeneralesKeyPress(Sender: TObject;
@@ -2011,6 +2085,17 @@ begin
     tsfirmaselectronicas.SetFocus
 end;
 
+procedure TfrmSetup.tsIdAlmacenKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+    tsClaveDevolucion.SetFocus
+end;
+
+procedure TfrmSetup.tsIdAnexoKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+    dbexplosion.SetFocus
+end;
 
 procedure TfrmSetup.tsIdPernoctaKeyPress(Sender: TObject; var Key: Char);
 begin
@@ -2020,52 +2105,52 @@ end;
 
 procedure TfrmSetup.tlAsistenciaEnter(Sender: TObject);
 begin
-  tlAsistencia.Color := global_color_entradaERP
+  tlAsistencia.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsTipoContratoEnter(Sender: TObject);
 begin
-  tsTipoContrato.Color := global_color_entradaERP
+  tsTipoContrato.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsRangoEstimacionEnter(Sender: TObject);
 begin
-  tsRangoEstimacion.Color := global_color_entradaERP
+  tsRangoEstimacion.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsRangoEstimacionExit(Sender: TObject);
 begin
-  tsRangoEstimacion.Color := global_color_salidaPU
+  tsRangoEstimacion.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tlCalculoPonderadoEnter(Sender: TObject);
 begin
-  tlCalculoPonderado.Color := global_color_entradaERP
+  tlCalculoPonderado.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tlCalculoPonderadoExit(Sender: TObject);
 begin
-  tlCalculoPonderado.Color := global_color_salidaPU
+  tlCalculoPonderado.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tlAutomaticoEnter(Sender: TObject);
 begin
-  tlAutomatico.Color := global_color_entradaERP
+  tlAutomatico.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tlAutomaticoExit(Sender: TObject);
 begin
-  tlAutomatico.Color := global_color_salidaPU
+  tlAutomatico.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tiIncrementoEnter(Sender: TObject);
 begin
-  tiIncremento.Color := global_color_entradaERP
+  tiIncremento.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tiIncrementoExit(Sender: TObject);
 begin
-  tiIncremento.Color := global_color_salidaPU
+  tiIncremento.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tiLongActividadChange(Sender: TObject);
@@ -2075,42 +2160,42 @@ end;
 
 procedure TfrmSetup.tiLongActividadEnter(Sender: TObject);
 begin
-  tiLongActividad.Color := global_color_entradaERP
+  tiLongActividad.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tiLongActividadExit(Sender: TObject);
 begin
-  tiLongActividad.Color := global_color_salidaPU
+  tiLongActividad.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsDuracionEnter(Sender: TObject);
 begin
-  tsDuracion.Color := global_color_entradaERP
+  tsDuracion.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsDuracionExit(Sender: TObject);
 begin
-  tsDuracion.Color := global_color_salidaPU
+  tsDuracion.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tlCalculaFechaEnter(Sender: TObject);
 begin
-  tlCalculaFecha.Color := global_color_entradaERP
+  tlCalculaFecha.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tlCalculaFechaExit(Sender: TObject);
 begin
-  tlCalculaFecha.Color := global_color_salidaPU
+  tlCalculaFecha.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsTipoPartidaEnter(Sender: TObject);
 begin
-  tsTipoPartida.Color := global_color_entradaERP
+  tsTipoPartida.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsTipoPartidaExit(Sender: TObject);
 begin
-  tsTipoPartida.Color := global_color_salidaPU
+  tsTipoPartida.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tlImprimeExtraordinarioKeyPress(Sender: TObject;
@@ -2122,12 +2207,12 @@ end;
 
 procedure TfrmSetup.tlImprimeExtraordinarioEnter(Sender: TObject);
 begin
-  tlImprimeExtraordinario.Color := global_color_entradaERP
+  tlImprimeExtraordinario.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tlImprimeExtraordinarioExit(Sender: TObject);
 begin
-  tlImprimeExtraordinario.Color := global_color_salidaPU
+  tlImprimeExtraordinario.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsOrdenExtraordinariaKeyPress(Sender: TObject;
@@ -2167,12 +2252,12 @@ end;
 
 procedure TfrmSetup.tsIdConvenioEnter(Sender: TObject);
 begin
-  tsIdConvenio.Color := global_color_EntradaERP
+  tsIdConvenio.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsIdConvenioExit(Sender: TObject);
 begin
-  tsIdConvenio.Color := global_color_salidaPU
+  tsIdConvenio.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsIdConvenioKeyPress(Sender: TObject; var Key: Char);
@@ -2183,12 +2268,12 @@ end;
 
 procedure TfrmSetup.tiRedondeoMaterialEnter(Sender: TObject);
 begin
-  tiRedondeoMaterial.Color := global_color_entradaERP
+  tiRedondeoMaterial.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tiRedondeoMaterialExit(Sender: TObject);
 begin
-  tiRedondeoMaterial.Color := global_color_salidaPU
+  tiRedondeoMaterial.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tiRedondeoMaterialKeyPress(Sender: TObject;
@@ -2200,12 +2285,12 @@ end;
 
 procedure TfrmSetup.tiRedondeoEquipoEnter(Sender: TObject);
 begin
-  tiRedondeoEquipo.Color := global_color_entradaERP
+  tiRedondeoEquipo.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tiRedondeoEquipoExit(Sender: TObject);
 begin
-  tiRedondeoEquipo.Color := global_color_salidaPU
+  tiRedondeoEquipo.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tiRedondeoEquipoKeyPress(Sender: TObject;
@@ -2217,12 +2302,12 @@ end;
 
 procedure TfrmSetup.tiRedondeoPersonalEnter(Sender: TObject);
 begin
-  tiRedondeoPersonal.Color := global_color_entradaERP
+  tiRedondeoPersonal.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tiRedondeoPersonalExit(Sender: TObject);
 begin
-  tiRedondeoPersonal.Color := global_color_salidaPU
+  tiRedondeoPersonal.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tiRedondeoPersonalKeyPress(Sender: TObject;
@@ -2234,12 +2319,12 @@ end;
 
 procedure TfrmSetup.tiRedondeoEmbarcacionEnter(Sender: TObject);
 begin
-  tiRedondeoEmbarcacion.Color := global_color_entradaERP
+  tiRedondeoEmbarcacion.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tiRedondeoEmbarcacionExit(Sender: TObject);
 begin
-  tiRedondeoEmbarcacion.Color := global_color_salidaPU
+  tiRedondeoEmbarcacion.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tiRedondeoEmbarcacionKeyPress(Sender: TObject;
@@ -2288,12 +2373,12 @@ end;
 
 procedure TfrmSetup.tsPartidaEfectivaEnter(Sender: TObject);
 begin
-  tsPartidaEfectiva.Color := global_color_entradaERP
+  tsPartidaEfectiva.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsPartidaEfectivaExit(Sender: TObject);
 begin
-  tsPartidaEfectiva.Color := global_color_salidaPU
+  tsPartidaEfectiva.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsIsometricosKeyPress(Sender: TObject; var Key: Char);
@@ -2302,20 +2387,10 @@ begin
     timeses.SetFocus
 end;
 
-procedure TfrmSetup.TSPiePaginaEnter(Sender: TObject);
-begin
-   tsPiePagina.Style.Color := Global_Color_EntradaERP ;
-end;
-
-procedure TfrmSetup.TSPiePaginaExit(Sender: TObject);
-begin
-  tsPiePagina.Style.Color := Global_Color_SalidaERP ;
-end;
-
-procedure TfrmSetup.TSPiePaginaKeyPress(Sender: TObject; var Key: Char);
+procedure TfrmSetup.tsPiePaginaKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = #13 then
-    tsTelefonos.SetFocus
+    tsTelefono.SetFocus
 end;
 
 procedure TfrmSetup.tsImprimePEPKeyPress(Sender: TObject; var Key: Char);
@@ -2326,12 +2401,12 @@ end;
 
 procedure TfrmSetup.tsImpresionPaquetesEnter(Sender: TObject);
 begin
-    tsImpresionPaquetes.color := global_color_entradaERP
+    tsImpresionPaquetes.color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsImpresionPaquetesExit(Sender: TObject);
 begin
-    tsImpresionPaquetes.color := global_color_salidaPU
+    tsImpresionPaquetes.color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsImpresionPaquetesKeyPress(Sender: TObject; var Key: Char);
@@ -2342,12 +2417,12 @@ end;
 
 procedure TfrmSetup.tsImprimePEPEnter(Sender: TObject);
 begin
-  tsImprimePEP.Color := global_color_entradaERP
+  tsImprimePEP.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsImprimePEPExit(Sender: TObject);
 begin
-  tsImprimePEP.Color := global_color_salidaPU
+  tsImprimePEP.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsTipoAlcanceKeyPress(Sender: TObject; var Key: Char);
@@ -2371,12 +2446,12 @@ end;
 
 procedure TfrmSetup.tsBaseCalculoEnter(Sender: TObject);
 begin
-  tsBaseCalculo.Color := global_color_entradaERP
+  tsBaseCalculo.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsBaseCalculoExit(Sender: TObject);
 begin
-  tsBaseCalculo.Color := global_color_salidaPU
+  tsBaseCalculo.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsBaseCalculoKeyPress(Sender: TObject; var Key: Char);
@@ -2387,12 +2462,12 @@ end;
 
 procedure TfrmSetup.tsAvanceBitacoraEnter(Sender: TObject);
 begin
-  tsAvanceBitacora.Color := global_color_EntradaERP
+  tsAvanceBitacora.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsAvanceBitacoraExit(Sender: TObject);
 begin
-  tsAvanceBitacora.Color := global_color_salidaPU
+  tsAvanceBitacora.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsAvanceBitacoraKeyPress(Sender: TObject;
@@ -2404,12 +2479,12 @@ end;
 
 procedure TfrmSetup.tsGeneradoresBarcoEnter(Sender: TObject);
 begin
-      tsGeneradoresBarco.Color := global_color_entradaERP
+      tsGeneradoresBarco.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsGeneradoresBarcoExit(Sender: TObject);
 begin
-    tsGeneradoresBarco.Color := global_color_salidaPU
+    tsGeneradoresBarco.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsGeneradoresBarcoKeyPress(Sender: TObject; var Key: Char);
@@ -2420,12 +2495,12 @@ end;
 
 procedure TfrmSetup.tsGeneradoresEnter(Sender: TObject);
 begin
-      tsGeneradores.Color := global_color_entradaERP
+      tsGeneradores.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsGeneradoresExit(Sender: TObject);
 begin
-      tsGeneradores.Color := global_color_salidaPU
+      tsGeneradores.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsGeneradoresKeyPress(Sender: TObject; var Key: Char);
@@ -2463,22 +2538,22 @@ end;
 
 procedure TfrmSetup.tsOrdenPersonalEnter(Sender: TObject);
 begin
-  tsOrdenPersonal.Color := global_color_entradaERP
+  tsOrdenPersonal.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsOrdenPersonalExit(Sender: TObject);
 begin
-  tsOrdenPersonal.Color := global_color_salidaPU
+  tsOrdenPersonal.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsTipoAjusteCostoEnter(Sender: TObject);
 begin
-  tsTipoAjusteCosto.Color := global_color_entradaERP
+  tsTipoAjusteCosto.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsTipoAjusteCostoExit(Sender: TObject);
 begin
-  tsTipoAjusteCosto.Color := global_color_salidaPU
+  tsTipoAjusteCosto.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsTipoAjusteCostoKeyPress(Sender: TObject;
@@ -2491,12 +2566,12 @@ end;
 
 procedure TfrmSetup.tsTipoGeneracionEnter(Sender: TObject);
 begin
-  tsTipoGeneracion.Color := global_color_entradaERP
+  tsTipoGeneracion.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsTipoGeneracionExit(Sender: TObject);
 begin
-  tsTipoGeneracion.Color := global_color_salidaPU
+  tsTipoGeneracion.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsTipoGeneracionKeyPress(Sender: TObject;
@@ -2522,12 +2597,12 @@ end;
 
 procedure TfrmSetup.tsBaseGeneracionEnter(Sender: TObject);
 begin
-  tsBaseGeneracion.Color := global_color_entradaERP
+  tsBaseGeneracion.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsBaseGeneracionExit(Sender: TObject);
 begin
-  tsBaseGeneracion.Color := global_color_salidaPU
+  tsBaseGeneracion.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsBaseGeneracionKeyPress(Sender: TObject;
@@ -2537,6 +2612,15 @@ begin
     tsTipoGeneracion.SetFocus
 end;
 
+procedure TfrmSetup.ColorEntrada(Sender: TObject);
+begin
+  (Sender as TDBEdit).Color := Globales.Elemento('Color_Entrada').AsInteger;
+end;
+
+procedure TfrmSetup.ColorSalida(Sender: TObject);
+begin
+  (Sender as TDBEdit).Color := Globales.Elemento('Color_Salida').AsInteger;
+end;
 procedure PCAbsoluto(Zeo:TZQuery;Camp:string);
 begin
 if Zeo.FieldValues[Camp]<0 then
@@ -2681,15 +2765,15 @@ procedure TfrmSetup.configuracionsPasswordPdfGetText(Sender: TField;
   var Text: string; DisplayText: Boolean);
 begin
 text:='';
-  if (configuracion.RecordCount>0) or (configuracion.State=dsinsert) then
-    text:= desencripta(configuracion.FieldByName('sPasswordPdf').AsString);
+ { if (configuracion.RecordCount>0) or (configuracion.State=dsinsert) then
+    text:= desencripta(configuracion.FieldByName('sPasswordPdf').AsString); }
 end;
 
 procedure TfrmSetup.configuracionsPasswordPdfSetText(Sender: TField;
   const Text: string);
 begin
   PasswordPdf:=text;
-  sender.Value:=encripta(text);
+  //sender.Value:=encripta(text);
 end;
 
 procedure TfrmSetup.tsTipoSeguridadKeyPress(Sender: TObject;
@@ -2701,42 +2785,42 @@ end;
 
 procedure TfrmSetup.tsTipoSeguridadEnter(Sender: TObject);
 begin
-  tsTipoSeguridad.Color := global_color_entradaERP
+  tsTipoSeguridad.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsTipoSeguridadExit(Sender: TObject);
 begin
-  tsTipoSeguridad.Color := global_color_salidaPU
+  tsTipoSeguridad.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tiMesesEnter(Sender: TObject);
 begin
-  tiMeses.Color := global_color_entradaERP
+  tiMeses.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tiMesesExit(Sender: TObject);
 begin
-  tiMeses.Color := global_color_salidaPU
+  tiMeses.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tlDistribucionEnter(Sender: TObject);
 begin
-  tlDistribucion.Color := global_color_entradaERP
+  tlDistribucion.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tlDistribucionExit(Sender: TObject);
 begin
-  tlDistribucion.Color := global_color_salidaPU
+  tlDistribucion.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsValidaAvisosEnter(Sender: TObject);
 begin
-    tsValidaAvisos.Color := global_color_entradaERP;
+    tsValidaAvisos.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsValidaAvisosExit(Sender: TObject);
 begin
-    tsValidaAvisos.Color := global_color_salidaPU;
+    tsValidaAvisos.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsValidaAvisosKeyPress(Sender: TObject; var Key: Char);
@@ -2747,12 +2831,12 @@ end;
 
 procedure TfrmSetup.tsViewIsometricoEnter(Sender: TObject);
 begin
-  tsViewIsometrico.Color := global_color_entradaERP
+  tsViewIsometrico.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsViewIsometricoExit(Sender: TObject);
 begin
-  tsViewIsometrico.Color := global_color_salidaPU
+  tsViewIsometrico.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsViewIsometricoKeyPress(Sender: TObject;
@@ -2764,12 +2848,12 @@ end;
 
 procedure TfrmSetup.tsFotografiasEnter(Sender: TObject);
 begin
-  tsFotografias.Color := global_color_entradaERP
+  tsFotografias.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsFotografiasExit(Sender: TObject);
 begin
-  tsFotografias.Color := global_color_salidaPU
+  tsFotografias.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsFotografiasKeyPress(Sender: TObject; var Key: Char);
@@ -2780,12 +2864,12 @@ end;
 
 procedure TfrmSetup.tlComentariosReporteEnter(Sender: TObject);
 begin
-  tlComentariosReporte.Color := global_color_entradaERP
+  tlComentariosReporte.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tlComentariosReporteExit(Sender: TObject);
 begin
-  tlComentariosReporte.Color := global_color_salidaPU
+  tlComentariosReporte.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tlComentariosReporteKeyPress(Sender: TObject;
@@ -2797,12 +2881,12 @@ end;
 
 procedure TfrmSetup.tlIncluyeGraficaEnter(Sender: TObject);
 begin
-  tlIncluyeGrafica.Color := global_color_entradaERP
+  tlIncluyeGrafica.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tlIncluyeGraficaExit(Sender: TObject);
 begin
-  tlIncluyeGrafica.Color := global_color_salidaPU
+  tlIncluyeGrafica.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tlIncluyeGraficaKeyPress(Sender: TObject;
@@ -2814,12 +2898,12 @@ end;
 
 procedure TfrmSetup.tiFirmasEnter(Sender: TObject);
 begin
-  tiFirmas.Color := global_color_entradaERP
+  tiFirmas.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tiFirmasExit(Sender: TObject);
 begin
-  tiFirmas.Color := global_color_salidaPU
+  tiFirmas.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tiFirmasKeyPress(Sender: TObject; var Key: Char);
@@ -2830,12 +2914,12 @@ end;
 
 procedure TfrmSetup.tiFirmasReportesEnter(Sender: TObject);
 begin
-      tiFirmasReportes.Color := global_color_entradaERP
+      tiFirmasReportes.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tiFirmasReportesExit(Sender: TObject);
 begin
-      tiFirmasReportes.Color := global_color_salidaPU
+      tiFirmasReportes.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tiFirmasReportesKeyPress(Sender: TObject; var Key: Char);
@@ -2846,12 +2930,12 @@ end;
 
 procedure TfrmSetup.tsFirmasElectronicasEnter(Sender: TObject);
 begin
-  tsFirmasElectronicas.Color := global_Color_EntradaERP
+  tsFirmasElectronicas.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsFirmasElectronicasExit(Sender: TObject);
 begin
-  tsFirmasElectronicas.Color := global_color_salidaPU
+  tsFirmasElectronicas.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsFirmasElectronicasKeyPress(Sender: TObject;
@@ -2863,12 +2947,12 @@ end;
 
 procedure TfrmSetup.tsTipsInicialEnter(Sender: TObject);
 begin
-  tsTipsInicial.Color := global_Color_entradaERP
+  tsTipsInicial.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsTipsInicialExit(Sender: TObject);
 begin
-  tsTipsInicial.Color := global_Color_salidaPU
+  tsTipsInicial.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsTipsInicialKeyPress(Sender: TObject; var Key: Char);
@@ -2887,22 +2971,22 @@ end;
 
 procedure TfrmSetup.tsImporteRetencionEnter(Sender: TObject);
 begin
-  tsImporteRetencion.Color := global_color_entradaERP
+  tsImporteRetencion.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsImporteRetencionExit(Sender: TObject);
 begin
-  tsImporteRetencion.Color := global_color_salidaPU
+  tsImporteRetencion.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsTipoEstimacionEnter(Sender: TObject);
 begin
-  tsTipoEstimacion.Color := global_color_entradaERP
+  tsTipoEstimacion.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsTipoEstimacionExit(Sender: TObject);
 begin
-  tsTipoEstimacion.Color := global_color_salidaPU
+  tsTipoEstimacion.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tsTipoEstimacionKeyPress(Sender: TObject;
@@ -2921,12 +3005,12 @@ end;
 
 procedure TfrmSetup.tsTerminoPenalizacionEnter(Sender: TObject);
 begin
-  tsTerminoPenalizacion.Color := global_color_EntradaERP
+  tsTerminoPenalizacion.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsTerminoPenalizacionExit(Sender: TObject);
 begin
-  tsTerminoPenalizacion.Color := global_color_salidaPU
+  tsTerminoPenalizacion.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tlIncluyeAvanceOrdenesKeyPress(Sender: TObject; var Key: Char);
@@ -2937,22 +3021,22 @@ end;
 
 procedure TfrmSetup.tlIncluyeAvanceOrdenesEnter(Sender: TObject);
 begin
-  tlIncluyeAvanceOrdenes.Color := global_color_entradaERP
+  tlIncluyeAvanceOrdenes.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tlIncluyeAvanceOrdenesExit(Sender: TObject);
 begin
-  tlIncluyeAvanceOrdenes.Color := global_color_salidaPU
+  tlIncluyeAvanceOrdenes.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tlIncluyeAvanceContratoEnter(Sender: TObject);
 begin
-  tlIncluyeAvanceContrato.Color := global_color_entradaERP
+  tlIncluyeAvanceContrato.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tlIncluyeAvanceContratoExit(Sender: TObject);
 begin
-  tlIncluyeAvanceContrato.Color := global_color_salidaPU
+  tlIncluyeAvanceContrato.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.tlIncluyeAvanceContratoKeyPress(Sender: TObject;
@@ -2971,12 +3055,12 @@ end;
 
 procedure TfrmSetup.tsSeguridadGeneradorEnter(Sender: TObject);
 begin
-  tsSeguridadGenerador.Color := global_color_entradaERP
+  tsSeguridadGenerador.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.tsSeguridadGeneradorExit(Sender: TObject);
 begin
-  tsSeguridadGenerador.Color := global_color_salidaPU
+  tsSeguridadGenerador.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 
@@ -3008,27 +3092,47 @@ end;
 //  connection.sSkinManager1.HueOffset := sScrollBar2.Position
 //end;
 
-procedure TfrmSetup.TSCiudadEnter(Sender: TObject);
+procedure TfrmSetup.sCiudadEnter(Sender: TObject);
 begin
-  tsCiudad.Style.Color  := global_color_entradaERP
+    (Sender as TDBEdit).Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
-procedure TfrmSetup.TSCiudadExit(Sender: TObject);
+procedure TfrmSetup.sCiudadExit(Sender: TObject);
 begin
-   tsCiudad.Style.Color := global_color_salidaERP;
+   (Sender as TDBEdit).Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
-procedure TfrmSetup.TSCiudadKeyPress(Sender: TObject; var Key: Char);
+procedure TfrmSetup.sCiudadKeyPress(Sender: TObject; var Key: Char);
 begin
     if key = #13 then
        tsSlogan.SetFocus;
 end;
 
+procedure TfrmSetup.sSimboloEnter(Sender: TObject);
+begin
+  ssimbolo.color:=Globales.Elemento('Color_Entrada').AsInteger;
+end;
 
+procedure TfrmSetup.sSimboloExit(Sender: TObject);
+begin
+ ssimbolo.color:= Globales.Elemento('Color_Salida').AsInteger;
+end;
+
+procedure TfrmSetup.sSimboloKeyPress(Sender: TObject; var Key: Char);
+begin
+    if Key = #13 then
+    dbindirecto.SetFocus
+end;
+
+//procedure TfrmSetup.sScrollBar1KeyUp(Sender: TObject; var Key: Word;
+//  Shift: TShiftState);
+//begin
+//  connection.sSkinManager1.Saturation := sScrollBar1.Position;
+//end;
 
 procedure TfrmSetup.dbPerforacionExit(Sender: TObject);
 begin
-  tiLongActividad.Color := global_color_salidaPU
+  tiLongActividad.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.dbPerforacionKeyPress(Sender: TObject; var Key: Char);
@@ -3037,20 +3141,92 @@ begin
     tilongactividad.SetFocus
 end;
 
+procedure TfrmSetup.dbUtilidadChange(Sender: TObject);
+begin
+  tdbeditchangef(dbUtilidad,'Utilidad');
+end;
+
+procedure TfrmSetup.dbUtilidadEnter(Sender: TObject);
+begin
+   dbUtilidad.Color := Globales.Elemento('Color_Entrada').AsInteger;
+end;
+
+procedure TfrmSetup.dbUtilidadExit(Sender: TObject);
+begin
+  dbutilidad.Color := Globales.Elemento('Color_Salida').AsInteger; ;
+end;
+
+procedure TfrmSetup.dbUtilidadKeyPress(Sender: TObject; var Key: Char);
+begin
+if not keyFiltroTdbedit(dbUtilidad,key) then
+   key:=#0;
+  if key = #13 then
+     dbCargo1.SetFocus ;
+end;
+
+
+
 
 procedure TfrmSetup.dbPerforacionEnter(Sender: TObject);
 begin
-  dbPerforacion.Color := global_color_entradaERP;
+  dbPerforacion.Color := Globales.Elemento('Color_Entrada').AsInteger;
+end;
+
+procedure TfrmSetup.dbCargo1Change(Sender: TObject);
+begin
+  tdbeditchangef(dbCargo1,'Cargoa Adicionales');
+end;
+
+procedure TfrmSetup.dbCargo1Enter(Sender: TObject);
+begin
+  dbCargo1.Color := Globales.Elemento('Color_Entrada').AsInteger;
+end;
+
+procedure TfrmSetup.dbCargo1Exit(Sender: TObject);
+begin
+    dbCargo1.Color := Globales.Elemento('Color_Salida').AsInteger; ;
+end;
+
+procedure TfrmSetup.dbCargo1KeyPress(Sender: TObject; var Key: Char);
+begin
+if not keyFiltroTdbedit(dbCargo1,key) then
+   key:=#0;
+  if key = #13 then
+     dbCargo2.SetFocus ;
+
+end;
+
+procedure TfrmSetup.dbCargo2Change(Sender: TObject);
+begin
+  tdbeditchangef(dbCargo2,'Otros Cargos Adic.');  
+end;
+
+procedure TfrmSetup.dbCargo2Enter(Sender: TObject);
+begin
+    dbCargo2.Color := Globales.Elemento('Color_Entrada').AsInteger;
+end;
+
+procedure TfrmSetup.dbCargo2Exit(Sender: TObject);
+begin
+   dbCargo2.Color := Globales.Elemento('Color_Salida').AsInteger;
+end;
+
+procedure TfrmSetup.dbCargo2KeyPress(Sender: TObject; var Key: Char);
+begin
+if not keyFiltroTdbedit(dbCargo2,key) then
+   key:=#0;
+    if Key = #13 then
+    ssimbolo.SetFocus
 end;
 
 procedure TfrmSetup.DBComboBox1Enter(Sender: TObject);
 begin
-  dbcombobox1.color:=global_color_entradaERP
+  dbcombobox1.color:=Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.DBComboBox1Exit(Sender: TObject);
 begin
-  dbcombobox1.Color:= global_color_salidaPU
+  dbcombobox1.Color:= Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.DBComboBox1KeyPress(Sender: TObject; var Key: Char);
@@ -3059,15 +3235,82 @@ begin
     tsavanceinicial.SetFocus
 end;
 
+procedure TfrmSetup.dbCostoDirectoKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+    dbIndirecto.SetFocus ;
+end;
+
+procedure TfrmSetup.dbExplosionEnter(Sender: TObject);
+begin
+  dbexplosion.color:=Globales.Elemento('Color_Entrada').AsInteger;
+end;
+
+procedure TfrmSetup.dbExplosionExit(Sender: TObject);
+begin
+  dbexplosion.Color := Globales.Elemento('Color_Salida').AsInteger;
+end;
+
+procedure TfrmSetup.dbExplosionKeyPress(Sender: TObject; var Key: Char);
+begin
+   if key = #13 then
+      tsclavedevolucion.SetFocus ;
+end;
+
+procedure TfrmSetup.dbFinanciamientoChange(Sender: TObject);
+begin
+  tdbeditchangef(dbFinanciamiento,'Financiamiento');
+end;
+
+procedure TfrmSetup.dbFinanciamientoEnter(Sender: TObject);
+begin
+  dbFinanciamiento.Color := Globales.Elemento('Color_Entrada').AsInteger;
+end;
+
+procedure TfrmSetup.dbFinanciamientoExit(Sender: TObject);
+begin
+  dbFinanciamiento.Color := Globales.Elemento('Color_Salida').AsInteger;
+end;
+
+procedure TfrmSetup.dbFinanciamientoKeyPress(Sender: TObject; var Key: Char);
+begin
+if not keyFiltroTdbedit(dbFinanciamiento,key) then
+   key:=#0;
+   if key = #13 then
+      dbUtilidad.SetFocus ;
+end;
+
+procedure TfrmSetup.dbIndirectoChange(Sender: TObject);
+begin
+  tdbeditchangef(dbIndirecto,'Costo Indirecto');    
+end;
+
+procedure TfrmSetup.dbIndirectoEnter(Sender: TObject);
+begin
+ dbIndirecto.Color := Globales.Elemento('Color_Entrada').AsInteger;
+end;
+
+procedure TfrmSetup.dbIndirectoExit(Sender: TObject);
+begin
+   dbIndirecto.Color := Globales.Elemento('Color_Salida').AsInteger;
+end;
+
+procedure TfrmSetup.dbIndirectoKeyPress(Sender: TObject; var Key: Char);
+begin
+if not keyFiltroTdbedit(dbIndirecto,key) then
+   key:=#0;
+    if key = #13 then
+      dbfinanciamiento.SetFocus ;    
+end;
 
 procedure TfrmSetup.dbMailAutorizaEnter(Sender: TObject);
 begin
-      dbMailAutoriza.Color := global_color_entradaERP
+      dbMailAutoriza.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.dbMailAutorizaExit(Sender: TObject);
 begin
-      dbMailAutoriza.Color := global_color_salidaPU
+      dbMailAutoriza.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.dbMailAutorizaKeyPress(Sender: TObject; var Key: Char);
@@ -3078,12 +3321,12 @@ end;
 
 procedure TfrmSetup.dbMostrarEnter(Sender: TObject);
 begin
-  dbMostrar.Color := Global_Color_EntradaERP;
+  dbMostrar.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmSetup.dbMostrarExit(Sender: TObject);
 begin
-  dbMostrar.Color := Global_Color_SalidaPU;
+  dbMostrar.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmSetup.dbMostrarKeyPress(Sender: TObject; var Key: Char);

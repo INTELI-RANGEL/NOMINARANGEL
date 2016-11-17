@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, ZDataset, ZConnection, Classes, frm_barra, Dialogs, Menus, DB,
-  Buttons, AdvGlowButton,cxButtons;
+  Buttons, AdvGlowButton;
 
 type
 

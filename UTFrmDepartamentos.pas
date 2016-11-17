@@ -4,71 +4,37 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
-  cxContainer, cxEdit, dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinBlueprint,
-  dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
-  dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle, dxSkinFoggy,
-  dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary, dxSkinLilian,
-  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis,
-  dxSkinMetropolisDark, dxSkinMoneyTwins, dxSkinOffice2007Black,
-  dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink,
-  dxSkinOffice2007Silver, dxSkinOffice2010Black, dxSkinOffice2010Blue,
-  dxSkinOffice2010Silver, dxSkinOffice2013DarkGray, dxSkinOffice2013LightGray,
-  dxSkinOffice2013White, dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic,
-  dxSkinSharp, dxSkinSharpPlus, dxSkinSilver, dxSkinSpringTime, dxSkinStardust,
-  dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinsDefaultPainters,
-  dxSkinValentine, dxSkinVS2010, dxSkinWhiteprint, dxSkinXmas2008Blue,
-  cxCustomData, cxStyles, cxTL, cxTLdxBarBuiltInMenu, cxSplitter,
-  cxInplaceContainer, cxTLData, cxDBTL, cxGroupBox, dxorgchr, DB, DBClient,
-  cxMaskEdit, dxdborgc, frm_barra, ZAbstractRODataset, ZAbstractDataset,
-  ZDataset, cxLabel, cxMemo, cxDBEdit, cxTextEdit, ExtCtrls, Menus, StdCtrls,
-  cxButtons;
+  Dialogs, UTFrmCatalogo, DB, DBClient, Menus, StdCtrls, Buttons,
+  NxScrollControl, NxCustomGridControl, NxCustomGrid, NxDBGrid, PngSpeedButton,
+  ExtCtrls,UTFrmDatosDepartamento, UTFrmDatosCatalogo, NxDBColumns, NxColumns,
+  frxClass, frxDBSet, AdvShapeButton, JvExControls, JvLabel, pngimage, UinteliDialog,
+  AdvEdit, JvComponentBase, JvEnterTab, JvMemoryDataset, ComCtrls, Spin,
+  AdvProgressBar;
 
 type
-  TFrmDepartamentos = class(TForm)
-    PnlNIveles: TcxGroupBox;
-    PnlOrganizacion: TcxGroupBox;
-    dxTreeOrganizacion: TcxDBTreeList;
-    dsOrganizacion: TDataSource;
-    dsDeptos: TDataSource;
-    cxColumnNombre: TcxDBTreeListColumn;
-    dxOrgChart1: TdxDbOrgChart;
-    frmBarra1: TfrmBarra;
-    zDeptos: TZQuery;
-    zOrganizacion: TZQuery;
-    pnlDatos: TPanel;
-    CxDbTextCodigo: TcxDBTextEdit;
-    CxDbTextTitulo: TcxDBTextEdit;
-    CxDbTextEtiqueta: TcxDBTextEdit;
-    CxDbTextDescripcion: TcxDBTextEdit;
-    CxMemoComentarios: TcxDBMemo;
-    cxlbl1: TcxLabel;
-    cxlbl2: TcxLabel;
-    cxlbl3: TcxLabel;
-    cxlblDescripcion: TcxLabel;
-    cxlbl4: TcxLabel;
-    cxbtnCancelar: TcxButton;
-    zINCDeptos: TZQuery;
-    cxbtnAceptar: TcxButton;
+  TFrmDepartamentos = class(TFrmCatalogo)
+    NxDBTextColumn1: TNxDBTextColumn;
+    NxDBTextColumn2: TNxDBTextColumn;
+    NxDBMemoColumn1: TNxDBMemoColumn;
+    NxDBMemoColumn2: TNxDBMemoColumn;
+    frxReporteDepartamentos: TfrxReport;
+    FrxDepartamentos: TfrxDBDataset;
+    edtFtitulo: TAdvEdit;
+    edtFCodigo: TAdvEdit;
+    procedure Filtrar;
+    procedure EditFCodigoKeyPress(Sender: TObject; var Key: Char);
+    procedure BtnSearchClick(Sender: TObject);
+    procedure BtnPrintClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure dxTreeOrganizacionSelectionChanged(Sender: TObject);
-    procedure btnDeleteClick(Sender: TObject);
-    procedure btnRefreshClick(Sender: TObject);
-    procedure btnExitClick(Sender: TObject);
-    procedure btnEditClick(Sender: TObject);
-    procedure cxbtnAceptarClick(Sender: TObject);
+    procedure BtnEditClick(Sender: TObject);
+    procedure BtnDeleteClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure btnAddClick(Sender: TObject);
-    procedure cxbtnCancelarClick(Sender: TObject);
-    procedure dxOrgChart1Click(Sender: TObject);
   private
+    function createPopUp: TFrmDatosCatalogo; Override;
+    procedure inicializar;
     { Private declarations }
-    gForm: TForm;
-    Procedure CargarDeptos;
-    Function ValidaCampos: Boolean;
   public
-    Seleccionado: Integer;
+    ModoSeleccion: Boolean;
     { Public declarations }
   end;
 
@@ -77,211 +43,133 @@ var
 
 implementation
 
+uses ClientModuleUnit1;
+
 {$R *.dfm}
 
-procedure TFrmDepartamentos.btnAddClick(Sender: TObject);
-begin
-  if Assigned(gForm) then
-  begin
-    zDeptos.Insert;
-    gForm.Caption := 'Captura de departamento.';
-    pnlDatos.visible := true;
-    gForm.ShowModal;
-  end;
-end;
+{ TFrmDepartamentos }
 
-procedure TFrmDepartamentos.btnDeleteClick(Sender: TObject);
-var
-  cursor: TCursor;
-begin
-  if zdeptos.fieldByName('IdDepartamento').asinteger = -5 then
-    raise Exception.create('Este registro se puede eliminar.');
-
-  If (MessageDlg('¿Estás seguro que deseas eliminar el depto seleccionado?', mtConfirmation, [mbYes, mbNo], 0) = MrYes) and (zDeptos.Locate('IdDepartamento', Seleccionado, [])) then
-  begin
-    zDeptos.delete;
-    btnRefreshClick(nil);
-  end;
-end;
-
-procedure TFrmDepartamentos.btnEditClick(Sender: TObject);
-begin
-  if zDeptos.active and (zDeptos.RecordCount = 0) then
-    raise Exception.create('No hay registros para editar.');
-
-  if zdeptos.fieldByName('IdDepartamento').asinteger = -5 then
-    raise Exception.create('Este registro no es editable.');
-
-  if Assigned(gForm) then
-  begin
-    zDeptos.Edit;
-    gForm.Caption := 'Edición de departamento.';
-    pnlDatos.visible := true;
-    gForm.ShowModal;
-  end;
-end;
-
-procedure TFrmDepartamentos.btnExitClick(Sender: TObject);
-begin
-  Close;
-end;
-
-procedure TFrmDepartamentos.btnRefreshClick(Sender: TObject);
-var
-  cursor: TCursor;
+procedure TFrmDepartamentos.BtnDeleteClick(Sender: TObject);
 begin
   try
-    Cursor := screen.cursor;
-    try
-      screen.Cursor := crAppStart;
-      if zDeptos.active then
-        zDeptos.refresh
-      else
-        zDeptos.Open;
-    finally
-      Screen.Cursor := Cursor;
-    end;
+    if ( cdDatos.FieldByName('codigodepartamento').AsString = 'ADMIN') or
+       ( cdDatos.FieldByName('codigodepartamento').AsString = 'ALM') or
+       ( cdDatos.FieldByName('codigodepartamento').AsString = 'COMP') then
+      Raise Exception.Create('Es un elemento preestablecido por el sistema.');
+    inherited;
   except
-    on e: Exception do
-      MessageDlg('Ha ocurrido el siguiente error: ' + e.Message, mtError, [mbOK], 0);
+    on e:exception do
+      InteliDialog.ShowModal('No se puede eliminar.',e.message, mtInformation, [mbOk], 0);
   end;
 end;
 
-procedure TFrmDepartamentos.CargarDeptos;
-var
-  Bm: TBookmark;
+procedure TFrmDepartamentos.BtnEditClick(Sender: TObject);
 begin
-  if zOrganizacion.active then
-  begin
-    dxOrgChart1.DataSource := nil;
-    Try
-      zDeptos.ParamByName('IdDepartamento').AsInteger := -1;
-      zDeptos.ParamByName('IdOrganizacion').AsInteger := zOrganizacion.fieldByName('IdOrganizacion').AsInteger;
-      if zDeptos.active then
-        zDeptos.refresh
-      else
-        zDeptos.Open;
-    Finally
-      if zDeptos.RecordCount = 0 then
-        dxOrgChart1.Clear
-      else
-        dxOrgChart1.DataSource := dsDeptos;
-    End;
-  end;
-end;
-
-procedure TFrmDepartamentos.cxbtnAceptarClick(Sender: TObject);
-begin
-  if ValidaCampos then
-  Try
-    if zDeptos.State = dsInsert then
+  try
+   // if InteliDialog.ShowModal('Eliminación de registros', 'Se procederá a borrar el registro [' + Cdvacaciones.FieldByName('Anios').asstring + ' : '+ Cdvacaciones.FieldByName('Dias').asstring +']' + #10 + #10 + '¿Desea proceder con esto ahora?', mtWarning, [mbYes, mbNo], 0) = mrYes then
     begin
-      if zINCDeptos.active then
-        zINCDeptos.refresh
-      else
-        zINCDeptos.open;
+      BorrarRegistro('nuc_departamento', [cdDatos.FieldByName('IdConcepto').AsInteger]);
 
-      zDeptos.FieldByName('idDepartamento').AsInteger := zINCDeptos.fieldByName('IdDepartamento').asInteger;
-      zDeptos.FieldByName('idOrganizacion').AsInteger := zOrganizacion.fieldByName('IdOrganizacion').asInteger;
-      zDeptos.FieldByName('idPadre').AsInteger := Seleccionado;
-      zDeptos.FieldByName('IdArbol').AsInteger := Seleccionado; //tevisar
-      zDeptos.FieldByName('Nivel').AsInteger := dxOrgChart1.Selected.Level - 1;
-      zDeptos.FieldByName('Herencia').AsString := '*';
-      zDeptos.FieldByName('Activo').AsString := 'Si';
     end;
 
-    zDeptos.post;
-    gForm.Close;
-    btnRefreshClick(nil);
-  Except
-    on e: Exception do
-      MessageDlg('Ha ocurrido el siguiente error: ' + e.Message, mtError,[mbok], 0);
-  End;
-end;
-
-procedure TFrmDepartamentos.cxbtnCancelarClick(Sender: TObject);
-begin
-  if zDeptos.state in [dsEdit, dsInsert] then
-  begin
-    zDeptos.Cancel;
+    if ( cdDatos.FieldByName('codigodepartamento').AsString = 'ADMIN') or
+       ( cdDatos.FieldByName('codigodepartamento').AsString = 'ALM') or
+       ( cdDatos.FieldByName('codigodepartamento').AsString = 'COMP') then
+      Raise Exception.Create('Es un elemento preestablecido por el sistema.');
+    inherited;
+  except
+    on e:exception do
+      InteliDialog.ShowModal('No se puede editar.',e.message, mtInformation, [mbOk], 0);
   end;
 end;
 
-procedure TFrmDepartamentos.dxOrgChart1Click(Sender: TObject);
+procedure TFrmDepartamentos.BtnPrintClick(Sender: TObject);
 begin
   Try
-    Seleccionado := (dxOrgChart1.KeyField.Value);
+    if CdDatos.State <> dsBrowse then
+      Raise Exception.Create('No hay registro seleccionado.');
+
+    if DbGridPrincipal.RowCount < 1 Then
+      Raise Exception.Create('No hay registro seleccionado.');
+
+    if DbGridPrincipal.SelectedCount > 1 Then
+      Raise Exception.Create('Hay varios registros seleccionados.');
+
+    if not ClientModule1.LeePermisos(ModuloPantalla,'IMPRIMIR') then
+      Exit;
+
+     ClientModule1.ImprimeReporte('Departamentos.fr3',FrxReporteDepartamentos);
   Except
-    Seleccionado := -5;
+    on e:exception do
+    begin
+      InteliDialog.ShowModal('No se puede imprimir.',e.message, mtInformation, [mbOk], 0);
+      exit;
+    end;
   End;
+
 end;
 
-procedure TFrmDepartamentos.dxTreeOrganizacionSelectionChanged(Sender: TObject);
+procedure TFrmDepartamentos.BtnSearchClick(Sender: TObject);
 begin
-  CargarDeptos;
+    Filtrar;
 end;
 
-procedure TFrmDepartamentos.FormClose(Sender: TObject;
-  var Action: TCloseAction);
+function TFrmDepartamentos.createPopUp: TFrmDatosCatalogo;
 begin
-  action := Cafree;
+  result := TFrmDatosDepartamento.Create(Self);
+end;
+
+procedure TFrmDepartamentos.EditFCodigoKeyPress(Sender: TObject; var Key: Char);
+begin
+  if key = #13 then
+    Filtrar;
+end;
+
+procedure TFrmDepartamentos.Filtrar;
+Var
+  Cuantos: integer;
+  Parametros: TParamFilter;
+begin
+  inherited;
+  Parametros := TParamFilter.Create;
+
+  Parametros.Add('activo', 'si');
+
+  if Trim(edtFCodigo.Text) <> '' then
+    Parametros.Add('codigodepartamento', Trim(edtFCodigo.Text) + '%');
+
+  if Trim(edtFTitulo.Text) <> '' then
+    Parametros.Add('titulodepartamento', Trim(edtFTitulo.Text) + '%');
+
+  CargarDatosFiltrados(cdDatos, Parametros.Campos, Parametros.Datos);
+  cdDatos.Refresh;
+  Parametros.Free;
 end;
 
 procedure TFrmDepartamentos.FormCreate(Sender: TObject);
 begin
-   gForm := TForm.create(Self);
-   gForm.Width := 390;
-   gForm.Height := 315;
-   gForm.caption := '****';
-   gForm.BorderStyle := bsDialog;
-   gForm.Position := poScreenCenter;
-   pnlDatos.parent := gForm;
-   pnlDatos.Align := AlClient;
-   pnlDatos.visible := False;
+  ModuloPantalla := 'DEPARTAMENTOS';
+  inherited;
 end;
 
 procedure TFrmDepartamentos.FormShow(Sender: TObject);
 begin
-  zOrganizacion.active := false;
-  zOrganizacion.ParamByName('IdOrganizacion').asInteger := -1;
-  zOrganizacion.Open;
-  CargarDeptos;
+  Try
+    inherited;
+    if ModoSeleccion = True then
+      BtnSelect.Visible := True;
+    inicializar;
+    abrir;
+  Except
+    ;
+  End;
 end;
 
-function TFrmDepartamentos.ValidaCampos: Boolean;
+procedure TFrmDepartamentos.inicializar;
 begin
-  try
-    Result := False;
-
-    if Length(trim(cxDbtextCodigo.text)) = 0 then
-    begin
-      CxDbTextCodigo.SetFocus;
-      Raise Exception.Create('Código debe tener un valor.');
-    end;
-
-    if Length(trim(CxDbTextTitulo.text)) = 0 then
-    begin
-      CxDbTextTitulo.SetFocus;
-      Raise Exception.Create('Título debe tener un valor.');
-    end;
-
-    if Length(trim(CxDbTextEtiqueta.text)) = 0 then
-    begin
-      CxDbTextEtiqueta.SetFocus;
-      Raise Exception.Create('Etiqueta debe tener un valor.');
-    end;
-
-    if Length(trim(CxDbTextDescripcion.text)) = 0 then
-    begin
-      CxDbTextDescripcion.SetFocus;
-      Raise Exception.Create('Descripción debe tener un valor.');
-    end;
-
-    Result := True;
-  Except
-    on e: Exception do
-      MessageDlg(e.message, mtWarning, [mbOK], 0);
-  end;
+  keyField := 'iddepartamento';
+  entityName := 'nuc_departamento';
+  codeField := 'codigodepartamento';
 end;
 
 end.

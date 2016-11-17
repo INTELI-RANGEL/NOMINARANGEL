@@ -1,15 +1,9 @@
 unit global;
+
 interface
+
 uses windows, SysUtils, controls, classes, Graphics;
-
-type
-    TFuncMostrarVentana = function (sForm: string):Boolean of object;
-
 const
-  IntelPass = 'danae';
-  IntelUser = 'intelacces';
-  Global_TamOrden = 10;
-  Global_SepOrden = '.';
   EsBkColor: array[1..6] of tColor = ($00FEC6BA, $00FEE7BA, $00D7FDBB, $00BAFEC9, $00BBFDF4, $00BAE1FE);
   LongNivel = 10;
   Fondo = '$00CAD5EC';
@@ -22,6 +16,7 @@ const
   AccCondicionNumero: array[1..6] of string = (' = ', ' > ', ' >= ', ' < ', ' <= ', ' <> ');
   OptCondicionFecha: array[1..6] of string = ('IGUAL', 'MAYOR', 'MAYOR QUE', 'MENOR', 'MENOR QUE', 'DIFERENTE');
   AccCondicionFecha: array[1..6] of string = (' = ', ' > ', ' >= ', ' < ', ' <= ', ' <> ');
+
   //ANALISIS DE PRECIOS...     iv@n...
   folio: array[1..5] of string = ('sIdPersonal', 'sIdEquipo', 'sIdHerramientas', 'sIdInsumo', 'sIdBasico');
   tipo: array[1..5] of string = ('PERSONAL', 'EQUIPO', 'HERRAMIENTAS', 'MATERIAL', 'BASICOS');
@@ -29,13 +24,12 @@ const
   tablas_2: array[1..5] of string = ('recursospersonalnuevos', 'recursosequiposnuevos', 'recursosherramientasnuevos', 'recursosanexosnuevos', 'recursosbasicosnuevos');
   catalogo: array[1..5] of string = ('personal', 'equipos', 'herramientas', 'insumos', 'basicos');
 var
-  AccionVisor :string;
   global_barco,
     global_ipServer,
     global_ruta,
     global_archivoini,
     global_sTipoReporte,
-    global_usuario,global_firma, global_password,
+    global_usuario, global_password,
     global_nombre, global_puesto,
     global_activo, global_depto,
     global_ip, global_contrato,
@@ -101,17 +95,12 @@ var
   idMovimientoContable: string;
   sTituloVentana: string;
   stMenu: string;
-  global_Usuariocorreo, Global_nombre_Embarcacion, NomPlat1, NomPlat2, NomPlat3, NomPlat4, NomPlat5, NomPlat6, NomPlat7: string;
-
-   global_cambioletrero : Byte ; 
+  Global_nombre_Embarcacion, NomPlat1, NomPlat2, NomPlat3, NomPlat4, NomPlat5, NomPlat6, NomPlat7: string;
 
   global_fecha_barco: tDate;
   global_fecha_reportecons: tDate;
   global_dias_por_transcurrir: Integer;
   global_dias_transcurridos: Integer;
-
-  global_familia : string;
-   global_subfamilia : integer;
 
   sSuperIntendente,
     sSuperIntendentePatio,
@@ -188,7 +177,6 @@ var
   global_EditorNew: array[0..MAX_PATH - 1] of Char;
   global_RepDirC17: string;
   global_frmActivo: string;
-  global_nomina : integer;
 
    {Heber}
   global_labelPersonal, global_labelPersonalDesc, global_labelEquipoDesc,
@@ -199,74 +187,38 @@ var
    {Soriano para seguridad por botones...}
   global_Insertar, global_Editar, global_grabar,
   global_Eliminar, global_Imprimir, global_ventana: string;
-  global_OrdenOficio, global_OrdenCambio, global_CedulaProcedencia, global_cuenta : string;
+  global_OrdenOficio, global_OrdenCambio, global_CedulaProcedencia: string;
 
    {Gamael Cambio de Password...}
   global_bdpass, global_bduser, Global_ServAcceso: string;
   Global_PortAcceso: Integer;
 
   global_directorio: string;
-  global_proveedor : string;
   global_reportes_fecha: boolean;
   global_PuJor  : String ;
 
     {Idioma Julian}
-  global_idioma     : String;
-  global_idiomaDesc : string ;
+  global_idioma : String;
 
      {Tesoreria...}
    sParamQuery,
    sParamTitle           : String ;
    sParamTipo,
    sParamEgreso          : String ;
-   dParamFecha, dParamFechaI,
+    dParamFecha, dParamFechaI,
    dParamFechaF          : tDate ;
-   dParamContrato        : string;
-   iParamOrganizacion    : integer;
 
    iParamFolio     : Integer ;
-   global_Iva            : Double ;
    sParamProveedor : String ;
    dParamMonto     : Currency ;
    sParamComprobado : String ;
    sTitleFecha           : String ;
    iIdUsuarioBusqueda : Integer ;
    sIdProveedorBusqueda : String ;
-   sParamStatusFolio : string;
-
-   sParamDomicilioProv, sParamEstadoProv,
-   sParamCPProv, sParamTelfProv : string;
 
    sTecla,  sNuevoRecibo,
    global_Poliza, Global_cheque : String ;
       sModulo               : String ;
-   guardiasn: Integer;   //Para definir las guardias
-   bandera, bandera_formulario:string;
-   ProcesarContrato: Boolean;
-   Global_Factura : string;
-
-   isOpen : boolean;
-
-   global_EdoCuBanc : Boolean;
-
-   {vta_cotizaciones}
-   global_mostrartips : Boolean;
-
-   {GHH}
-   MostrarVentana:TFuncMostrarVentana;
-   HojaActiva:string;
-const
-  global_color_entrada = $0001E1E7;
-  global_color_salida = $00E6FEFF;
-  global_color_entradaPU = clGradientActiveCaption;
-  global_color_salidaPU = $00FFFFFF;
-
-
-  global_color_pantalla = $00DEB78F;
-  global_color_text = $00E6FEFF;
-  global_color_entradaERP = clGradientActiveCaption;
-  global_color_salidaERP  = clWhite;
-  //global_color_salidaPU = $00FFFFFF;
 
 implementation
 

@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, StdCtrls, DBCtrls, frm_connection, DB, ADODB, global,
-  ZAbstractRODataset, ZDataset;
+  ZAbstractRODataset, ZDataset, ClientModuleUnit1;
 
 type
   TfrmWarningDia = class(TForm)
@@ -63,12 +63,12 @@ end;
 
 procedure TfrmWarningDia.tiWarningEnter(Sender: TObject);
 begin
-  tiwarning.Color:= global_color_entrada;
+  tiwarning.Color := Globales.Elemento('Color_Entrada').AsInteger;
 end;
 
 procedure TfrmWarningDia.tiWarningExit(Sender: TObject);
 begin
-  tiwarning.Color:= global_color_salida;
+  tiwarning.Color := Globales.Elemento('Color_Salida').AsInteger;
 end;
 
 procedure TfrmWarningDia.FormActivate(Sender: TObject);

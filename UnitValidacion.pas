@@ -5,8 +5,8 @@ interface
    Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Grids, DBGrids, frm_connection, global, ComCtrls, ToolWin,
   StdCtrls, ExtCtrls, DBCtrls, Mask, frm_barra, db, Menus, OleCtrls,
-  Buttons, frxClass, frxDBSet,  RXDBCtrl, RxMemDS, utilerias,
-  RXSpin, DateUtils, ZAbstractRODataset, ZDataset, ZAbstractDataset, Newpanel,
+  Buttons, frxClass, frxDBSet,  RXDBCtrl, RxMemDS, {utilerias, }
+  RXSpin, DateUtils, ZAbstractRODataset, ZDataset, ZAbstractDataset,
   rxCurrEdit, rxToolEdit, dblookup, UnitExcepciones, UdbGrid,
   CustomizeDlg, unittbotonespermisos, UnitValidaTexto, UnitExcel, ComObj,
   UnitTablasImpactadas, unitactivapop, UFunctionsGHH,strutils;
