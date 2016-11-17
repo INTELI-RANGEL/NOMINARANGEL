@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2016/07/27 17:17:26.453.pas,D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\Unit1.pas=D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\Frm_SetupMail.pas</Transaction>
+    <Transaction>2016/07/27 17:17:26.453.dfm,D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\Unit1.dfm=D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\Frm_SetupMail.dfm</Transaction>
+    <Transaction>2016/07/28 13:53:28.810.pas,D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\Unit1.pas=D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\Frm_ExportPDF.pas</Transaction>
+    <Transaction>2016/07/28 13:53:28.810.dfm,D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\Unit1.dfm=D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\Frm_ExportPDF.dfm</Transaction>
+    <Transaction>2016/07/30 10:16:30.041.pas,D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\Unit1.pas=D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\Frm_SendMail.pas</Transaction>
+    <Transaction>2016/07/30 10:16:30.041.dfm,D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\Unit1.dfm=D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\Frm_SendMail.dfm</Transaction>
+    <Transaction>2016/08/04 17:44:28.056.pas,D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\Unit1.pas=D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\UProxy.pas</Transaction>
+    <Transaction>2016/08/04 17:56:48.819.pas,D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\UProxy.pas=</Transaction>
+    <Transaction>2016/08/19 08:46:43.092.pas,D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\Unit1.pas=D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\Frm_EstatusOrdenCompra.pas</Transaction>
+    <Transaction>2016/08/19 08:46:43.092.dfm,D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\Unit1.dfm=D:\Codes\GitHub\Delphi 2007\ERP-IECESSA\Frm_EstatusOrdenCompra.dfm</Transaction>
+    <Transaction>2016/11/11 00:20:53.000.047,=C:\Users\Eduardo\Documents\ERPTAPIA-master Original\2007-DebenuPDFLibrary\DebenuPDFLibrary.pas</Transaction>
+    <Transaction>2016/11/11 11:32:07.000.728,=C:\Users\Eduardo\Documents\ERPTAPIA-master Original\inteligent.ridl</Transaction>
+    <Transaction>2016/11/12 15:59:50.000.002,=C:\Users\Eduardo\Documents\ERPTAPIA-master Original\Unit1.pas</Transaction>
+    <Transaction>2016/11/12 16:08:53.000.587,C:\Users\Eduardo\Documents\ERPTAPIA-master Original\UDosCapas.pas=C:\Users\Eduardo\Documents\ERPTAPIA-master Original\Unit1.pas</Transaction>
+    <Transaction>2016/11/13 09:15:35.000.568,=C:\Users\Eduardo\Documents\ERPTAPIA-master Original\frm_WizardContrato.pas</Transaction>
+    <Transaction>2016/11/16 10:10:15.000.447,=C:\Users\Eduardo\Documents\ERPTAPIA-master Original\frm_SubFamProductos.pas</Transaction>
+  </Transactions>
+</BorlandProject>
