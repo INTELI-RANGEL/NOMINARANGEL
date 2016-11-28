@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<ProjectSortOrder AutoSort="0" SortType="0">
-    <File Path="..\..\Documents"/>
-    <File Path="..\Componentes XE"/>
-    <File Path="..\Componentes XE\11. AcroPDFLib"/>
-    <File Path="..\Componentes XE\11. AcroPDFLib\11. AcroPDFLib"/>
-    <File Path="..\Componentes XE\11. AcroPDFLib\11. AcroPDFLib\AcroPDFLib_TLB.pas"/>
+    <File Path="..\..\..\Documents"/>
+    <File Path="..\..\Componentes XE"/>
+    <File Path="..\..\Componentes XE\11. AcroPDFLib"/>
+    <File Path="..\..\Componentes XE\11. AcroPDFLib\11. AcroPDFLib"/>
+    <File Path="..\..\Componentes XE\11. AcroPDFLib\11. AcroPDFLib\AcroPDFLib_TLB.pas"/>
     <File Path="Collections"/>
     <File Path="Collections\Collections.Bags.pas"/>
     <File Path="Collections\Collections.Base.pas"/>
@@ -833,6 +833,8 @@
     <File Path="UTFrmReportesExcel.dfm"/>
     <File Path="UTFrmConcentradoNominas.pas"/>
     <File Path="UTFrmConcentradoNominas.dfm"/>
+    <File Path="UTFrmModificacionSalarioEmpleado.pas"/>
+    <File Path="UTFrmModificacionSalarioEmpleado.dfm"/>
   </ProjectSortOrder>
 	<Transactions>
     <Transaction>2015/04/25 12:56:07.000.420,=C:\Users\Ulyses Rico\Documents\svn\ManejoErroreswc\UControlExcepciones.pas</Transaction>
@@ -844,8 +846,8 @@
     <Transaction>2015/05/11 13:43:50.000.748,=C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\Unit5.pas</Transaction>
     <Transaction>2015/05/11 13:45:06.000.795,=C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\Subsistema RHH\UTFrmAnalisisPostulantes.pas</Transaction>
     <Transaction>2015/05/11 18:53:49.000.358,=C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\Unit5.pas</Transaction>
-    <Transaction>2015/05/11 18:54:15.000.759,C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\Subsistema RHH\UTFrmPresentaAnalisis.pas=C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\Unit5.pas</Transaction>
     <Transaction>2015/05/11 18:54:15.000.759,C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\Subsistema RHH\UTFrmPresentaAnalisis.dfm=C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\Unit5.dfm</Transaction>
+    <Transaction>2015/05/11 18:54:15.000.759,C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\Subsistema RHH\UTFrmPresentaAnalisis.pas=C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\Unit5.pas</Transaction>
     <Transaction>2015/05/14 18:30:53.000.991,=C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\Unit5.pas</Transaction>
     <Transaction>2015/05/14 18:31:30.000.971,C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\Unit5.pas=C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\Subsistema RHH\UTFrmContratacionPersonalDX.pas</Transaction>
     <Transaction>2015/05/14 18:31:30.000.971,C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\Unit5.dfm=C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\Subsistema RHH\UTFrmContratacionPersonalDX.dfm</Transaction>
@@ -854,8 +856,8 @@
     <Transaction>2015/07/28 16:57:28.000.326,C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\UTFrmReportesExcel.dfm=C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\Unit5.dfm</Transaction>
     <Transaction>2015/07/28 16:57:28.000.326,C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\UTFrmReportesExcel.pas=C:\Users\Ulyses Rico\Documents\svn\NominaUtidel\Unit5.pas</Transaction>
     <Transaction>2015/09/21 14:11:55.000.330,=C:\Users\intop24\Documents\SVN\Nomina Utidelwc\Unit5.pas</Transaction>
-    <Transaction>2015/09/21 14:12:47.000.663,C:\Users\intop24\Documents\SVN\Nomina Utidelwc\Subsistema RHH\UTFrmConsultaVacaciones.dfm=C:\Users\intop24\Documents\SVN\Nomina Utidelwc\Unit5.dfm</Transaction>
     <Transaction>2015/09/21 14:12:47.000.663,C:\Users\intop24\Documents\SVN\Nomina Utidelwc\Subsistema RHH\UTFrmConsultaVacaciones.pas=C:\Users\intop24\Documents\SVN\Nomina Utidelwc\Unit5.pas</Transaction>
+    <Transaction>2015/09/21 14:12:47.000.663,C:\Users\intop24\Documents\SVN\Nomina Utidelwc\Subsistema RHH\UTFrmConsultaVacaciones.dfm=C:\Users\intop24\Documents\SVN\Nomina Utidelwc\Unit5.dfm</Transaction>
     <Transaction>2016/04/25 13:28:36.000.476,=E:\SVN\Nominas corte Utidel\Comunes Intelicode\ExBar.pas</Transaction>
     <Transaction>2016/04/25 13:29:33.000.514,=E:\SVN\Nominas corte Utidel\Comunes Intelicode\ExBarClasses.pas</Transaction>
     <Transaction>2016/04/25 13:30:08.000.851,=E:\SVN\Nominas corte Utidel\Comunes Intelicode\URegistro.pas</Transaction>
@@ -864,7 +866,11 @@
     <Transaction>2016/05/25 13:49:04.000.599,=C:\Users\Eduardo\Documents\Nominas_UTIDEL-master\Comunes Intelicode\InterClases.pas</Transaction>
     <Transaction>2016/05/25 14:00:28.000.593,=C:\Users\Eduardo\Documents\Nominas_UTIDEL-master\Comunes Intelicode\UControlExcepciones.pas</Transaction>
     <Transaction>2016/10/22 11:30:51.000.040,=C:\Users\Eduardo\Documents\Nominas_UTIDEL-master\Unit5.pas</Transaction>
-    <Transaction>2016/10/22 11:35:05.000.565,C:\Users\Eduardo\Documents\Nominas_UTIDEL-master\Unit5.pas=C:\Users\Eduardo\Documents\Nominas_UTIDEL-master\UTFrmConcentradoNominas.pas</Transaction>
     <Transaction>2016/10/22 11:35:05.000.565,C:\Users\Eduardo\Documents\Nominas_UTIDEL-master\Unit5.dfm=C:\Users\Eduardo\Documents\Nominas_UTIDEL-master\UTFrmConcentradoNominas.dfm</Transaction>
+    <Transaction>2016/10/22 11:35:05.000.565,C:\Users\Eduardo\Documents\Nominas_UTIDEL-master\Unit5.pas=C:\Users\Eduardo\Documents\Nominas_UTIDEL-master\UTFrmConcentradoNominas.pas</Transaction>
+    <Transaction>2016/11/20 11:26:38.000.829,=C:\Users\Eduardo\Documents\Componentes XE\11. AcroPDFLib\11. AcroPDFLib\AcroPDFLib_TLB.pas</Transaction>
+    <Transaction>2016/11/22 11:03:16.000.129,=C:\Users\Eduardo\Documents\GitHub\NOMINARANGEL\Unit5.pas</Transaction>
+    <Transaction>2016/11/22 11:04:57.000.693,C:\Users\Eduardo\Documents\GitHub\NOMINARANGEL\Unit5.dfm=C:\Users\Eduardo\Documents\GitHub\NOMINARANGEL\UTFrmModificacionSalarioEmpleado.dfm</Transaction>
+    <Transaction>2016/11/22 11:04:57.000.693,C:\Users\Eduardo\Documents\GitHub\NOMINARANGEL\Unit5.pas=C:\Users\Eduardo\Documents\GitHub\NOMINARANGEL\UTFrmModificacionSalarioEmpleado.pas</Transaction>
   </Transactions>
 </BorlandProject>

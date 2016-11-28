@@ -155,7 +155,7 @@ end;
 
 procedure TFrmModificacionSalario.FormShow(Sender: TObject);
 var
-  oldcursor:Tcursor;
+  oldCursor: TCursor;
 begin
   try
     try

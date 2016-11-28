@@ -2,7 +2,7 @@ object FrmSeleccionaSalario: TFrmSeleccionaSalario
   Left = 0
   Top = 0
   Caption = 'Seleccionar Salario'
-  ClientHeight = 202
+  ClientHeight = 277
   ClientWidth = 570
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -12,33 +12,21 @@ object FrmSeleccionaSalario: TFrmSeleccionaSalario
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object NextDBGrid1: TNextDBGrid
-    Left = 0
-    Top = 0
-    Width = 570
-    Height = 161
-    Align = alClient
-    HeaderStyle = hsOffice2010
-    TabOrder = 0
-    TabStop = True
-    DataSource = dsSalarios
-    ExplicitHeight = 137
-  end
   object Panel1: TPanel
     Left = 0
-    Top = 161
+    Top = 236
     Width = 570
     Height = 41
     Align = alBottom
     Padding.Top = 4
     Padding.Right = 6
     Padding.Bottom = 4
-    TabOrder = 1
-    ExplicitLeft = -32
-    ExplicitWidth = 602
+    TabOrder = 0
+    ExplicitTop = 161
     object Btn_Aceptar: TAdvGlowButton
       AlignWithMargins = True
       Left = 354
@@ -70,9 +58,6 @@ object FrmSeleccionaSalario: TFrmSeleccionaSalario
       Appearance.ColorMirrorCheckedTo = 16768988
       Appearance.ColorMirrorDisabled = 11974326
       Appearance.ColorMirrorDisabledTo = 15921906
-      ExplicitLeft = 362
-      ExplicitTop = 5
-      ExplicitHeight = 31
     end
     object Btn_Cancelar: TAdvGlowButton
       AlignWithMargins = True
@@ -105,9 +90,41 @@ object FrmSeleccionaSalario: TFrmSeleccionaSalario
       Appearance.ColorMirrorCheckedTo = 16768988
       Appearance.ColorMirrorDisabled = 11974326
       Appearance.ColorMirrorDisabledTo = 15921906
-      ExplicitLeft = 495
-      ExplicitTop = 5
-      ExplicitHeight = 31
+    end
+  end
+  object cxGrid1: TcxGrid
+    Left = 0
+    Top = 0
+    Width = 570
+    Height = 236
+    Align = alClient
+    TabOrder = 1
+    ExplicitLeft = 168
+    ExplicitTop = 24
+    ExplicitWidth = 250
+    ExplicitHeight = 200
+    object tvSalarios: TcxGridDBTableView
+      Navigator.Buttons.CustomButtons = <>
+      DataController.DataSource = dsSalarios
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      OptionsView.GroupByBox = False
+      object CodigoSalario: TcxGridDBColumn
+        Caption = 'C'#243'digo'
+        DataBinding.FieldName = 'CodigoSalario'
+      end
+      object Salario: TcxGridDBColumn
+        DataBinding.FieldName = 'Salario'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+      end
+      object TituloSalario: TcxGridDBColumn
+        Caption = 'T'#237'tulo'
+        DataBinding.FieldName = 'TituloSalario'
+      end
+    end
+    object cxGrid1Level1: TcxGridLevel
+      GridView = tvSalarios
     end
   end
   object dsSalarios: TDataSource

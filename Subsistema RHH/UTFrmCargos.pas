@@ -331,6 +331,9 @@ begin
       if Not CrearConjunto(cdTipoNomina, 'nom_tiponomina', ccCatalog) then
         raise InteligentException.CreateByCode(5, ['Tipos de Nómina']);
 
+      if Not CargarDatosFiltrados(cdTipoNomina, 'SoloSal', ['Si']) then
+        raise InteligentException.CreateByCode(16, ['Tipos de Nómina']);
+
       cdTipoNomina.Open;
 
       if cdTipoNomina.RecordCount = 0 then

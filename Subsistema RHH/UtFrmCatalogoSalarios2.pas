@@ -27,7 +27,7 @@ uses
   dxSkinMetropolis, dxSkinMetropolisDark, dxSkinOffice2013DarkGray,
   dxSkinOffice2013LightGray, dxBarBuiltInMenu, dxRibbonSkins,
   dxSkinsdxRibbonPainter, dxRibbonCustomizationForm, cxGridExportLink, ShellAPI,
-  cxCurrencyEdit, DateUtils, rhh_genericclasses, frxClass, frxDBSet;
+  cxCurrencyEdit, DateUtils, rhh_genericclasses, frxClass, frxDBSet, URegistro;
 
 type
   TOrganizacion = Class
@@ -119,10 +119,7 @@ type
     frxReporteSalarios: TfrxReport;
     frxSalarios: TfrxDBDataset;
     frxOrganizacion: TfrxDBDataset;
-    cxColSalarioIntegrado: TcxGridDBColumn;
-    cxColVacaciones: TcxGridDBColumn;
-    cxColPV: TcxGridDBColumn;
-    cxColAguinaldo: TcxGridDBColumn;
+    btnModificar: TdxBarLargeButton;
     procedure btnAgregarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure tabPage1Change(Sender: TObject);
@@ -144,6 +141,7 @@ type
     procedure DxBarBtnAgrupadorClick(Sender: TObject);
     procedure cbbTipoNominaPropertiesEditValueChanged(Sender: TObject);
     procedure dxExportarClick(Sender: TObject);
+    procedure btnModificarClick(Sender: TObject);
   private
     gForm: TForm;
     i: Integer;
@@ -166,7 +164,7 @@ var
 
 implementation
 
-uses UInteliDialog, Unit2;
+uses UInteliDialog, Unit2, UTFrmModificacionSalario;
 
 {$R *.dfm}
 
@@ -190,8 +188,8 @@ begin
       if (IdOrganizacion <> -1) and (cbbTipoNomina.ItemIndex = -1) then
         raise InteligentException.CreateByCode(18, ['Tipo Nómina']);
 
-      if (IdOrganizacion <> -1) and (cxcbbGrupoSalario.ItemIndex = -1) then
-        raise InteligentException.CreateByCode(18, ['Grupo Salario']);
+      {if (IdOrganizacion <> -1) and (cxcbbGrupoSalario.ItemIndex = -1) then
+        raise InteligentException.CreateByCode(18, ['Grupo Salario']);}
 
       if (cbbMoneda.ItemIndex = -1) then
         raise InteligentException.CreateByCode(18, ['Tipo de Moneda']);
@@ -449,6 +447,13 @@ begin
   end;
 end;
 
+procedure TFrmCatalogoSalarios2.btnModificarClick(Sender: TObject);
+begin
+  Application.CreateForm(TFrmModificacionSalario, FrmModificacionSalario);
+  FrmModificacionSalario.dsSalario.DataSet := cdSalarios;
+  FrmModificacionSalario.ShowModal;
+end;
+
 procedure TFrmCatalogoSalarios2.cbbTipoNominaPropertiesEditValueChanged(
   Sender: TObject);
 begin
@@ -522,6 +527,8 @@ begin
         cdSalarios.Refresh
       else
         cdSalarios.Open;
+      if cdSalarios.RecordCount > 0 then
+        CxGridSalarios.ViewData.Records[0].Expand(true);
     finally
       Screen.Cursor := cursor;
     end;
@@ -767,7 +774,16 @@ end;
 
 procedure TFrmCatalogoSalarios2.FormClose(Sender: TObject;
   var Action: TCloseAction);
+var
+  i: Integer;
 begin
+  try
+    for i := 0 to cxGridSalarios.ColumnCount -1 do
+      SetRegistry('\Ventanas\', Self.Name + '\cxGridSalarios', cxGridSalarios.Columns[i].Name, IntToStr(cxGridSalarios.Columns[i].Width));
+  except
+    ;
+  end;
+
   Action := cafree;
 end;
 
@@ -802,63 +818,85 @@ end;
 procedure TFrmCatalogoSalarios2.FormShow(Sender: TObject);
 var
   org: TOrganizacion;
+  LocCursor: TCursor;
+  i: Integer;
 begin
   i := 1;
   try
-    //*****************************************************************************************
-    //CARGAR TIPOS DE NOMINA
-    if not CargarDatosFiltrados(cdTiposNomina, 'idTipoNomina', [-1]) then
-      raise InteligentException.CreateByCode(6, ['Tipos de Nómina','IDTipoNomina', '-1']);
+    LocCursor := Screen.Cursor;
+    try
+      Screen.Cursor := crHourGlass;
 
-    if cdTiposNomina.Active then
-      cdTiposNomina.Refresh
-    else
-      cdTiposNomina.Open;
+      for i := 0 to cxGridSalarios.ColumnCount -1 do
+        try
+          cxGridSalarios.Columns[i].Width := StrToInt(VarRegistry('\Ventanas\', Self.Name + '\cxGridSalarios', cxGridSalarios.Columns[i].Name));
+        except
+          ;
+        end;
 
-    //CARGAR ORGANIZACIONES
-    if not CargarDatosFiltrados(cdOrganizacion, 'Padre', [-5]) then
-      raise InteligentException.CreateByCode(6, ['Organización', 'IdPadre', '-5']);
+      //*****************************************************************************************
+      //CARGAR TIPOS DE NOMINA
+      if not CargarDatosFiltrados(cdTiposNomina, 'SoloSal', ['Si']) then
+        raise InteligentException.CreateByCode(16, ['Tipos de Nómina']);
 
-    if cdOrganizacion.Active then
-      cdOrganizacion.Refresh
-    else
-      cdOrganizacion.Open;
+      if cdTiposNomina.Active then
+        cdTiposNomina.Refresh
+      else
+        cdTiposNomina.Open;
 
-    //CARGAS MONEDAS
-    if not CargarDatosFiltrados(cdMoneda, 'IdMoneda', [-1]) then
-      raise InteligentException.CreateByCode(6, ['Moneda', 'IdMoneda', '-1']);
+      //CARGAR ORGANIZACIONES
+      if not CargarDatosFiltrados(cdOrganizacion, 'Padre', [-5]) then
+        raise InteligentException.CreateByCode(6, ['Organización', 'IdPadre', '-5']);
 
-    if cdMoneda.Active then
-      cdMoneda.Refresh
-    else
-      cdMoneda.Open;
+      if cdOrganizacion.Active then
+        cdOrganizacion.Refresh
+      else
+        cdOrganizacion.Open;
 
-    //CARGAR GRUPOS DE SALARIOS
-    if not CargarDatosFiltrados(cdGrupoSalario, 'IdGrupoSalario', [-1]) then
-      raise InteligentException.CreateByCode(6, ['Grupo Salario', 'IdGrupoSalario', '-1']);
+      //CARGAS MONEDAS
+      if not CargarDatosFiltrados(cdMoneda, 'IdMoneda', [-1]) then
+        raise InteligentException.CreateByCode(6, ['Moneda', 'IdMoneda', '-1']);
 
-    if cdGrupoSalario.Active then
-      cdGrupoSalario.Refresh
-    else
-      cdGrupoSalario.Open;
+      if cdMoneda.Active then
+        cdMoneda.Refresh
+      else
+        cdMoneda.Open;
 
-    cdOrganizacion.First;
-    tabPage2.Tabs.AddObject('< GENERALES >', TObject(-1));
-    while not cdOrganizacion.eof do
-    begin
-      tabPage2.Tabs.AddObject(cdOrganizacion.FieldByName('NombreOrganizacion').AsString, TObject(cdOrganizacion.FieldByName('idOrganizacion').AsInteger));
-      cdOrganizacion.Next;
+      //CARGAR GRUPOS DE SALARIOS
+      if not CargarDatosFiltrados(cdGrupoSalario, 'IdGrupoSalario', [-1]) then
+        raise InteligentException.CreateByCode(6, ['Grupo Salario', 'IdGrupoSalario', '-1']);
+
+      if cdGrupoSalario.Active then
+        cdGrupoSalario.Refresh
+      else
+        cdGrupoSalario.Open;
+
+      cdOrganizacion.First;
+      tabPage2.Tabs.AddObject('< GENERALES >', TObject(-1));
+      while not cdOrganizacion.eof do
+      begin
+        tabPage2.Tabs.AddObject(cdOrganizacion.FieldByName('NombreOrganizacion').AsString, TObject(cdOrganizacion.FieldByName('idOrganizacion').AsInteger));
+        cdOrganizacion.Next;
+      end;
+
+      cdGrupoSalario.First;
+
+      tabPage1Change(nil);
+    finally
+      Screen.Cursor := LocCursor;
     end;
-
-    cdGrupoSalario.First;
-
-    tabPage1Change(nil);
   except
     on e: InteligentException do
+    begin
       InteliDialog.ShowModal(e.Title, e.Message, e.MsgType, [mbOK], 0);
+      PostMessage(Self.Handle, WM_CLOSE, 0, 0);
+    end;
 
     on e: Exception do
-      InteliDialog.ShowModal('Error', 'Ha ocurrido un error inesperado, avisar al administrador del sistema del siguiente error: ' + e.Message, mtError, [mbOK], 0);
+    begin
+      InteliDialog.ShowModal(IDTituloError, IDLabelError + e.Message, mtError, [mbOK], 0);
+      PostMessage(Self.Handle, WM_CLOSE, 0, 0);
+    end;
   end;
 end;
 
@@ -886,6 +924,9 @@ begin
         cdSalarios.Refresh
       else
         cdSalarios.Open;
+
+      if cdSalarios.RecordCount > 0 then
+        CxGridSalarios.ViewData.Records[0].Expand(true);;
     finally
       EstadoBtn;
       Screen.Cursor := Cursor;

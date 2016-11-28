@@ -105,7 +105,6 @@ type
     IdDepartamento: TComboBox;
     JvLabel6: TJvLabel;
     cdDepartamento: TClientDataSet;
-    procedure FormCreate(Sender: TObject);
     procedure tsPeriodosChange(Sender: TObject; NewTab: Integer;
       var AllowChange: Boolean);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -794,7 +793,7 @@ begin
   Action := caFree;
 end;
 
-procedure TFrmRangoSalarios.FormCreate(Sender: TObject);
+procedure TFrmRangoSalarios.FormShow(Sender: TObject);
 var
   Cursor: TCursor;
   i: Integer;
@@ -897,6 +896,26 @@ begin
         cbTiposNomina.ItemIndex := 0;
         cbTiposNomina.OnChange(Sender);
       end;
+
+
+
+
+
+
+
+
+
+      if CargarDatosFiltrados(cdRango, 'IdOrganizacion,IdTipoNomina', [cdOrganizacion.FieldByName('IdOrganizacion').AsInteger, cdTipoNomina.FieldByName('IdTipoNomina').AsInteger]) then
+      begin
+        if cdRango.Active then
+          cdRango.Refresh
+        else
+          cdRango.Open;
+
+        LeerDatos;
+      end
+      else
+        cdRango.Close;
     Finally
       Screen.Cursor := Cursor;
     End;
@@ -912,36 +931,6 @@ begin
       InteliDialog.ShowModal('Ha ocurrido un error inesperado', 'Informe de lo siguiente al administrador del sistema:' + #10 + #10 + e.Message, mtError, [mbOk], 0);
       PostMessage(Self.handle, WM_CLOSE, 0, 0);
     end;
-  End;
-end;
-
-procedure TFrmRangoSalarios.FormShow(Sender: TObject);
-var
-  Cursor: TCursor;
-begin
-  Cursor := Screen.Cursor;
-
-  if Assigned(cdTipoNomina) and (cdTipoNomina.ProviderName <> '') and (cdTipoNomina.Active) and (cdTipoNomina.RecordCount > 0) then
-  Try
-    Screen.Cursor := crSQLWait;
-
-    if (cdTipoNomina.Active) and (cdTipoNomina.RecordCount > 0) then
-    begin
-      if CargarDatosFiltrados(cdRango, 'IdOrganizacion,IdTipoNomina', [cdOrganizacion.FieldByName('IdOrganizacion').AsInteger, cdTipoNomina.FieldByName('IdTipoNomina').AsInteger]) then
-      //if CargarDatosFiltrados(cdRango, 'IdOrganizacion', [cdOrganizacion.FieldByName('IdOrganizacion').AsInteger]) then
-      begin
-        if cdRango.Active then
-          cdRango.Refresh
-        else
-          cdRango.Open;
-
-        LeerDatos;
-      end
-      else
-        cdRango.Close;
-    end;
-  Finally
-    Screen.Cursor := Cursor;
   End;
 end;
 

@@ -783,6 +783,8 @@ begin
     end;
   finally
     EliminarConjunto(CdtmpPGuardia);
+    if Assigned(cdtmpBuscaGuardia) then
+      EliminarCOnjunto(cdtmpBuscaGuardia);
     CdtmpPGuardia.Destroy;
     parametros.Destroy;
   end;
@@ -869,6 +871,8 @@ begin
         InteliDialog.ShowModal('Aviso', 'Se obtuvo un salario diario de [$ ' + FloatToStr(Salario) + '] para el neto de $ ' + (edtNeto.Text), mtInformation, [mbOK],0);
         EdtSalarioDiario.Text := FloatToStr(Salario);
     finally
+      EliminarConjunto(cdTmpOrganizacion);
+
       screen.Cursor := Cur;
       memoryDeducciones.destroy;
       MemoryPercepciones.Destroy;
@@ -1594,7 +1598,7 @@ begin
       if not CrearConjunto(cdFactor,'nomina_factorintegracion',ccSelect) then
         raise InteligentException.CreateByCode(5,['Factor de integracion']);
 
-       if not CargarDatosFiltrados(cdFactor, 'IdOrganizacion,IdTipoNomina,Anios', [TOrganizacion(cmbOrganizacion.Properties.Items.Objects[cmbOrganizacion.ItemIndex]).Identificador, dsTipoNomina.DataSet.fieldByName('idTipoNomina').asinteger, 1]) then
+       if not CargarDatosFiltrados(cdFactor, 'IdOrganizacion,IdTipoNomina,IdDepartamento,Anios', [TOrganizacion(cmbOrganizacion.Properties.Items.Objects[cmbOrganizacion.ItemIndex]).Identificador, dsTipoNomina.DataSet.fieldByName('idTipoNomina').asinteger, dsImss.DataSet.FieldByName('IdDepartamento').AsInteger, 1]) then
           raise InteligentException.CreateByCode(6, [IntToStr(TOrganizacion(cmbOrganizacion.Properties.Items.Objects[cmbOrganizacion.ItemIndex]).Identificador) + '/' + dsTipoNomina.DataSet.fieldByName('idTipoNomina').asString + '/1', 'IdOrganizacion/IdTipoNomina/Anios']);
 
       if cdFactor.Active then
@@ -1845,6 +1849,8 @@ begin
   finally
     EliminarConjunto(cdFactor);
     EliminarConjunto(cdSalarioMinDF);
+    if Assigned(cdTExcepcionesH) then
+      EliminarConjunto(cdTExcepcionesH);
     cdfactor.Destroy;
     cdSalarioMinDF.Destroy;
     Screen.Cursor := cursor;
@@ -2379,20 +2385,102 @@ begin
 
   if cdBajaImss.State in [dsInsert,dsEdit] then
     cdBajaImss.Cancel;
+  EliminarConjunto(cdBajaImss);
 
   if cdGrupoSalario.Active then
     cdGrupoSalario.Close;
+  EliminarConjunto(cdGrupoSalario);
+
   if Assigned(mPercepciones) then
     mPercepciones.Free;
 
   if assigned(mDeducciones) then
     mDeducciones.Free;
 
-  If (cdEmpleadoRH <> nil) and (cdEmpleadoRH.State in [dsInsert, dsEdit]) then
-    cdEmpleadoRH.Cancel;
+  If cdEmpleadoRH <> nil then
+  begin
+    if cdEmpleadoRH.State in [dsInsert, dsEdit] then
+      cdEmpleadoRH.Cancel;
 
-  if (cdGuardiasMovto <> nil) and (cdGuardiasMovto.State in [dsInsert, dsEdit]) then
-    cdGuardiasMovto.Cancel;
+    EliminarConjunto(cdEmpleadoRH);
+  end;
+
+  if cdGuardiasMovto <> nil then
+  begin
+    if cdGuardiasMovto.State in [dsInsert, dsEdit] then
+      cdGuardiasMovto.Cancel;
+    EliminarConjunto(cdGuardiasMovto);
+  end;
+
+  if Assigned(cdtDiasFestivos) then
+  begin
+    if cdtDiasFestivos.State in [dsInsert, dsEdit] then
+      cdtDiasFestivos.Cancel;
+    EliminarConjunto(cdtDiasFestivos);
+  end;
+
+  if Assigned(cdPersonalNomina) then
+  begin
+    if cdPersonalNomina.State in [dsInsert, dsEdit] then
+      cdPersonalNomina.Cancel;
+    EliminarConjunto(cdPersonalNomina);
+  end;
+
+  if Assigned(cdtPeriodosG) then
+  begin
+    if cdtPeriodosG.State in [dsInsert, dsEdit] then
+      cdtPeriodosG.Cancel;
+    EliminarConjunto(cdtPeriodosG);
+  end;
+
+  if Assigned(cdtGrupoSalario) then
+  begin
+    if cdtGrupoSalario.State in [dsInsert, dsEdit] then
+      cdtGrupoSalario.Cancel;
+    EliminarConjunto(cdtGrupoSalario);
+  end;
+
+  if Assigned(cdtSalario) then
+  begin
+    if cdtSalario.State in [dsInsert, dsEdit] then
+      cdtSalario.Cancel;
+    EliminarConjunto(cdtSalario);
+  end;
+
+  if Assigned(cdPGuardias) then
+  begin
+    if cdPGuardias.State in [dsInsert, dsEdit] then
+      cdPGuardias.Cancel;
+    EliminarConjunto(cdPGuardias);
+  end;
+
+  if Assigned(cdHorarios) then
+  begin
+    if cdHorarios.State in [dsInsert, dsEdit] then
+      cdHorarios.Cancel;
+    EliminarConjunto(cdHorarios);
+  end;
+
+  if Assigned(cdSalMinDF) then
+  begin
+    if cdSalMinDF.State in [dsInsert, dsEdit] then
+      cdSalMinDF.Cancel;
+    EliminarConjunto(cdSalMinDF);
+  end;
+
+  if Assigned(cdGrupoSalario) then
+  begin
+    if cdGrupoSalario.State in [dsInsert, dsEdit] then
+      cdGrupoSalario.Cancel;
+    EliminarConjunto(cdGrupoSalario);
+  end;
+
+  if Assigned(cdtDiasFestivos) then
+  begin
+    if cdtDiasFestivos.State in [dsInsert, dsEdit] then
+      cdtDiasFestivos.Cancel;
+    EliminarConjunto(cdtDiasFestivos);
+  end;
 
   FlagSalario := -1;
 end;
@@ -2457,10 +2545,16 @@ begin
 
   except
     on e:InteligentException do
+    begin
       InteliDialog.ShowModal(e.Title, e.Message, e.MsgType, [mbOk], 0);
+      PostMessage(Self.Handle, WM_CLOSE, 0, 0);
+    end;
 
     on e:Exception do
+    begin
       InteliDialog.ShowModal('Ha ocurrido un error inesperado', 'Informe de lo siguiente al administrador del sistema:' + #10 + #10 + e.Message, mtError, [mbOk], 0);
+      PostMessage(Self.Handle, WM_CLOSE, 0, 0);
+    end;
   end;
 end;
 
@@ -2562,10 +2656,16 @@ begin
     End;
   Except
     on e:InteligentException do
+    begin
       InteliDialog.ShowModal(e.Title, e.Message, e.MsgType, [mbOk], 0);
+      PostMessage(Self.Handle, WM_CLOSE, 0, 0);
+    end;
 
     on e:Exception do
+    begin
       InteliDialog.ShowModal('Ha ocurrido un error inesperado', 'Informe de lo siguiente al administrador del sistema:' + #10 + #10 + e.Message, mtError, [mbOk], 0);
+      PostMessage(Self.Handle, WM_CLOSE, 0, 0);
+    end;
   End;
 end;
 

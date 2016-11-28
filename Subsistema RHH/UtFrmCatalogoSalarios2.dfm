@@ -40,7 +40,6 @@ object FrmCatalogoSalarios2: TFrmCatalogoSalarios2
       OptionsData.Editing = False
       OptionsData.Inserting = False
       OptionsView.ColumnAutoWidth = True
-      OptionsView.GroupByBox = False
       Styles.Background = cxstyl1
       Styles.Content = cxstylFontContent
       Styles.Header = cxstylFont
@@ -58,40 +57,22 @@ object FrmCatalogoSalarios2: TFrmCatalogoSalarios2
         DataBinding.FieldName = 'Salario'
         Width = 101
       end
-      object cxColSalarioIntegrado: TcxGridDBColumn
-        Caption = 'S.Integrado'
-        DataBinding.FieldName = 'Salariointegrado'
-        Width = 91
-      end
-      object cxColVacaciones: TcxGridDBColumn
-        DataBinding.FieldName = 'Vacaciones'
-        Width = 93
-      end
-      object cxColPV: TcxGridDBColumn
-        Caption = 'Prima Vacacional'
-        DataBinding.FieldName = 'PrimaVacacional'
-        Width = 134
-      end
-      object cxColAguinaldo: TcxGridDBColumn
-        DataBinding.FieldName = 'Aguinaldo'
-        Width = 77
-      end
       object grdColumDbGridGrid1DBTableView1Column3: TcxGridDBColumn
         Caption = 'Moneda'
         DataBinding.FieldName = 'TituloMoneda'
         Width = 71
-      end
-      object grdColumDbGridGrid1DBTableView1Column4: TcxGridDBColumn
-        Caption = 'Fecha Aplicaci'#243'n'
-        DataBinding.FieldName = 'FechaAplicacion'
-        Visible = False
-        GroupIndex = 1
       end
       object CxGridSalariosColumn1: TcxGridDBColumn
         Caption = 'Tipo N'#243'mina'
         DataBinding.FieldName = 'Titulo'
         Visible = False
         GroupIndex = 0
+      end
+      object grdColumDbGridGrid1DBTableView1Column4: TcxGridDBColumn
+        Caption = 'Fecha Aplicaci'#243'n'
+        DataBinding.FieldName = 'FechaAplicacion'
+        SortIndex = 0
+        SortOrder = soDescending
       end
     end
     object CxGridNivelGrid1Level1: TcxGridLevel
@@ -726,6 +707,10 @@ object FrmCatalogoSalarios2: TFrmCatalogoSalarios2
         item
           Visible = True
           ItemName = 'btnEditar'
+        end
+        item
+          Visible = True
+          ItemName = 'btnModificar'
         end
         item
           Visible = True
@@ -1454,7 +1439,7 @@ object FrmCatalogoSalarios2: TFrmCatalogoSalarios2
       Caption = '&Salir'
       Category = 0
       Hint = 'Salir'
-      Visible = ivAlways
+      Visible = ivInCustomizing
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
         2000000000000004000000000000000000000000000000000000000000030000
@@ -1974,7 +1959,7 @@ object FrmCatalogoSalarios2: TFrmCatalogoSalarios2
       Caption = '&Ver Agrupador'
       Category = 0
       Hint = 'Ver Agrupador'
-      Visible = ivAlways
+      Visible = ivInCustomizing
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
         2000000000000004000000000000000000000000000000000000000000000000
@@ -2281,12 +2266,22 @@ object FrmCatalogoSalarios2: TFrmCatalogoSalarios2
         0001000000000000000000000000000000000000000000000000}
       OnClick = dxExportarClick
     end
+    object btnModificar: TdxBarLargeButton
+      Caption = '&Modificaci'#243'n'
+      Category = 0
+      Hint = 'Modificaci'#243'n'
+      Visible = ivAlways
+      LargeImageIndex = 81
+      OnClick = btnModificarClick
+      SyncImageIndex = False
+      ImageIndex = -1
+    end
   end
   object cdTiposNomina: TClientDataSet
     Aggregates = <>
     Params = <>
-    Left = 704
-    Top = 232
+    Left = 688
+    Top = 240
   end
   object cdSalarios: TClientDataSet
     Aggregates = <>

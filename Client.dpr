@@ -435,10 +435,11 @@ uses
   ExBar in 'Comunes Intelicode\ExBar.pas',
   ExBarClasses in 'Comunes Intelicode\ExBarClasses.pas',
   URegistro in 'Comunes Intelicode\URegistro.pas',
-  AcroPDFLib_TLB in '..\Componentes XE\11. AcroPDFLib\11. AcroPDFLib\AcroPDFLib_TLB.pas',
   InterClases in 'Comunes Intelicode\InterClases.pas',
   UControlExcepciones in 'Comunes Intelicode\UControlExcepciones.pas',
-  UTFrmConcentradoNominas in 'UTFrmConcentradoNominas.pas' {FrmConcentradoNominas};
+  UTFrmConcentradoNominas in 'UTFrmConcentradoNominas.pas' {FrmConcentradoNominas},
+  AcroPDFLib_TLB in '..\..\Componentes XE\11. AcroPDFLib\11. AcroPDFLib\AcroPDFLib_TLB.pas',
+  UTFrmModificacionSalarioEmpleado in 'UTFrmModificacionSalarioEmpleado.pas' {FrmModificacionSalarioEmpleado};
 
 (*  UTFrmEditUsuario in 'UTFrmEditUsuario.pas' {FrmEditUsuario},
   frm_CatalogoUsuarios in 'frm_CatalogoUsuarios.pas' {frmCatalogoUsuarios},

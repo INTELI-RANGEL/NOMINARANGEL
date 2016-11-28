@@ -1,0 +1,484 @@
+object FrmModificacionSalarioEmpleado: TFrmModificacionSalarioEmpleado
+  Left = 0
+  Top = 0
+  Caption = 'An'#225'lisis de Modificaciones de Personal'
+  ClientHeight = 417
+  ClientWidth = 718
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 718
+    Height = 65
+    Align = alTop
+    TabOrder = 0
+    ExplicitLeft = 8
+    ExplicitTop = 160
+    object JvLabel1: TJvLabel
+      Left = 8
+      Top = 8
+      Width = 68
+      Height = 13
+      Caption = 'Organizaci'#243'n:'
+      Transparent = True
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'Tahoma'
+      HotTrackFont.Style = []
+    end
+    object JvLabel2: TJvLabel
+      Left = 8
+      Top = 35
+      Width = 64
+      Height = 13
+      Caption = 'Tipo N'#243'mina:'
+      Transparent = True
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'Tahoma'
+      HotTrackFont.Style = []
+    end
+    object cbIdOrganizacion: TComboBox
+      Left = 82
+      Top = 8
+      Width = 319
+      Height = 21
+      Style = csDropDownList
+      TabOrder = 0
+    end
+    object cbIdTipoNomina: TComboBox
+      Left = 82
+      Top = 35
+      Width = 319
+      Height = 21
+      Style = csDropDownList
+      TabOrder = 1
+    end
+    object btnAnalizar: TAdvGlowButton
+      Left = 416
+      Top = 8
+      Width = 100
+      Height = 48
+      Caption = '   &Analizar'
+      ImageIndex = 0
+      Images = ClientModule1.ImagelistMenu
+      NotesFont.Charset = DEFAULT_CHARSET
+      NotesFont.Color = clWindowText
+      NotesFont.Height = -11
+      NotesFont.Name = 'Tahoma'
+      NotesFont.Style = []
+      TabOrder = 2
+      OnClick = btnAnalizarClick
+      Appearance.ColorChecked = 16111818
+      Appearance.ColorCheckedTo = 16367008
+      Appearance.ColorDisabled = 15921906
+      Appearance.ColorDisabledTo = 15921906
+      Appearance.ColorDown = 16111818
+      Appearance.ColorDownTo = 16367008
+      Appearance.ColorHot = 16117985
+      Appearance.ColorHotTo = 16372402
+      Appearance.ColorMirrorHot = 16107693
+      Appearance.ColorMirrorHotTo = 16775412
+      Appearance.ColorMirrorDown = 16102556
+      Appearance.ColorMirrorDownTo = 16768988
+      Appearance.ColorMirrorChecked = 16102556
+      Appearance.ColorMirrorCheckedTo = 16768988
+      Appearance.ColorMirrorDisabled = 11974326
+      Appearance.ColorMirrorDisabledTo = 15921906
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 377
+    Width = 718
+    Height = 40
+    Align = alBottom
+    Padding.Left = 6
+    Padding.Top = 6
+    Padding.Right = 6
+    Padding.Bottom = 5
+    TabOrder = 1
+    ExplicitTop = 383
+    object btnTodos: TAdvGlowButton
+      Left = 7
+      Top = 7
+      Width = 94
+      Height = 27
+      Align = alLeft
+      Caption = 'Sel. &Todos'
+      ImageIndex = 67
+      Images = ClientModule1.ImagelistMenu
+      NotesFont.Charset = DEFAULT_CHARSET
+      NotesFont.Color = clWindowText
+      NotesFont.Height = -11
+      NotesFont.Name = 'Tahoma'
+      NotesFont.Style = []
+      TabOrder = 0
+      OnClick = btnTodosClick
+      Appearance.ColorChecked = 16111818
+      Appearance.ColorCheckedTo = 16367008
+      Appearance.ColorDisabled = 15921906
+      Appearance.ColorDisabledTo = 15921906
+      Appearance.ColorDown = 16111818
+      Appearance.ColorDownTo = 16367008
+      Appearance.ColorHot = 16117985
+      Appearance.ColorHotTo = 16372402
+      Appearance.ColorMirrorHot = 16107693
+      Appearance.ColorMirrorHotTo = 16775412
+      Appearance.ColorMirrorDown = 16102556
+      Appearance.ColorMirrorDownTo = 16768988
+      Appearance.ColorMirrorChecked = 16102556
+      Appearance.ColorMirrorCheckedTo = 16768988
+      Appearance.ColorMirrorDisabled = 11974326
+      Appearance.ColorMirrorDisabledTo = 15921906
+    end
+    object btnNinguno: TAdvGlowButton
+      Left = 101
+      Top = 7
+      Width = 94
+      Height = 27
+      Align = alLeft
+      Caption = 'Sel. &Ninguno'
+      ImageIndex = 31
+      Images = ClientModule1.ImagelistMenu
+      NotesFont.Charset = DEFAULT_CHARSET
+      NotesFont.Color = clWindowText
+      NotesFont.Height = -11
+      NotesFont.Name = 'Tahoma'
+      NotesFont.Style = []
+      TabOrder = 1
+      OnClick = btnNingunoClick
+      Appearance.ColorChecked = 16111818
+      Appearance.ColorCheckedTo = 16367008
+      Appearance.ColorDisabled = 15921906
+      Appearance.ColorDisabledTo = 15921906
+      Appearance.ColorDown = 16111818
+      Appearance.ColorDownTo = 16367008
+      Appearance.ColorHot = 16117985
+      Appearance.ColorHotTo = 16372402
+      Appearance.ColorMirrorHot = 16107693
+      Appearance.ColorMirrorHotTo = 16775412
+      Appearance.ColorMirrorDown = 16102556
+      Appearance.ColorMirrorDownTo = 16768988
+      Appearance.ColorMirrorChecked = 16102556
+      Appearance.ColorMirrorCheckedTo = 16768988
+      Appearance.ColorMirrorDisabled = 11974326
+      Appearance.ColorMirrorDisabledTo = 15921906
+    end
+    object btnSeleccionar: TAdvGlowButton
+      Left = 289
+      Top = 7
+      Width = 94
+      Height = 27
+      Align = alLeft
+      Caption = '&Seleccionar'
+      ImageIndex = 1
+      Images = ClientModule1.PngImageList1
+      NotesFont.Charset = DEFAULT_CHARSET
+      NotesFont.Color = clWindowText
+      NotesFont.Height = -11
+      NotesFont.Name = 'Tahoma'
+      NotesFont.Style = []
+      TabOrder = 3
+      OnClick = btnSeleccionarClick
+      Appearance.ColorChecked = 16111818
+      Appearance.ColorCheckedTo = 16367008
+      Appearance.ColorDisabled = 15921906
+      Appearance.ColorDisabledTo = 15921906
+      Appearance.ColorDown = 16111818
+      Appearance.ColorDownTo = 16367008
+      Appearance.ColorHot = 16117985
+      Appearance.ColorHotTo = 16372402
+      Appearance.ColorMirrorHot = 16107693
+      Appearance.ColorMirrorHotTo = 16775412
+      Appearance.ColorMirrorDown = 16102556
+      Appearance.ColorMirrorDownTo = 16768988
+      Appearance.ColorMirrorChecked = 16102556
+      Appearance.ColorMirrorCheckedTo = 16768988
+      Appearance.ColorMirrorDisabled = 11974326
+      Appearance.ColorMirrorDisabledTo = 15921906
+    end
+    object btnContinuar: TAdvGlowButton
+      Left = 512
+      Top = 7
+      Width = 94
+      Height = 27
+      Align = alRight
+      Caption = '  &Continuar'
+      ImageIndex = 7
+      Images = ClientModule1.PngImageList1
+      NotesFont.Charset = DEFAULT_CHARSET
+      NotesFont.Color = clWindowText
+      NotesFont.Height = -11
+      NotesFont.Name = 'Tahoma'
+      NotesFont.Style = []
+      TabOrder = 4
+      OnClick = btnContinuarClick
+      Appearance.ColorChecked = 16111818
+      Appearance.ColorCheckedTo = 16367008
+      Appearance.ColorDisabled = 15921906
+      Appearance.ColorDisabledTo = 15921906
+      Appearance.ColorDown = 16111818
+      Appearance.ColorDownTo = 16367008
+      Appearance.ColorHot = 16117985
+      Appearance.ColorHotTo = 16372402
+      Appearance.ColorMirrorHot = 16107693
+      Appearance.ColorMirrorHotTo = 16775412
+      Appearance.ColorMirrorDown = 16102556
+      Appearance.ColorMirrorDownTo = 16768988
+      Appearance.ColorMirrorChecked = 16102556
+      Appearance.ColorMirrorCheckedTo = 16768988
+      Appearance.ColorMirrorDisabled = 11974326
+      Appearance.ColorMirrorDisabledTo = 15921906
+      ExplicitLeft = 500
+    end
+    object btnCancelar: TAdvGlowButton
+      Left = 617
+      Top = 7
+      Width = 94
+      Height = 27
+      Align = alRight
+      Caption = '  &Cancelar'
+      ImageIndex = 8
+      Images = ClientModule1.PngImageList1
+      NotesFont.Charset = DEFAULT_CHARSET
+      NotesFont.Color = clWindowText
+      NotesFont.Height = -11
+      NotesFont.Name = 'Tahoma'
+      NotesFont.Style = []
+      TabOrder = 5
+      OnClick = btnCancelarClick
+      Appearance.ColorChecked = 16111818
+      Appearance.ColorCheckedTo = 16367008
+      Appearance.ColorDisabled = 15921906
+      Appearance.ColorDisabledTo = 15921906
+      Appearance.ColorDown = 16111818
+      Appearance.ColorDownTo = 16367008
+      Appearance.ColorHot = 16117985
+      Appearance.ColorHotTo = 16372402
+      Appearance.ColorMirrorHot = 16107693
+      Appearance.ColorMirrorHotTo = 16775412
+      Appearance.ColorMirrorDown = 16102556
+      Appearance.ColorMirrorDownTo = 16768988
+      Appearance.ColorMirrorChecked = 16102556
+      Appearance.ColorMirrorCheckedTo = 16768988
+      Appearance.ColorMirrorDisabled = 11974326
+      Appearance.ColorMirrorDisabledTo = 15921906
+      ExplicitLeft = 611
+    end
+    object Panel3: TPanel
+      Left = 606
+      Top = 7
+      Width = 11
+      Height = 27
+      Align = alRight
+      BevelOuter = bvNone
+      TabOrder = 6
+      ExplicitLeft = 600
+    end
+    object btnInvertir: TAdvGlowButton
+      Left = 195
+      Top = 7
+      Width = 94
+      Height = 27
+      Align = alLeft
+      Caption = '&Invertir Sel.'
+      ImageIndex = 56
+      Images = ClientModule1.ImagelistMenu
+      NotesFont.Charset = DEFAULT_CHARSET
+      NotesFont.Color = clWindowText
+      NotesFont.Height = -11
+      NotesFont.Name = 'Tahoma'
+      NotesFont.Style = []
+      TabOrder = 2
+      OnClick = btnInvertirClick
+      Appearance.ColorChecked = 16111818
+      Appearance.ColorCheckedTo = 16367008
+      Appearance.ColorDisabled = 15921906
+      Appearance.ColorDisabledTo = 15921906
+      Appearance.ColorDown = 16111818
+      Appearance.ColorDownTo = 16367008
+      Appearance.ColorHot = 16117985
+      Appearance.ColorHotTo = 16372402
+      Appearance.ColorMirrorHot = 16107693
+      Appearance.ColorMirrorHotTo = 16775412
+      Appearance.ColorMirrorDown = 16102556
+      Appearance.ColorMirrorDownTo = 16768988
+      Appearance.ColorMirrorChecked = 16102556
+      Appearance.ColorMirrorCheckedTo = 16768988
+      Appearance.ColorMirrorDisabled = 11974326
+      Appearance.ColorMirrorDisabledTo = 15921906
+    end
+    object btnRegresar: TAdvGlowButton
+      Left = 418
+      Top = 7
+      Width = 94
+      Height = 27
+      Align = alRight
+      Caption = '  &Regresar'
+      ImageIndex = 6
+      Images = ClientModule1.PngImageList1
+      NotesFont.Charset = DEFAULT_CHARSET
+      NotesFont.Color = clWindowText
+      NotesFont.Height = -11
+      NotesFont.Name = 'Tahoma'
+      NotesFont.Style = []
+      TabOrder = 7
+      OnClick = btnContinuarClick
+      Appearance.ColorChecked = 16111818
+      Appearance.ColorCheckedTo = 16367008
+      Appearance.ColorDisabled = 15921906
+      Appearance.ColorDisabledTo = 15921906
+      Appearance.ColorDown = 16111818
+      Appearance.ColorDownTo = 16367008
+      Appearance.ColorHot = 16117985
+      Appearance.ColorHotTo = 16372402
+      Appearance.ColorMirrorHot = 16107693
+      Appearance.ColorMirrorHotTo = 16775412
+      Appearance.ColorMirrorDown = 16102556
+      Appearance.ColorMirrorDownTo = 16768988
+      Appearance.ColorMirrorChecked = 16102556
+      Appearance.ColorMirrorCheckedTo = 16768988
+      Appearance.ColorMirrorDisabled = 11974326
+      Appearance.ColorMirrorDisabledTo = 15921906
+      ExplicitLeft = 500
+    end
+  end
+  object GridAnalisis: TcxGrid
+    Left = 0
+    Top = 65
+    Width = 718
+    Height = 312
+    Align = alClient
+    TabOrder = 2
+    ExplicitHeight = 328
+    object tvAnalisis: TcxGridDBTableView
+      OnDblClick = tvAnalisisDblClick
+      Navigator.Buttons.CustomButtons = <>
+      OnCustomDrawCell = tvAnalisisCustomDrawCell
+      DataController.DataSource = dsAnalisis
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      OptionsSelection.CellSelect = False
+      OptionsView.GroupByBox = False
+      object ColIdPersonal: TcxGridDBColumn
+        DataBinding.FieldName = 'IdPersonal'
+        Visible = False
+      end
+      object ColTituloDepartamento: TcxGridDBColumn
+        Caption = 'Departamento'
+        DataBinding.FieldName = 'TituloDepartamento'
+        Visible = False
+        GroupIndex = 0
+      end
+      object ColNombreCompleto: TcxGridDBColumn
+        DataBinding.FieldName = 'NombreCompleto'
+      end
+      object ColTituloCargo: TcxGridDBColumn
+        DataBinding.FieldName = 'TituloCargo'
+        Visible = False
+        GroupIndex = 1
+      end
+      object ColFechaMovimiento: TcxGridDBColumn
+        Caption = 'Contrataci'#243'n'
+        DataBinding.FieldName = 'FechaMovimiento'
+      end
+      object ColUltimoMovimiento: TcxGridDBColumn
+        Caption = #218'ltimo Movto'
+        DataBinding.FieldName = 'UltimoMovimiento'
+      end
+      object ColFechaUltimoMovimiento: TcxGridDBColumn
+        Caption = 'Fec Ult Movto'
+        DataBinding.FieldName = 'FechaUltimoMovimiento'
+      end
+      object ColSalarioDiario: TcxGridDBColumn
+        Caption = 'Salario Diario'
+        DataBinding.FieldName = 'SalarioDiario'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+      end
+      object ColSalarioIntegrado: TcxGridDBColumn
+        Caption = 'Salario Integrado'
+        DataBinding.FieldName = 'SalarioIntegrado'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+      end
+      object ColFactorIntegracion: TcxGridDBColumn
+        Caption = 'Factor Integ'
+        DataBinding.FieldName = 'FactorIntegracion'
+        PropertiesClassName = 'TcxCalcEditProperties'
+        Properties.DisplayFormat = ',#.000000'
+      end
+      object ColSalario: TcxGridDBColumn
+        Caption = 'Salario Mod'
+        DataBinding.FieldName = 'Salario'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+      end
+      object ColSalarioIntegradoMod: TcxGridDBColumn
+        Caption = 'Sal Integ Mod'
+        DataBinding.FieldName = 'SalarioIntegradoMod'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+      end
+    end
+    object GridAnalisisLevel1: TcxGridLevel
+      GridView = tvAnalisis
+    end
+  end
+  object cdAnalisis: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    AfterScroll = cdAnalisisAfterScroll
+    Left = 208
+    Top = 176
+  end
+  object cdTipoNomina: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 272
+    Top = 216
+  end
+  object dsAnalisis: TDataSource
+    DataSet = cdAnalisis
+    Left = 360
+    Top = 160
+  end
+  object memSeleccionados: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 456
+    Top = 208
+    object memSeleccionadosIdPersonal: TIntegerField
+      FieldName = 'IdPersonal'
+    end
+    object memSeleccionadosAplicacion: TDateField
+      FieldName = 'Aplicacion'
+    end
+    object memSeleccionadosSalario: TFloatField
+      FieldName = 'Salario'
+    end
+    object memSeleccionadosIntegrado: TFloatField
+      FieldName = 'Integrado'
+    end
+    object memSeleccionadosNombreCompleto: TStringField
+      FieldName = 'NombreCompleto'
+    end
+    object memSeleccionadosDepartamento: TStringField
+      FieldName = 'Departamento'
+    end
+    object memSeleccionadosCargo: TStringField
+      FieldName = 'Cargo'
+    end
+  end
+end

@@ -520,6 +520,7 @@ Type
     Panela: TPanel;
     Image1: TImage;
     Panelx: TPanel;
+    btnAnalisisModificaciones: TdxBarLargeButton;
     procedure ScreenActiveControlChange(Sender: TObject) ;
     procedure EnterColor(Sender: TWinControl);
     procedure ExitColor(Sender: TWinControl);
@@ -723,6 +724,7 @@ Type
     procedure dxBarLargeButton4Click(Sender: TObject);
     procedure dxBarLargeButton5Click(Sender: TObject);
     procedure btnConcentradoClick(Sender: TObject);
+    procedure btnAnalisisModificacionesClick(Sender: TObject);
   private
     Seleccionado:Boolean;
     PosDownClick: TPoint;
@@ -862,7 +864,7 @@ Uses
   UtfrmGastos, UTFrmRegistroGastos, UTFrmPlazaRhuDX, UTFrmCapturaRetardos,
   UTFrmFirmantesSolicitantes, UtfrmFormatoEmbarcados, UTFrmFirmantesExcel, UTFrmDoctosxCargo,
   UTFrmContratacionPersonalDX,UtfrmDimm, UTFrmConcentradoNominas,
-  UFrmParamsConfig, frm_Login;
+  UFrmParamsConfig, frm_Login, UTFrmModificacionSalarioEmpleado;
 
 Const
   EspaciadoAvisoCierre = 32;
@@ -2042,8 +2044,6 @@ begin
 
     Application.CreateForm(TFrmPlazaRhuDetalle, FrmPlazaRhuDetalle);
     FrmPlazaRhuDetalle.idPlaza := 0;
-    //FrmPlazaRhuDetalle.IdOrganizacion := ClientModule1.cdOrganizacion.FieldByName('IdOrganizacion').AsInteger;
-    //Gabo control del diagrama organizacional
     FrmPlazaRhuDetalle.IdOrganizacion:= IdOrganizacionSeleccionada;
     FrmPlazaRhuDetalle.ShowModal;
   except
@@ -2052,6 +2052,11 @@ begin
       InteliDialog.ShowModal('Aviso: ', e.Message, mtError, [mbOk], 0);
     end;
   end;
+end;
+
+procedure TForm2.btnAnalisisModificacionesClick(Sender: TObject);
+begin
+  IniciarForm(TFrmModificacionSalarioEmpleado, FrmModificacionSalarioEmpleado, False);
 end;
 
 procedure TForm2.btnConcentradoClick(Sender: TObject);

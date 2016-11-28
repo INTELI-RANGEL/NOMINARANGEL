@@ -2,7 +2,6 @@ inherited FrmCiudad: TFrmCiudad
   Caption = 'Ciudad'
   ClientWidth = 1025
   ExplicitWidth = 1041
-  ExplicitHeight = 486
   PixelsPerInch = 96
   TextHeight = 13
   inherited PanelFiltro: TcxGroupBox
@@ -481,7 +480,7 @@ inherited FrmCiudad: TFrmCiudad
     PrintOptions.Printer = 'Por defecto'
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 40938.823710208300000000
-    ReportOptions.LastChange = 42116.835634803200000000
+    ReportOptions.LastChange = 42699.845212037040000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'begin'
@@ -492,18 +491,16 @@ inherited FrmCiudad: TFrmCiudad
     Top = 200
     Datasets = <
       item
+        DataSet = frxCiudades
+        DataSetName = 'ReporteCiudades'
+      end
+      item
         DataSet = Form2.FrxImagen
         DataSetName = 'ReporteImagen'
       end
       item
         DataSet = frxOrganizacion
         DataSetName = 'ReporteOrganizacion'
-      end
-      item
-        DataSetName = 'ReporteTipoNomina'
-      end
-      item
-        DataSetName = 'ReporteVacaciones'
       end>
     Variables = <>
     Style = <>
@@ -520,18 +517,12 @@ inherited FrmCiudad: TFrmCiudad
       TopMargin = 10.000000000000000000
       BottomMargin = 10.000000000000000000
       object PageFooter1: TfrxPageFooter
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = 8404992
-        Font.Height = -13
-        Font.Name = 'Arial'
-        Font.Style = []
-        Height = 37.795300000000000000
-        ParentFont = False
-        Top = 453.543600000000000000
+        Height = 26.456710000000000000
+        Top = 502.677490000000000000
         Width = 740.409927000000000000
         object Memo12: TfrxMemoView
           Left = 514.016080000000000000
-          Top = 7.559059999999931000
+          Top = 5.000000000000057000
           Width = 204.094620000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -546,85 +537,59 @@ inherited FrmCiudad: TFrmCiudad
           ParentFont = False
         end
       end
-      object Header1: TfrxHeader
-        Height = 37.795287800000000000
-        Top = 245.669450000000000000
+      object MasterData1: TfrxMasterData
+        Height = 18.897650000000000000
+        Top = 336.378170000000000000
         Width = 740.409927000000000000
-        ReprintOnNewPage = True
-        object Memo6: TfrxMemoView
-          Left = 230.551330000000000000
-          Top = 18.897650000000030000
-          Width = 158.740260000000000000
-          Height = 18.897637800000000000
+        DataSet = frxCiudades
+        DataSetName = 'ReporteCiudades'
+        RowCount = 0
+        object Memo2: TfrxMemoView
+          Left = 22.677165350000000000
+          Width = 117.165354330000000000
+          Height = 18.897650000000000000
           ShowHint = False
-          Color = clSkyBlue
+          DataSetName = 'ReporteSubgrupos'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -12
+          Font.Height = -11
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
           Frame.Width = 0.100000000000000000
           HAlign = haCenter
           Memo.UTF8W = (
-            'A'#241'os:')
+            '[ReporteCiudades."codigociudad"]')
           ParentFont = False
           VAlign = vaCenter
         end
         object Memo3: TfrxMemoView
-          Left = 389.291370310000000000
-          Top = 18.897650000000030000
-          Width = 147.401606540000000000
-          Height = 18.897637800000000000
+          Left = 139.842519690000000000
+          Width = 200.314960630000000000
+          Height = 18.897650000000000000
           ShowHint = False
-          Color = clSkyBlue
+          StretchMode = smMaxHeight
+          DataSetName = 'ReporteSubgrupos'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -12
+          Font.Height = -11
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftTop, ftBottom]
           Frame.Width = 0.100000000000000000
           HAlign = haCenter
           Memo.UTF8W = (
-            'D'#237'as:')
+            '[ReporteCiudades."titulociudad"]')
           ParentFont = False
           VAlign = vaCenter
         end
-        object ReporteTipoNominaTitulo: TfrxMemoView
-          Left = 230.551330000000000000
-          Width = 306.141930000000000000
+        object Memo5: TfrxMemoView
+          Left = 340.157480310000000000
+          Width = 377.952755910000000000
           Height = 18.897650000000000000
           ShowHint = False
-          Color = clSkyBlue
-          DataSetName = 'ReporteTipoNomina'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -9
-          Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
-          Frame.Width = 0.100000000000000000
-          HAlign = haCenter
-          Memo.UTF8W = (
-            'Tipo de N'#243'mina: [ReporteTipoNomina."Titulo"]')
-          ParentFont = False
-          VAlign = vaCenter
-        end
-      end
-      object MasterData1: TfrxMasterData
-        Height = 18.897650000000000000
-        Top = 328.819110000000000000
-        Width = 740.409927000000000000
-        DataSetName = 'ReporteVacaciones'
-        RowCount = 0
-        object ReporteVacacionesAnios: TfrxMemoView
-          Left = 230.551330000000000000
-          Width = 158.740260000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          DataField = 'Anios'
-          DataSetName = 'ReporteVacaciones'
+          StretchMode = smMaxHeight
+          DataSetName = 'ReporteSubgrupos'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -11
@@ -632,45 +597,48 @@ inherited FrmCiudad: TFrmCiudad
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
           Frame.Width = 0.100000000000000000
-          HAlign = haCenter
           Memo.UTF8W = (
-            '[ReporteVacaciones."Anios"]')
+            '[ReporteCiudades."descripcion"]')
           ParentFont = False
-        end
-        object ReporteVacacionesDias: TfrxMemoView
-          Left = 389.291590000000000000
-          Width = 147.401670000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          DataField = 'Dias'
-          DataSetName = 'ReporteVacaciones'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -11
-          Font.Name = 'Arial'
-          Font.Style = []
-          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
-          Frame.Width = 0.100000000000000000
-          HAlign = haCenter
-          Memo.UTF8W = (
-            '[ReporteVacaciones."Dias"]')
-          ParentFont = False
+          VAlign = vaCenter
         end
       end
       object GroupHeader1: TfrxGroupHeader
-        Top = 306.141930000000000000
+        Height = 18.897650000000000000
+        Top = 294.803340000000000000
         Width = 740.409927000000000000
-        Condition = 'ReporteVacaciones."IdTiponomina"'
+        Condition = 'ReporteCiudades."tituloestado"'
+        Stretched = True
+        object Memo8: TfrxMemoView
+          Left = 22.677180000000000000
+          Width = 695.433520000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          StretchMode = smActualHeight
+          Color = 14211288
+          DataSetName = 'ReporteSubgrupos'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Frame.Width = 0.100000000000000000
+          Memo.UTF8W = (
+            '  Estado: [ReporteCiudades."tituloestado"] ')
+          ParentFont = False
+          VAlign = vaCenter
+        end
       end
       object PageHeader1: TfrxPageHeader
-        Height = 166.299320000000000000
+        Height = 154.960730000000000000
         Top = 18.897650000000000000
         Width = 740.409927000000000000
         object Memo1: TfrxMemoView
-          Left = 158.740260000000000000
-          Top = 60.472480000000000000
+          Left = 147.401670000000000000
+          Top = 64.252010000000000000
           Width = 570.709030000000000000
-          Height = 22.677180000000000000
+          Height = 26.456710000000000000
           ShowHint = False
           StretchMode = smActualHeight
           Font.Charset = DEFAULT_CHARSET
@@ -680,16 +648,16 @@ inherited FrmCiudad: TFrmCiudad
           Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
-            'Cat'#225'logo de D'#237'as de Vacaciones.')
+            'Cat'#225'logo de Ciudades')
           ParentFont = False
-          VAlign = vaCenter
         end
         object Memo14: TfrxMemoView
-          Left = 154.960730000000000000
-          Top = 139.181200000000000000
+          Left = 147.401670000000000000
+          Top = 124.063080000000000000
           Width = 570.709030000000000000
           Height = 22.677180000000000000
           ShowHint = False
+          DisplayFormat.Kind = fkDateTime
           Font.Charset = DEFAULT_CHARSET
           Font.Color = 8404992
           Font.Height = -9
@@ -697,14 +665,15 @@ inherited FrmCiudad: TFrmCiudad
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            'Fecha: [FormatDateTime('#39'mmmm dd, yyyy'#39',Date)]')
+            'Fecha: [FormatDateTime('#39'mmmm dd, yyyy '#39',Date)]')
           ParentFont = False
-          VAlign = vaCenter
+          VAlign = vaBottom
         end
         object Picture1: TfrxPictureView
           Left = 22.677180000000000000
-          Width = 128.504020000000000000
-          Height = 124.724490000000000000
+          Top = 3.779529999999990000
+          Width = 124.724490000000000000
+          Height = 117.165430000000000000
           ShowHint = False
           DataField = 'imagen1'
           DataSet = Form2.FrxImagen
@@ -715,54 +684,164 @@ inherited FrmCiudad: TFrmCiudad
           TransparentColor = clWhite
         end
         object ReporteOrganizacionReporteOrganizacion: TfrxMemoView
-          Left = 158.740260000000000000
+          Left = 147.401670000000000000
+          Top = 3.779530000000001000
           Width = 570.709030000000000000
-          Height = 60.472480000000000000
+          Height = 41.574830000000000000
           ShowHint = False
           DataSet = frxOrganizacion
           DataSetName = 'ReporteOrganizacion'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = 8404992
           Font.Height = -16
-          Font.Name = 'times New Roman'
+          Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           HAlign = haCenter
           Memo.UTF8W = (
             '[ReporteOrganizacion."TituloOrganizacion"]')
           ParentFont = False
-          VAlign = vaCenter
         end
         object ReporteOrganizacionReporteOrganizacion1: TfrxMemoView
           Left = 22.677180000000000000
-          Top = 128.504020000000000000
-          Width = 128.504020000000000000
-          Height = 34.015770000000010000
+          Top = 120.944960000000000000
+          Width = 124.724490000000000000
+          Height = 30.236240000000000000
           ShowHint = False
           DataSet = frxOrganizacion
           DataSetName = 'ReporteOrganizacion'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = 8404992
           Font.Height = -8
-          Font.Name = 'times New Roman'
+          Font.Name = 'Times New Roman'
           Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
             '[ReporteOrganizacion."NombreOrganizacion"]')
           ParentFont = False
+        end
+      end
+      object GroupHeader2: TfrxGroupHeader
+        Height = 37.795287800000000000
+        Top = 234.330860000000000000
+        Width = 740.409927000000000000
+        Condition = 'ReporteCiudades."titulopais"'
+        ReprintOnNewPage = True
+        StartNewPage = True
+        object Memo6: TfrxMemoView
+          Left = 22.677180000000000000
+          Top = 15.118120000000010000
+          Width = 117.165430000000000000
+          Height = 22.677167800000000000
+          ShowHint = False
+          Color = clSkyBlue
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Frame.Width = 0.100000000000000000
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'C'#243'digo')
+          ParentFont = False
           VAlign = vaCenter
+        end
+        object Memo7: TfrxMemoView
+          Left = 139.842610000000000000
+          Top = 15.118120000000010000
+          Width = 200.315090000000000000
+          Height = 22.677167800000000000
+          ShowHint = False
+          Color = clSkyBlue
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Frame.Width = 0.100000000000000000
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Ciudad')
+          ParentFont = False
+          VAlign = vaCenter
+        end
+        object Memo9: TfrxMemoView
+          Left = 340.157700000000000000
+          Top = 15.118120000000010000
+          Width = 377.953000000000000000
+          Height = 22.677167800000000000
+          ShowHint = False
+          Color = clSkyBlue
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Frame.Width = 0.100000000000000000
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Descripci'#243'n')
+          ParentFont = False
+          VAlign = vaCenter
+        end
+        object ReporteCiudadescodigopais: TfrxMemoView
+          Left = 22.677180000000000000
+          Width = 695.433520000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Color = clSkyBlue
+          DataSet = frxCiudades
+          DataSetName = 'ReporteCiudades'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Frame.Width = 0.100000000000000000
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '   Pa'#237's:  [ReporteCiudades."titulopais"]')
+          ParentFont = False
+          VAlign = vaBottom
         end
       end
       object GroupFooter1: TfrxGroupFooter
-        Height = 22.677180000000000000
-        Top = 370.393940000000000000
+        Height = 64.252010000000000000
+        Top = 377.953000000000000000
         Width = 740.409927000000000000
-        object Shape1: TfrxShapeView
-          Left = 230.551330000000000000
-          Width = 306.141930000000000000
-          Height = 3.779530000000000000
+        object Memo4: TfrxMemoView
+          Left = 510.236550000000000000
+          Width = 117.165430000000000000
+          Height = 18.897650000000000000
           ShowHint = False
-          Color = clSkyBlue
-          Frame.Width = 0.100000000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            'TortL DEregistros:')
+          ParentFont = False
+        end
+        object Memo10: TfrxMemoView
+          Left = 627.401980000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[Page#] de [TotalPages#]')
+          ParentFont = False
         end
       end
     end

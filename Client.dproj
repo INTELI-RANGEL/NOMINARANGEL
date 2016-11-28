@@ -1244,11 +1244,14 @@
 			<DCCReference Include="Comunes Intelicode\ExBar.pas"/>
 			<DCCReference Include="Comunes Intelicode\ExBarClasses.pas"/>
 			<DCCReference Include="Comunes Intelicode\URegistro.pas"/>
-			<DCCReference Include="..\Componentes XE\11. AcroPDFLib\11. AcroPDFLib\AcroPDFLib_TLB.pas"/>
 			<DCCReference Include="Comunes Intelicode\InterClases.pas"/>
 			<DCCReference Include="Comunes Intelicode\UControlExcepciones.pas"/>
 			<DCCReference Include="UTFrmConcentradoNominas.pas">
 				<Form>FrmConcentradoNominas</Form>
+			</DCCReference>
+			<DCCReference Include="..\..\Componentes XE\11. AcroPDFLib\11. AcroPDFLib\AcroPDFLib_TLB.pas"/>
+			<DCCReference Include="UTFrmModificacionSalarioEmpleado.pas">
+				<Form>FrmModificacionSalarioEmpleado</Form>
 			</DCCReference>
 			<BuildConfiguration Include="Debug">
 				<Key>Cfg_2</Key>

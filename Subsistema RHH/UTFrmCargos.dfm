@@ -7,7 +7,9 @@ inherited FrmCargos: TFrmCargos
   TextHeight = 13
   inherited PanelFiltro: TcxGroupBox
     Top = 94
+    ExplicitTop = 94
     ExplicitWidth = 145
+    ExplicitHeight = 316
     Height = 316
     Width = 145
     inherited LbFiltros: TJvLabel
@@ -19,6 +21,7 @@ inherited FrmCargos: TFrmCargos
     end
     inherited GroupBoxFiltro: TcxGroupBox
       ExplicitWidth = 139
+      ExplicitHeight = 261
       Height = 261
       Width = 139
       object JvLabel1: TJvLabel [0]
@@ -51,6 +54,7 @@ inherited FrmCargos: TFrmCargos
         Top = 226
         Width = 127
         OnClick = BtnSearchClick
+        ExplicitTop = 226
         ExplicitWidth = 127
       end
       object cbbTipoNomina: TComboBox
@@ -79,11 +83,14 @@ inherited FrmCargos: TFrmCargos
     Width = 875
     Height = 316
     ExplicitLeft = 145
+    ExplicitTop = 94
     ExplicitWidth = 875
+    ExplicitHeight = 316
     inherited DBGridPrincipal: TNextDBGrid
       Width = 873
       Height = 289
       ExplicitWidth = 873
+      ExplicitHeight = 289
       object NxDBTextColumn3: TNxDBTextColumn
         DefaultWidth = 120
         Font.Charset = DEFAULT_CHARSET
@@ -334,7 +341,6 @@ inherited FrmCargos: TFrmCargos
       HotTrackFont.Height = -11
       HotTrackFont.Name = 'Tahoma'
       HotTrackFont.Style = []
-      ExplicitTop = 9
       ExplicitHeight = 13
     end
   end

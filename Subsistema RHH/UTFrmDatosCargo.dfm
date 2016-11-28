@@ -5,7 +5,7 @@ inherited FrmDatosCargo: TFrmDatosCargo
   ClientWidth = 303
   PopupMode = pmAuto
   ExplicitWidth = 319
-  ExplicitHeight = 326
+  ExplicitHeight = 331
   PixelsPerInch = 96
   TextHeight = 13
   inherited PanelBarraLugar: TcxGroupBox

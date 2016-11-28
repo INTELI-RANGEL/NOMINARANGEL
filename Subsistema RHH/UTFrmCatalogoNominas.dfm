@@ -1017,6 +1017,10 @@ object FrmCatalogoNominas: TFrmCatalogoNominas
     object TabRecibos: TcxTabSheet
       Caption = 'Recibos'
       ImageIndex = 3
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object PreviewRecibos: TfrxPreview
         Left = 0
         Top = 0
@@ -1353,6 +1357,10 @@ object FrmCatalogoNominas: TFrmCatalogoNominas
     object TabContenedora: TcxTabSheet
       Caption = 'Recibo Preliminar'
       ImageIndex = 5
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object TabcntMain: TcxPageControl
         Left = 0
         Top = 0
