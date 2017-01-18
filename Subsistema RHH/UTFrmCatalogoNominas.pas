@@ -770,8 +770,8 @@ begin
         if not CrearConjunto(CdModuleOrganizacion, 'nuc_organizacion', ccCatalog) then
           raise InteligentException.CreateByCode(5, ['cOrganizacion']);
 
-      if not CargarDatosFiltrados(CdModuleOrganizacion, 'padre', [-5]) then
-        raise InteligentException.CreateByCode(6, ['Organizacion', 'IdOrganizacion', varToStr(Form2.IdOrganizacionSeleccionada)]);
+      if not CargarDatosFiltrados(CdModuleOrganizacion, 'IdOrganizacion', [Globales.Elemento('IdOrganizacion').AsInteger]) then
+        raise InteligentException.CreateByCode(6, ['Organizacion', 'IdOrganizacion', Globales.Elemento('IdOrganizacion').AsInteger]);
 
       if CdModuleOrganizacion.Active then
         CdModuleOrganizacion.Refresh
